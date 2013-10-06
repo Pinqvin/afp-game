@@ -3,7 +3,8 @@ afp-game
 
 Game made for TIE-11300 Game programming course
 
-Requirements for compiling this project
+Requirements for compiling this project:
+
 * CMake
 * SFML 2.1
 
@@ -23,12 +24,14 @@ Mark private members with an m prefix (eg. mPlayer).
 
 Use doxygen style commenting. Example:
 
+```
 /// Brief description
 ///
 /// More in-depth description
+```
 
 Doxygen also has all kinds of special identifiers (\return, \class etc.). 
-You can read more about Doxygen at http://www.lmgtfy.com?doxygen
+You can read more about Doxygen at http://www.lmgtfy.com/?q=doxygen
 
 ADD YOUR COMPILERS PROJECT FILES TO THE GITIGNORE FILES! DO NOT COMMIT 
 COMPILER SPECIFIC FILES TO THE PROJECT! The project has a CMake file
