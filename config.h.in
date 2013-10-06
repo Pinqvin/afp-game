@@ -1,0 +1,2 @@
+#define afpgame_VERSION_MAJOR @afpgame_VERSION_MAJOR@
+#define afpgame_VERSION_MINOR @afpgame_VERSION_MINOR@
