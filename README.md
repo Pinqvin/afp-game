@@ -15,7 +15,20 @@ If you make any new code files that need to be included in the build process,
 you need to add them in to the CMakeLists.txt file to the add executable line.
 
 If we need any subdirectories etc. we'll have a closer look about how to construct
-the CMake file
+the CMake files.
+
+I'd recommend you build in a separate folder than the source folder. On Linux 
+this can be accomplished with the following commands:
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+This is just to make sure that you don't accidentally push project (Visual Studio or whatever)
+related files to the repository.
 
 Coding conventions
 ========
