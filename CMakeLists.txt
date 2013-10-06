@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.6)
 project(afpgame)
 
 # Set version information in config.h file)
@@ -12,8 +12,13 @@ configure_file(
 include_directories("${PROJECT_BINARY_DIR}")
 
 # Define sources and executable
+set(SRCS
+    main.cpp
+    game.cpp
+)
+
 set(EXECUTABLE_NAME "afpgame")
-add_executable(${EXECUTABLE_NAME} main.cpp game.cpp)
+add_executable(${EXECUTABLE_NAME} ${SRCS})
 
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
@@ -29,3 +34,6 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
 set(CPACK_PACKAGE_VERSION_MAJOR "${afpgame_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${afpgame_VERSION_MINOR}")
 include(CPack)
+
+# Copy required files for out-of-source build
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Media Media)
