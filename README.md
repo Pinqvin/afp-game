@@ -30,6 +30,18 @@ make
 This is just to make sure that you don't accidentally push project (Visual Studio or whatever)
 related files to the repository.
 
+CMake and Windows
+========
+
+Before you configure your build on windows, you should define a SFML_ROOT path. You can define
+ the path in CMake-gui by adding a path entry that points to the SFML-2.1 directory.
+
+ To build Visual Studio 2012 project files, choose Visual Studio 11. Press Configure and Generate, then open
+ the afpgame.sln file in the build directory you specified to launch Visual Studio and build the project.
+
+To launch the program on Windows you need to copy all the *.dll files from the SFML-2.1/bin folder to the folder
+ with the compiled executable. You also need to compile (at least for now) the Media folder from source root.
+
 Coding conventions
 ========
 
