@@ -3,9 +3,12 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <stdexcept>
 #include "game.hpp"
 
 /// Set constant values
+
+/// Speed the player moves at
 const float AFP::Game::PLAYER_SPEED = 100.f;
 
 /// Updates are handled in fixed-time. Fixed time is set to 60 frames
@@ -14,21 +17,36 @@ const sf::Time AFP::Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
 // Set window size to 640 x 480 and load the player texture
 AFP::Game::Game(): mWindow(sf::VideoMode(640, 480), "SFML Application"), 
-    mTexture(), mPlayer(), mFont(), mStatisticsText(), mStatisticsUpdateTime(),
-    mStatisticsNumFrames(0), mIsMovingUp(false), mIsMovingDown(false),
-    mIsMovingRight(false), mIsMovingLeft(false), mShowDebug(false)
+    mTextureHolder(), mFontHolder(), mTexture(), mPlayer(), mFont(), 
+    mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames(0), 
+    mShowDebug(false), mIsMovingUp(false), mIsMovingDown(false),
+    mIsMovingLeft(false), mIsMovingRight(false)
 {
-    if (!mTexture.loadFromFile("Media/Textures/Eagle.png"))
+    try 
     {
-        std::cout << "Couldn't load file!" << std::endl;
+        mTextureHolder.load(Textures::RagNorris, "Media/Textures/Eagle.png");
+    }
+    catch (std::runtime_error& e)
+    {
+        std::cout << "Exception: " << e.what() << std::endl;
 
     }
 
-    mPlayer.setTexture(mTexture);
+    mPlayer.setTexture(mTextureHolder.get(Textures::RagNorris));
     mPlayer.setPosition(100.f, 100.f);
 
-    mFont.loadFromFile("Media/Sansation.ttf");
-    mStatisticsText.setFont(mFont);
+    try
+    {
+        mFontHolder.load(Fonts::Debug, "Media/Sansation.ttf");
+    
+    }
+    catch (std::runtime_error& e)
+    {
+        std::cout << "Exception: " << e.what() << std::endl;
+
+    }
+
+    mStatisticsText.setFont(mFontHolder.get(Fonts::Debug));
     mStatisticsText.setPosition(5.f, 5.f);
     mStatisticsText.setCharacterSize(10);
 

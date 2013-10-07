@@ -4,12 +4,31 @@
 /// event loop and rendering).
 
 #include <SFML/Graphics.hpp>
+#include "resourceholder.hpp"
 
 #ifndef GAME_HPP
 #define GAME_HPP
 
 namespace AFP
 {
+    namespace Textures
+    {
+        enum ID
+        {
+            RagNorris
+        };
+
+    }
+
+    namespace Fonts
+    {
+        enum ID
+        {
+            Debug
+        };
+
+    }
+
     class Game
     {
         public:
@@ -58,6 +77,16 @@ namespace AFP
             /// Main game window
             sf::RenderWindow mWindow;
 
+            /// Resource holder for textures
+            ///
+            /// Handles resource loading for fonts
+            ResourceHolder<sf::Texture, Textures::ID> mTextureHolder;
+
+            /// Resource holder for fonts
+            ///
+            /// Handles resource loading for fonts
+            ResourceHolder<sf::Font, Fonts::ID> mFontHolder;
+
             /// Player
             ///
             /// Player texture (image data) and the sprite
@@ -96,7 +125,7 @@ namespace AFP
 
     };
 
-};
+}
 
 #endif // GAME_HPP
 

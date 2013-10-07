@@ -12,13 +12,18 @@ configure_file(
 include_directories("${PROJECT_BINARY_DIR}")
 
 # Define sources and executable
-set(SRCS
-    main.cpp
-    game.cpp
+file(GLOB_RECURSE
+    source_files
+    src/*
 )
 
+# Add C++11 compiler flags for UNIX
+if(UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11")
+endif()
+
 set(EXECUTABLE_NAME "afpgame")
-add_executable(${EXECUTABLE_NAME} ${SRCS})
+add_executable(${EXECUTABLE_NAME} ${source_files})
 
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
