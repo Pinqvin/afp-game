@@ -6,15 +6,16 @@
 /// rotation, and scale relative to their parent.
 /// Root node is unique.
 
-#include <SFML\Graphics.hpp>
+#ifndef SCENENODE_HPP
+#define SCENENODE_HPP
 
-#ifndef GAME_HPP
-#define GAME_HPP
+#include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 
 #include <memory>
 #include <vector>
-#include <algorithm>
-#include <cassert>
 
 namespace AFP
 {
@@ -25,12 +26,10 @@ namespace AFP
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
 
-	public:
-
 		/// Constructor
 		///
 		/// Sets mParent to nullptr
-		SceneNode(void);
+		SceneNode();
 
 		/// Insert child
 		///
@@ -45,6 +44,21 @@ namespace AFP
 		/// unique_ptr.
 		Ptr detachChild(const SceneNode& node);
 
+        /// Update the nodes
+        ///
+        /// Updates the node and all of its children
+        void update(sf::Time dt);
+
+        /// Gets the transformation relative to the world
+        ///
+        ///
+        sf::Transform getWorldTransform() const;
+
+        /// Gets the node's position in the world
+        ///
+        /// Returns the absolute position of the node
+        void getWorldPosition();
+
 	private:
 		/// Draw SceneNode
 		///
@@ -57,6 +71,22 @@ namespace AFP
 		/// Draws only this node.
 		virtual void drawCurrent(sf::RenderTarget& target, 
 			sf::RenderStates states) const;
+
+        /// Draw all the children nodes
+        ///
+        /// Draws all the child nodes
+        void drawChildren(sf::RenderTarget& target,
+            sf::RenderStates states) const;
+
+        /// Update the current node
+        ///
+        /// Only updates the node currently being worked on
+        virtual void updateCurrent(sf::Time dt);
+
+        /// Update all the child nodes
+        ///
+        /// Update all the nodes in the mChildren vector
+        void updateChildren(sf::Time dt);
 
 		/// mChildren holds all the children.
 		/// 
@@ -71,4 +101,5 @@ namespace AFP
 	};
 }
 
-#endif
+#endif // SCENENODE_HPP
+

@@ -1,3 +1,5 @@
+/// Implementation for entity
+
 #include "entity.hpp"
 
 AFP::Entity::Entity(void)
@@ -19,3 +21,10 @@ sf::Vector2f AFP::Entity::getVelocity() const
 {
 	return mVelocity;
 }
+
+void AFP::Entity::updateCurrent(sf::Time dt)
+{
+    move(mVelocity * dt.asSeconds());
+
+}
+

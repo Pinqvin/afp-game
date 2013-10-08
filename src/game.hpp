@@ -3,33 +3,20 @@
 /// Game class handles all the main loops (main game loop, update loop
 /// event loop and rendering).
 
-#include <SFML/Graphics.hpp>
-#include "resourceholder.hpp"
-
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include "world.hpp"
+
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+
 namespace AFP
 {
-    namespace Textures
-    {
-        enum ID
-        {
-            RagNorris
-        };
-
-    }
-
-    namespace Fonts
-    {
-        enum ID
-        {
-            Debug
-        };
-
-    }
-
-    class Game
+    class Game : sf::NonCopyable
     {
         public:
             /// Game constructor
@@ -77,29 +64,9 @@ namespace AFP
             /// Main game window
             sf::RenderWindow mWindow;
 
-            /// Resource holder for textures
-            ///
-            /// Handles resource loading for fonts
-            ResourceHolder<sf::Texture, Textures::ID> mTextureHolder;
-
-            /// Resource holder for fonts
-            ///
-            /// Handles resource loading for fonts
-            ResourceHolder<sf::Font, Fonts::ID> mFontHolder;
-
-            /// Player
-            ///
-            /// Player texture (image data) and the sprite
-            /// (player position, orientation and frame to display)
-            sf::Texture mTexture;
-            sf::Sprite mPlayer;
-
             /// Game update logic uses fixed time-steps. Game logic is
             /// fixed to 60 frames per second
             static const sf::Time TIME_PER_FRAME;
-
-            /// Player speed
-            static const float PLAYER_SPEED;
 
             /// Fonts and text displayed by the debug window
             sf::Font mFont;
@@ -114,14 +81,11 @@ namespace AFP
             /// or not
             bool mShowDebug;
 
-            /// Booleans related to playermovement.
+            /// The game world
             ///
-            /// Really basic and shitty way to accomplish this
-            /// TODO: Fix this ugly ass shit
-            bool mIsMovingUp;
-            bool mIsMovingDown;
-            bool mIsMovingLeft;
-            bool mIsMovingRight;
+            /// Depicts what is shown to the user and updates all the
+            /// game logic inside the depicted world
+            World mWorld;
 
     };
 

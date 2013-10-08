@@ -45,6 +45,9 @@ To launch the program on Windows you need to copy all the *.dll files from the S
 Coding conventions
 ========
 
+Use member initialization lists to initialize class members! REMEMBER
+TO INITIALIZE YOUR MEMBERS TO SANE VALUES BEFORE USING THEM!!
+
 Mark private members with an m prefix (eg. mPlayer).
 
 Use doxygen style commenting. Example:

@@ -47,7 +47,7 @@ void AFP::ResourceHolder<Resource, Identifier>::load(Identifier id,
 
     if (!resource->loadFromFile(filename, secondParam))
     {
-        std::runtime_error("ResourceHolder::load - Failed to load "
+        throw std::runtime_error("ResourceHolder::load - Failed to load "
                 + filename);
 
     }

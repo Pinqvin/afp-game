@@ -3,22 +3,20 @@
 /// Contains the data and functionality that all 
 /// different kinds of entities have in common.
 
-#include <SFML\System.hpp>
-#include "scenenode.hpp"
-
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
+#include "scenenode.hpp"
+
 namespace AFP
 {
-
 	class Entity : public SceneNode
 	{
 	public:
 		/// Constructor
 		///
 		///
-		Entity(void);
+		Entity();
 
 		/// Set velocity
 		///
@@ -29,6 +27,11 @@ namespace AFP
 		///
 		/// Sets the velocity of the entity
 		void setVelocity(float vx, float vy);
+
+        /// Update the movement
+        ///
+        /// Update the movement done in deltaTime
+        virtual void updateCurrent(sf::Time dt);
 
 		/// Get velocity
 		///
@@ -45,4 +48,5 @@ namespace AFP
 
 }
 
-#endif
+#endif // ENTITY_HPP
+

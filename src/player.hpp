@@ -2,18 +2,20 @@
 ///
 /// Contains functionality only needed by the player
 
-#include <SFML\Graphics.hpp>
-#include "entity.hpp"
-
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
+
+#include "entity.hpp"
+#include "resourceidentifiers.hpp"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace AFP
 {
 	class Player : public Entity
 	{
 	public:
-		Player(void);
+		Player(const TextureHolder& textures);
 
 		/// Draw player sprite
 		///
@@ -28,6 +30,8 @@ namespace AFP
 		sf::Sprite mSprite;
 
 	};
+
 }
 
-#endif
+#endif // PLAYER_HPP
+

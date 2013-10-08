@@ -1,52 +1,24 @@
 /// Implementation for the Game class
 
+#include "game.hpp"
+
+#include <SFML/Window/Event.hpp>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <stdexcept>
-#include "game.hpp"
 
-/// Set constant values
-
-/// Speed the player moves at
-const float AFP::Game::PLAYER_SPEED = 100.f;
 
 /// Updates are handled in fixed-time. Fixed time is set to 60 frames
 /// per second
 const sf::Time AFP::Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
 // Set window size to 640 x 480 and load the player texture
-AFP::Game::Game(): mWindow(sf::VideoMode(640, 480), "SFML Application"), 
-    mTextureHolder(), mFontHolder(), mTexture(), mPlayer(), mFont(), 
-    mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames(0), 
-    mShowDebug(false), mIsMovingUp(false), mIsMovingDown(false),
-    mIsMovingLeft(false), mIsMovingRight(false)
+AFP::Game::Game(): mWindow(sf::VideoMode(640, 480), "SFML Application", sf::Style::Close), 
+    mFont(), mStatisticsText(), mStatisticsUpdateTime(), 
+    mStatisticsNumFrames(0), mShowDebug(false), mWorld(mWindow)
 {
-    try 
-    {
-        mTextureHolder.load(Textures::RagNorris, "Media/Textures/Eagle.png");
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << "Exception: " << e.what() << std::endl;
-
-    }
-
-    mPlayer.setTexture(mTextureHolder.get(Textures::RagNorris));
-    mPlayer.setPosition(100.f, 100.f);
-
-    try
-    {
-        mFontHolder.load(Fonts::Debug, "Media/Sansation.ttf");
-    
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << "Exception: " << e.what() << std::endl;
-
-    }
-
-    mStatisticsText.setFont(mFontHolder.get(Fonts::Debug));
+    mFont.loadFromFile("Media/Sansation.ttf");
+    mStatisticsText.setFont(mFont);
     mStatisticsText.setPosition(5.f, 5.f);
     mStatisticsText.setCharacterSize(10);
 
@@ -117,32 +89,7 @@ void AFP::Game::processEvents()
 // Update game logic in here
 void AFP::Game::update(sf::Time deltaTime)
 {
-    // Movement vector
-    sf::Vector2f movement(0.f, 0.f);
-
-    // Handle player movement.
-    if (mIsMovingUp)
-    {
-        movement.y -= PLAYER_SPEED;
-
-    }
-    if (mIsMovingDown)
-    {
-        movement.y += PLAYER_SPEED;
-
-    }
-    if (mIsMovingLeft)
-    {
-        movement.x -= PLAYER_SPEED;
-
-    }
-    if (mIsMovingRight)
-    {
-        movement.x += PLAYER_SPEED;
-
-    }
-
-    mPlayer.move(movement * deltaTime.asSeconds());
+    mWorld.update(deltaTime);
 
 }
 
@@ -150,7 +97,9 @@ void AFP::Game::update(sf::Time deltaTime)
 void AFP::Game::render()
 {
     mWindow.clear();
-    mWindow.draw(mPlayer);
+    mWorld.draw();
+    
+    mWindow.setView(mWindow.getDefaultView());
     
     if (mShowDebug)
     {
@@ -164,27 +113,7 @@ void AFP::Game::render()
 
 void AFP::Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
-    if (key == sf::Keyboard::W)
-    {
-        mIsMovingUp = isPressed;
-    
-    }
-    else if (key == sf::Keyboard::S)
-    {
-        mIsMovingDown = isPressed;
-    
-    }
-    else if (key == sf::Keyboard::A)
-    {
-        mIsMovingLeft = isPressed;
-
-    }
-    else if (key == sf::Keyboard::D)
-    {
-        mIsMovingRight = isPressed;
-
-    }
-    else if (key == sf::Keyboard::F1 && isPressed)
+    if (key == sf::Keyboard::F1 && isPressed)
     {
         mShowDebug = !mShowDebug;
 
