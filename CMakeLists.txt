@@ -38,6 +38,12 @@ file(GLOB_RECURSE
 set(EXECUTABLE_NAME "afpgame")
 add_executable(${EXECUTABLE_NAME} ${source_files})
 
+# User needs to define SFML-path
+if(WIN32 AND NOT SFML_ROOT)
+    set(SFML_ROOT "" CACHE PATH "SFML top-level directory")
+    message("\n-> SFML directory not found. Set SFML_ROOT to SFML's top-level path")
+endif()
+
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 #Find any version 2.X of SFML
@@ -46,9 +52,6 @@ find_package(SFML 2.1 REQUIRED system window graphics network audio)
 if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
     target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
-else()
-    set(SFML_ROOT "" CACHE PATH "SFML top-level directory")
-    message("\n-> SFML directory not found. Set SFML_ROOT to SFML's top-level path")
 endif()
 
 if(SFML_STATIC_LIBRARIES)
@@ -76,6 +79,6 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/Media
 # Copy necessary DLLs on windows platforms
 if(WIN32 AND NOT SFML_STATIC_LIBRARIES)
     install(DIRECTORY ${SFML_ROOT}/bin
-        DESTINATION ${CMAKE_BUILD_DIR}
+        DESTINATION ${CMAKE_BINARY_DIR}
         PATTERN "*.dll")
 endif()
