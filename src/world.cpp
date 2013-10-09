@@ -83,7 +83,7 @@ void AFP::World::createWorld()
     mWorldBox = new b2World(gravity);
 
     mBodyDef.position.Set(0.0f, -10.0f);
-    mGroundBody = mWorldBox->CreateBody(&mBodyDef);    mGroundBox.SetAsBox(50.0f, 10.0f);    mGroundBody->CreateFixture(&mGroundBox, 0.0f);
+    mGroundBody = mWorldBox->CreateBody(&mBodyDef);    mGroundBox.SetAsBox(50.0f, 10.0f);    mGroundBody->CreateFixture(&mGroundBox, 0.0f);
 }
 
 /// Draw the scene to the window

@@ -137,7 +137,7 @@ namespace AFP
         /// Ground polygon
         ///
         ///
-        b2PolygonShape mGroundBox;
+        b2PolygonShape mGroundBox;  
 
     };
 

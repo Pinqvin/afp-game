@@ -70,6 +70,8 @@ option(BOX2D_BUILD_STATIC "Build Box2D static libraries" ON)
 set(BOX2D_VERSION 2.1.0)
 add_subdirectory(Box2D)
 
+target_link_libraries(${PROJECT_NAME} Box2D)
+
 include_directories( / )
 
 # Include VS fix
