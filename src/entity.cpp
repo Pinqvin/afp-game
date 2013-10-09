@@ -28,3 +28,18 @@ void AFP::Entity::updateCurrent(sf::Time dt)
 
 }
 
+/// Accelerate entity
+void AFP::Entity::accelerate(sf::Vector2f vector)
+{
+    mVelocity += vector;
+
+}
+
+/// Accelerate entity
+void AFP::Entity::accelerate(float vx, float vy)
+{
+    mVelocity.x += vx;
+    mVelocity.y += vy;
+
+}
+

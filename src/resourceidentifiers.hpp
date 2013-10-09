@@ -20,6 +20,7 @@ namespace AFP
         enum ID
         {
             Player,
+            Enemy,
             Desert
 
         };

@@ -8,7 +8,8 @@
 #include "resourceholder.hpp"
 #include "resourceidentifiers.hpp"
 #include "scenenode.hpp"
-#include "player.hpp"
+#include "character.hpp"
+#include "commandqueue.hpp"
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -42,6 +43,12 @@ namespace AFP
             /// Draws all the sprites inside the scenegraph
             void draw();
 
+            /// Return the current command queue
+            ///
+            /// Allows command queue to be accessed from outside
+            /// of the world
+            CommandQueue& getCommandQueue();
+
         private:
             /// Loads all the textures required for the world
             ///
@@ -53,6 +60,16 @@ namespace AFP
             /// Builds the scene using the textures loaded in the
             /// TextureHolder.
             void buildScene();
+
+            /// Adapts the player position
+            ///
+            /// Don't allow the player to go out of bounds
+            void adaptPlayerPosition();
+
+            /// Adapts the player velocity
+            ///
+            /// If moving diagonaly, reduce velocity
+            void adaptPlayerVelocity();
 
             /// Divite the draws to two different categories: background
             /// (the area the player can't interract with) and foreground
@@ -111,7 +128,13 @@ namespace AFP
             /// Pointer to the player entity
             ///
             ///
-            Player* mPlayer;
+            Character* mPlayerCharacter;
+
+            /// Command queue
+            ///
+            /// Holds all the commands which are yet to be sent to the
+            /// scene.
+            CommandQueue mCommandQueue;
 
     };
 

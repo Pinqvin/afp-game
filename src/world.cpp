@@ -10,7 +10,7 @@ AFP::World::World(sf::RenderWindow& window):
     mTextures(), mSceneGraph(), mSceneLayers(),
     mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
-    mScrollSpeed(-50.f), mPlayer(nullptr)
+    mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue()
 {
     loadTextures();
     buildScene();
@@ -23,6 +23,7 @@ AFP::World::World(sf::RenderWindow& window):
 void AFP::World::loadTextures()
 {
     mTextures.load(Textures::Player, "Media/Textures/Eagle.png");
+    mTextures.load(Textures::Enemy, "Media/Textures/Raptor.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
 
 }
@@ -55,22 +56,22 @@ void AFP::World::buildScene()
     mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
     /// Set the player to the world
-    std::unique_ptr<Player> leader(new Player(mTextures));
-    mPlayer = leader.get();
+    std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
+    mPlayerCharacter = leader.get();
 
-    mPlayer->setPosition(mSpawnPosition);
-    mPlayer->setVelocity(40.f, mScrollSpeed);
+    mPlayerCharacter->setPosition(mSpawnPosition);
+    mPlayerCharacter->setVelocity(40.f, mScrollSpeed);
     mSceneLayers[Foreground]->attachChild(std::move(leader));
 
     /// Add some new planes to follow the player plane
-    std::unique_ptr<Player> leftEscort(new Player(mTextures));
+    std::unique_ptr<Character> leftEscort(new Character(Character::Enemy, mTextures));
     /// Position is relative to the leader (player)
     leftEscort->setPosition(-80.f, 50.f);
-    mPlayer->attachChild(std::move(leftEscort));
+    mPlayerCharacter->attachChild(std::move(leftEscort));
 
-    std::unique_ptr<Player> rightEscort(new Player(mTextures));
+    std::unique_ptr<Character> rightEscort(new Character(Character::Enemy, mTextures));
     rightEscort->setPosition(80.f, 50.f);
-    mPlayer->attachChild(std::move(rightEscort));
+    mPlayerCharacter->attachChild(std::move(rightEscort));
     
 }
 
@@ -86,19 +87,63 @@ void AFP::World::draw()
 void AFP::World::update(sf::Time dt)
 {
     mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
+    mPlayerCharacter->setVelocity(0.f, 0.f);
 
-    sf::Vector2f position = mPlayer->getPosition();
-    sf::Vector2f velocity = mPlayer->getVelocity();
-
-    if (position.x <= mWorldBounds.left + 150
-            || position.x >= mWorldBounds.left + mWorldBounds.width - 150)
+    /// Forward commands to the scene graph
+    while (!mCommandQueue.isEmpty())
     {
-        velocity.x = -velocity.x;
-        mPlayer->setVelocity(velocity);
+        mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
     }
 
+    adaptPlayerVelocity();
+
+    // Regular update step, adapt position (correct if outside view)
     mSceneGraph.update(dt);
+    adaptPlayerPosition();
+
+}
+
+/// Adapt player position and correct it if out of bounds
+void AFP::World::adaptPlayerPosition()
+{
+    // Keep player's position inside the screen bounds, at least
+    // borderDistance units from the border.
+    sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+    float borderDistance = 40.f;
+
+    sf::Vector2f position = mPlayerCharacter->getPosition();
+    position.x = std::max(position.x, viewBounds.left + borderDistance);
+    position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+    position.y = std::max(position.y, viewBounds.top + borderDistance);
+    position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+
+    mPlayerCharacter->setPosition(position);
+
+}
+
+/// Adapt player velocity
+void AFP::World::adaptPlayerVelocity()
+{
+    sf::Vector2f velocity = mPlayerCharacter->getVelocity();
+
+    // If moving diagonally, redce velocity (to have alway same
+    // velocity)
+    if (velocity.x != 0.f && velocity.y != 0.f)
+    {
+        mPlayerCharacter->setVelocity(velocity / std::sqrt(2.f));
+
+    }
+
+    // Add scrolling velocity
+    mPlayerCharacter->accelerate(0.f, mScrollSpeed);
+
+}
+
+/// Return the command queue
+AFP::CommandQueue& AFP::World::getCommandQueue()
+{
+    return mCommandQueue;
 
 }
 

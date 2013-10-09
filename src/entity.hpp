@@ -38,6 +38,17 @@ namespace AFP
 		/// Returns the velocity of the entity
 		sf::Vector2f getVelocity() const;
 
+        /// Accelerate entity
+        ///
+        /// Add the provided velocity to the current velocity
+        void accelerate(sf::Vector2f velocity);
+
+        /// Accelerate entity
+        ///
+        /// From a velocity vector from the provided floats and
+        /// add it to the current velocity
+        void accelerate(float vx, float vy);
+
 	private:
 		/// Velocity
 		///

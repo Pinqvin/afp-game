@@ -15,7 +15,7 @@ const sf::Time AFP::Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 // Set window size to 640 x 480 and load the player texture
 AFP::Game::Game(): mWindow(sf::VideoMode(640, 480), "SFML Application", sf::Style::Close), 
     mFont(), mStatisticsText(), mStatisticsUpdateTime(), 
-    mStatisticsNumFrames(0), mShowDebug(false), mWorld(mWindow)
+    mStatisticsNumFrames(0), mShowDebug(false), mWorld(mWindow), mPlayer()
 {
     mFont.loadFromFile("Media/Sansation.ttf");
     mStatisticsText.setFont(mFont);
@@ -40,7 +40,7 @@ void AFP::Game::run()
         {
             timeSinceLastUpdate -= TIME_PER_FRAME;
 
-            processEvents();
+            processInput();
             update(TIME_PER_FRAME);
 
         }
@@ -57,32 +57,25 @@ void AFP::Game::run()
 }
 
 // Process player input here
-void AFP::Game::processEvents()
+void AFP::Game::processInput()
 {
+    CommandQueue& commands = mWorld.getCommandQueue();
+
     sf::Event event;
 
     while (mWindow.pollEvent(event))
     {
-        switch (event.type)
+        mPlayer.handleEvent(event, commands);
+
+        if (event.type == sf::Event::Closed)
         {
-            case sf::Event::KeyPressed:
-                handlePlayerInput(event.key.code, true);
-                break;
-
-            case sf::Event::KeyReleased:
-                handlePlayerInput(event.key.code, false);
-                break;
-
-            case sf::Event::Closed:
-                mWindow.close();
-                break;
-
-            default:
-                break;
+            mWindow.close();
 
         }
-
+        
     }
+
+    mPlayer.handleRealtimeInput(commands);
 
 }
 
@@ -108,16 +101,6 @@ void AFP::Game::render()
     }
 
     mWindow.display();
-
-}
-
-void AFP::Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-    if (key == sf::Keyboard::F1 && isPressed)
-    {
-        mShowDebug = !mShowDebug;
-
-    }
 
 }
 

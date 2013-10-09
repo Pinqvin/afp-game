@@ -49,8 +49,8 @@ void AFP::SceneNode::drawChildren(sf::RenderTarget& target,
 
 }
 
-void AFP::SceneNode::drawCurrent(sf::RenderTarget& target, 
-						  sf::RenderStates states) const
+void AFP::SceneNode::drawCurrent(sf::RenderTarget&, 
+						  sf::RenderStates) const
 {
     /// Do nothing by default
 }
@@ -64,7 +64,7 @@ void AFP::SceneNode::update(sf::Time dt)
 }
 
 
-void AFP::SceneNode::updateCurrent(sf::Time dt)
+void AFP::SceneNode::updateCurrent(sf::Time)
 {
     /// Do nothing by default
 
@@ -95,6 +95,34 @@ sf::Transform AFP::SceneNode::getWorldTransform() const
     }
 
     return transform;
+
+}
+
+/// Return the category of the game object
+unsigned int AFP::SceneNode::getCategory() const
+{
+    /// Return the scene category by default
+    return Category::Scene;
+
+}
+
+/// Runs the command on the current node (if the category is of the
+/// required type) and all the child nodes (if the category matches)
+void AFP::SceneNode::onCommand(const Command& command, sf::Time dt)
+{
+    /// Check for category match with a bitwise AND
+    if (command.category & getCategory())
+    {
+        command.action(*this, dt);
+
+    }
+
+    /// Relay the same command to all children
+    for(Ptr& child : mChildren)
+    {
+        child->onCommand(command, dt);
+
+    }
 
 }
 

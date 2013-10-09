@@ -14,6 +14,9 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "category.hpp"
+#include "command.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -58,6 +61,17 @@ namespace AFP
         ///
         /// Returns the absolute position of the node
         void getWorldPosition();
+
+        /// Returns the category of the game object
+        ///
+        ///
+        virtual unsigned int getCategory() const;
+
+        /// Runs a command
+        ///
+        /// Runs the specified command on all the nodes with the
+        /// same category that the command is aimed at
+        void onCommand(const Command& command, sf::Time dt);
 
 	private:
 		/// Draw SceneNode

@@ -7,6 +7,7 @@
 #define GAME_HPP
 
 #include "world.hpp"
+#include "player.hpp"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -36,7 +37,7 @@ namespace AFP
             /// Process player input
             ///
             /// This functon handles all the input made by the player
-            void processEvents();
+            void processInput();
 
             /// Update game logic
             ///
@@ -86,6 +87,11 @@ namespace AFP
             /// Depicts what is shown to the user and updates all the
             /// game logic inside the depicted world
             World mWorld;
+
+            /// The player
+            ///
+            /// Used to handle events and input from the player
+            Player mPlayer;
 
     };
 
