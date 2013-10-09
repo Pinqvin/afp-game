@@ -58,6 +58,10 @@ if(SFML_STATIC_LIBRARIES)
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS "SFML_STATIC")
 endif()
 
+# Include VS fix
+include(CreateLaunchers)
+create_default_target_launcher(afpgame)
+
 # Copy Media files on build
 add_custom_command(TARGET ${EXECUTABLE_NAME} PRE_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Media
