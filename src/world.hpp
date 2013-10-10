@@ -14,6 +14,7 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/NonCopyable.hpp>
+#include <Box2D/Box2D.h>
 #include <array>
 
 /// Forward declaration
@@ -70,6 +71,11 @@ namespace AFP
             ///
             /// If moving diagonaly, reduce velocity
             void adaptPlayerVelocity();
+
+            /// Create world with gravity
+            ///
+            /// Build the Box2D world.
+            void createWorld();
 
             /// Divite the draws to two different categories: background
             /// (the area the player can't interract with) and foreground
@@ -135,6 +141,26 @@ namespace AFP
             /// Holds all the commands which are yet to be sent to the
             /// scene.
             CommandQueue mCommandQueue;
+
+            /// The physics world
+            ///
+            /// Box2D world.
+            b2World* mWorldBox;
+
+            /// Ground body definition
+            ///
+            ///
+            b2BodyDef mBodyDef;
+
+            /// Ground body
+            ///
+            ///
+            b2Body* mGroundBody;
+
+            /// Ground polygon
+            ///
+            ///
+            b2PolygonShape mGroundBox;
 
     };
 

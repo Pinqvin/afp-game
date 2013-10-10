@@ -17,6 +17,8 @@ AFP::World::World(sf::RenderWindow& window):
 
     mWorldView.setCenter(mSpawnPosition);
 
+    createWorld();
+
 }
 
 /// Load all the textures required for the world
@@ -73,6 +75,18 @@ void AFP::World::buildScene()
     rightEscort->setPosition(80.f, 50.f);
     mPlayerCharacter->attachChild(std::move(rightEscort));
     
+}
+
+/// Create the physics world
+void AFP::World::createWorld()
+{
+    b2Vec2 gravity(0.0f, -9.81f);
+    mWorldBox = new b2World(gravity);
+
+    mBodyDef.position.Set(0.0f, -10.0f);
+    mGroundBody = mWorldBox->CreateBody(&mBodyDef);   
+    mGroundBox.SetAsBox(50.0f, 10.0f);    
+    mGroundBody->CreateFixture(&mGroundBox, 0.0f);
 }
 
 /// Draw the scene to the window
@@ -146,4 +160,3 @@ AFP::CommandQueue& AFP::World::getCommandQueue()
     return mCommandQueue;
 
 }
-

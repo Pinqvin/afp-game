@@ -58,6 +58,22 @@ if(SFML_STATIC_LIBRARIES)
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS "SFML_STATIC")
 endif()
 
+# Add Box2D
+if(UNIX)
+	set(BOX2D_INSTALL_BY_DEFAULT ON)
+else()
+	set(BOX2D_INSTALL_BY_DEFAULT OFF)
+endif()
+
+option(BOX2D_INSTALL "Install Box2D libs, includes, and CMake scripts" ${BOX2D_INSTALL_BY_DEFAULT})
+option(BOX2D_BUILD_STATIC "Build Box2D static libraries" ON)
+set(BOX2D_VERSION 2.1.0)
+add_subdirectory(Box2D)
+
+target_link_libraries(${PROJECT_NAME} Box2D)
+
+include_directories( ./ )
+
 # Include VS fix
 include(CreateLaunchers)
 create_default_target_launcher(afpgame)
