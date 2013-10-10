@@ -7,23 +7,27 @@
 #include <algorithm>
 #include <string>
 
-struct CharacterMover
+namespace AFP
 {
-    CharacterMover(float vx, float vy): velocity(vx, vy)
+    struct CharacterMover
     {
+        CharacterMover(float vx, float vy): velocity(vx, vy)
+        {
 
 
-    }
+        }
 
-    void operator() (AFP::Character& character, sf::Time) const
-    {
-        character.accelerate(velocity);
+        void operator() (AFP::Character& character, sf::Time) const
+        {
+            character.accelerate(velocity);
 
-    }
+        }
 
-    sf::Vector2f velocity;
+        sf::Vector2f velocity;
 
-};
+    };
+
+}
 
 /// Constructor
 ///
