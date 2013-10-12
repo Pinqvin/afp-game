@@ -162,6 +162,11 @@ namespace AFP
             ///
             b2PolygonShape mGroundBox;
 
+            /// Rag Norris
+            ///
+            /// Testing shibe
+            Character* ragNorris;
+
     };
 
 }

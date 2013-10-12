@@ -7,6 +7,7 @@
 #define ENTITY_HPP
 
 #include "scenenode.hpp"
+#include <Box2D/Box2D.h>
 
 namespace AFP
 {
@@ -49,11 +50,41 @@ namespace AFP
         /// add it to the current velocity
         void accelerate(float vx, float vy);
 
+        /// Create body for entity
+        ///
+        ///
+        void createBody(b2World* world);
+
+        /// Return position of body
+        ///
+        /// Converts position from meters to pixels and returns it.
+        sf::Vector2f getBodyPosition();
+
 	private:
 		/// Velocity
 		///
 		/// Velocity of the entity in a 2D vector
 		sf::Vector2f mVelocity;
+
+        /// Body definition
+        ///
+        ///
+        b2BodyDef mBodyDef;
+
+        /// Body
+        ///
+        ///
+        b2Body* mBody;
+
+        /// Body boundaries
+        ///
+        ///
+        b2PolygonShape mDynamicBox;
+
+        /// Body fixture
+        ///
+        ///
+        b2FixtureDef mFixtureDef;
 		
 	};
 

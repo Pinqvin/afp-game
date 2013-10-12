@@ -10,14 +10,15 @@ AFP::World::World(sf::RenderWindow& window):
     mTextures(), mSceneGraph(), mSceneLayers(),
     mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
-    mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue()
+    mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
+    mBodyDef(), mGroundBody(), mGroundBox()
 {
+
+    createWorld();
     loadTextures();
     buildScene();
 
     mWorldView.setCenter(mSpawnPosition);
-
-    createWorld();
 
 }
 
@@ -74,7 +75,16 @@ void AFP::World::buildScene()
     std::unique_ptr<Character> rightEscort(new Character(Character::Enemy, mTextures));
     rightEscort->setPosition(80.f, 50.f);
     mPlayerCharacter->attachChild(std::move(rightEscort));
-    
+
+    // Create Rag Norris xD
+    std::unique_ptr<Character> norris(new Character(Character::Player, mTextures));
+    ragNorris = norris.get();
+
+    ragNorris->setPosition(mSpawnPosition);
+    ragNorris->createBody(mWorldBox);
+
+    mSceneLayers[Foreground]->attachChild(std::move(norris));
+
 }
 
 /// Create the physics world
@@ -83,10 +93,11 @@ void AFP::World::createWorld()
     b2Vec2 gravity(0.0f, -9.81f);
     mWorldBox = new b2World(gravity);
 
-    mBodyDef.position.Set(0.0f, -10.0f);
+    mBodyDef.position.Set(0.0f, -30.0f);
     mGroundBody = mWorldBox->CreateBody(&mBodyDef);   
-    mGroundBox.SetAsBox(50.0f, 10.0f);    
+    mGroundBox.SetAsBox(40.0f, 30.0f);
     mGroundBody->CreateFixture(&mGroundBox, 0.0f);
+
 }
 
 /// Draw the scene to the window
@@ -100,7 +111,7 @@ void AFP::World::draw()
 /// Update the world
 void AFP::World::update(sf::Time dt)
 {
-    mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
+    /// mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
     mPlayerCharacter->setVelocity(0.f, 0.f);
 
     /// Forward commands to the scene graph
@@ -115,6 +126,12 @@ void AFP::World::update(sf::Time dt)
     // Regular update step, adapt position (correct if outside view)
     mSceneGraph.update(dt);
     adaptPlayerPosition();
+
+    // Update Box2D world
+    mWorldBox->Step(1.0f / 60.0f, 6, 2);
+
+    /// Update position of rag norris
+    ragNorris->setPosition(ragNorris->getBodyPosition());
 
 }
 
