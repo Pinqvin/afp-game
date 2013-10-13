@@ -74,7 +74,7 @@ bool AFP::MenuState::handleEvent(const sf::Event& event)
         if (mOptionIndex == Play)
         {
             requestStackPop();
-            requestStackPush(States::Load);
+            requestStackPush(States::Game);
 
         }
         else if (mOptionIndex == Exit)

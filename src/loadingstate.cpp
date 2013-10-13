@@ -93,3 +93,4 @@ bool AFP::LoadingState::handleEvent(const sf::Event&)
     return true;
 
 }
+

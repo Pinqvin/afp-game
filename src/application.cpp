@@ -6,7 +6,6 @@
 #include "menustate.hpp"
 #include "gamestate.hpp"
 #include "pausestate.hpp"
-#include "loadingstate.hpp"
 
 /// Handle the updates in steps fixed to 60fps
 const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
@@ -35,7 +34,6 @@ void AFP::Application::registerStates()
 {
     mStateStack.registerState<TitleState>(States::Title);
     mStateStack.registerState<MenuState>(States::Menu);
-    mStateStack.registerState<LoadingState>(States::Load);
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<PauseState>(States::Pause);
 
