@@ -3,13 +3,13 @@
 /// All the enumerative types to identify different resources
 /// are described here
 
-#ifndef RESOURCEIDENTIFIERS_HPP
-#define RESOURCEIDENTIFIERS_HPP
+#pragma once
 
 /// Forward declare sf::Texture
 namespace sf
 {
     class Texture;
+    class Font;
 
 }
 
@@ -21,7 +21,8 @@ namespace AFP
         {
             Player,
             Enemy,
-            Desert
+            Desert,
+            TitleScreen,
 
         };
 
@@ -44,8 +45,7 @@ namespace AFP
     class ResourceHolder;
 
     typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
+    typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
 
 }
-
-#endif // RESOURCEIDENTIFIERS_HPP
 

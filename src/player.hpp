@@ -3,8 +3,7 @@
 /// Events (movement etc) are then forwarded to the world
 /// and from there to the scene graph (and game objects).
 
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#pragma once
 
 #include <SFML/Window/Event.hpp>
 #include <map>
@@ -79,6 +78,4 @@ namespace AFP
     };
 
 }
-
-#endif // PLAYER_HPP
 

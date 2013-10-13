@@ -1,8 +1,7 @@
 /// Spritenode class is used to show a background
 /// texture in the SceneNode graph.
 
-#ifndef SPRITENODE_HPP
-#define SPRITENODE_HPP
+#pragma once
 
 #include "scenenode.hpp"
 
@@ -35,6 +34,4 @@ namespace AFP
     };
 
 }
-
-#endif // SPRITENODE_HPP
 

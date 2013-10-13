@@ -2,8 +2,7 @@
 ///
 ///
 
-#ifndef CATEGORY_HPP
-#define CATEGORY_HPP
+#pragma once
 
 namespace AFP
 {
@@ -26,6 +25,4 @@ namespace AFP
     }
 
 }
-
-#endif // CATEGORY_HPP
 

@@ -2,8 +2,7 @@
 ///
 ///
 
-#ifndef WORLD_HPP
-#define WORLD_HPP
+#pragma once
 
 #include "resourceholder.hpp"
 #include "resourceidentifiers.hpp"
@@ -170,6 +169,4 @@ namespace AFP
     };
 
 }
-
-#endif // WORLD_HPP
 

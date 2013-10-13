@@ -1,13 +1,14 @@
-#include "game.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
+
+#include "application.hpp"
 
 int main()
 {
     try
     {
-        AFP::Game game;
+        AFP::Application game;
         game.run();
 
     }
