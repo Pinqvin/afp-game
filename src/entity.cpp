@@ -46,19 +46,19 @@ void AFP::Entity::updateCurrent(sf::Time dt)
 /// Accelerate entity
 void AFP::Entity::accelerate(sf::Vector2f vector)
 {
-    mVelocity += vector;
+    mVelocity = vector;
 
-    mBody->ApplyForce(b2Vec2(vector.x, vector.y), mBody->GetWorldCenter());
+    mBody->ApplyLinearImpulse(b2Vec2(vector.x, vector.y), mBody->GetWorldCenter());
 
 }
 
 /// Accelerate entity
 void AFP::Entity::accelerate(float vx, float vy)
-{
-    mVelocity.x += vx;
-    mVelocity.y += vy;
+{    
+    mVelocity.x = vx;
+    mVelocity.y = vy;
 
-    mBody->ApplyForce(b2Vec2(vx, vy), mBody->GetWorldCenter());
+    mBody->ApplyLinearImpulse(b2Vec2(vx, vy), mBody->GetWorldCenter());
 
 }
 

@@ -62,7 +62,7 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
     switch (mType)
     {
     case AFP::Character::Player:
-        createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.7f, false);
+        createBody(world, posX, posY, 1.0f, 2.0f, 40.0f, 0.7f, false);
         break;
     case AFP::Character::Enemy:
         createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.3f, false);

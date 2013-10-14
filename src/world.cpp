@@ -26,7 +26,7 @@ AFP::World::World(sf::RenderWindow& window):
 void AFP::World::loadTextures()
 {
     mTextures.load(Textures::Enemy, "Media/Textures/Eagle.png");
-    mTextures.load(Textures::Player, "Media/Textures/Raptor.png");
+    mTextures.load(Textures::Player, "Media/Textures/Rag.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
 
 }
