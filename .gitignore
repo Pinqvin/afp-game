@@ -15,3 +15,7 @@
 # Ignore build folders and files
 build/
 docs/
+
+# YouCompleteMe file :V
+*.py
+*.pyc

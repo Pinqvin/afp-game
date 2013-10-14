@@ -2,8 +2,7 @@
 ///
 /// Contains functionality only needed by the player
 
-#ifndef CHARACTER_HPP
-#define CHARACTER_HPP
+#pragma once
 
 #include "entity.hpp"
 #include "resourceidentifiers.hpp"
@@ -60,6 +59,4 @@ namespace AFP
 	};
 
 }
-
-#endif // CHARACTER_HPP
 

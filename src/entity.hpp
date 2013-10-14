@@ -3,8 +3,7 @@
 /// Contains the data and functionality that all 
 /// different kinds of entities have in common.
 
-#ifndef ENTITY_HPP
-#define ENTITY_HPP
+#pragma once
 
 #include "scenenode.hpp"
 
@@ -80,6 +79,4 @@ namespace AFP
     };
 
 }
-
-#endif // ENTITY_HPP
 

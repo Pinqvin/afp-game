@@ -6,8 +6,7 @@
 /// rotation, and scale relative to their parent.
 /// Root node is unique.
 
-#ifndef SCENENODE_HPP
-#define SCENENODE_HPP
+#pragma once
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
@@ -116,6 +115,4 @@ namespace AFP
 
 	};
 }
-
-#endif // SCENENODE_HPP
 

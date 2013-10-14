@@ -2,8 +2,7 @@
 ///
 /// CommandQueue is a FIFO datastructure (first in, first out)
 
-#ifndef COMMANDQUEUE_HPP
-#define COMMANDQUEUE_HPP
+#pragma once
 
 #include <queue>
 #include "command.hpp"
@@ -42,6 +41,4 @@ namespace AFP
     };
 
 }
-
-#endif // COMMANDQUEUE_HPP
 

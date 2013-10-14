@@ -2,8 +2,7 @@
 ///
 ///
 
-#ifndef RESOURCEHOLDER_HPP
-#define RESOURCEHOLDER_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -62,5 +61,4 @@ namespace AFP
 
 /// Templated classes need to have their functions defined in the header
 #include "resourceholder.inl"
-#endif // RESOURCEHOLDER_HPP
 

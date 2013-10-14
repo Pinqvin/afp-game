@@ -3,8 +3,7 @@
 /// Commands can alter objects and issue orders (moving, firing a weapon
 /// etc).
 
-#ifndef COMMAND_HPP
-#define COMMAND_HPP
+#pragma once
 
 #include <SFML/System/Time.hpp>
 #include "category.hpp"
@@ -51,6 +50,4 @@ namespace AFP
     }
 
 }
-
-#endif // COMMAND_HPP
 

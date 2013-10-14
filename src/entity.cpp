@@ -1,10 +1,12 @@
 /// Implementation for entity
 
 #include "entity.hpp"
+#include <iostream>
 
 AFP::Entity::Entity(void):
     mVelocity(), mBody()
 {
+
 }
 
 void AFP::Entity::setVelocity(sf::Vector2f velocity)
@@ -30,11 +32,15 @@ void AFP::Entity::updateCurrent(sf::Time dt)
     move(mVelocity * dt.asSeconds());
 
     /// Print Box2D info
-    if (mBody != nullptr) {
+    if (mBody != nullptr) 
+    {
         b2Vec2 position = mBody->GetPosition(); 
         float32 angle = mBody->GetAngle(); 
-        printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+        std::cout << position.x << " " << position.y 
+            << " " << angle << std::endl;
+
     }
+
 }
 
 /// Accelerate entity
@@ -83,8 +89,12 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     mDynamicBox.SetAsBox(sizeX, sizeY);
  
     mFixtureDef.shape = &mDynamicBox; 
-    mFixtureDef.density = density;    mFixtureDef.friction = friction;    mBody->CreateFixture(&mFixtureDef);
-}
+    mFixtureDef.density = density;    
+    mFixtureDef.friction = friction;    
+    mBody->CreateFixture(&mFixtureDef);
+
+}
+
 
 /// Convert position to pixels
 sf::Vector2f AFP::Entity::getBodyPosition()
