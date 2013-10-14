@@ -26,6 +26,7 @@ AFP::Application::Application():
 
     registerStates();
     mStateStack.pushState(States::Title);
+
 }
 
 /// Register all the different states the game can have to

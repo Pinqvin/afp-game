@@ -54,6 +54,8 @@ void AFP::StateStack::update(sf::Time dt)
 
     }
 
+    applyPendingChanges();
+
 }
 
 /// Draw all the active states

@@ -6,9 +6,6 @@
 #include <SFML/System/Thread.hpp>
 #include <SFML/System/Mutex.hpp>
 
-#include <thread>
-#include <mutex>
-
 namespace AFP
 {
     class ParallelTask
