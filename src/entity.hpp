@@ -7,37 +7,36 @@
 #define ENTITY_HPP
 
 #include "scenenode.hpp"
-#include <Box2D/Box2D.h>
 
 namespace AFP
 {
-	class Entity : public SceneNode
-	{
-	public:
-		/// Constructor
-		///
-		///
-		Entity();
+    class Entity : public SceneNode
+    {
+    public:
+        /// Constructor
+        ///
+        ///
+        Entity();
 
-		/// Set velocity
-		///
-		/// Sets the velocity of the entity
-		void setVelocity(sf::Vector2f velocity);
+        /// Set velocity
+        ///
+        /// Sets the velocity of the entity
+        void setVelocity(sf::Vector2f velocity);
 
-		/// Set velocity
-		///
-		/// Sets the velocity of the entity
-		void setVelocity(float vx, float vy);
+        /// Set velocity
+        ///
+        /// Sets the velocity of the entity
+        void setVelocity(float vx, float vy);
 
         /// Update the movement
         ///
         /// Update the movement done in deltaTime
         virtual void updateCurrent(sf::Time dt);
 
-		/// Get velocity
-		///
-		/// Returns the velocity of the entity
-		sf::Vector2f getVelocity() const;
+        /// Get velocity
+        ///
+        /// Returns the velocity of the entity
+        sf::Vector2f getVelocity() const;
 
         /// Accelerate entity
         ///
@@ -53,40 +52,32 @@ namespace AFP
         /// Create body for entity
         ///
         ///
-        void createBody(b2World* world);
+        void createBody(b2World* world, float posX, float posY,
+            float sizeX, float sizeY, float density,
+            float friction, bool staticBody);
 
         /// Return position of body
         ///
         /// Converts position from meters to pixels and returns it.
         sf::Vector2f getBodyPosition();
 
-	private:
-		/// Velocity
-		///
-		/// Velocity of the entity in a 2D vector
-		sf::Vector2f mVelocity;
+        /// Return the angle of the body
+        ///
+        ///
+        float getBodyAngle();
 
-        /// Body definition
+    private:
+        /// Velocity
         ///
-        ///
-        b2BodyDef mBodyDef;
+        /// Velocity of the entity in a 2D vector
+        sf::Vector2f mVelocity;
 
         /// Body
         ///
         ///
         b2Body* mBody;
 
-        /// Body boundaries
-        ///
-        ///
-        b2PolygonShape mDynamicBox;
-
-        /// Body fixture
-        ///
-        ///
-        b2FixtureDef mFixtureDef;
-		
-	};
+    };
 
 }
 

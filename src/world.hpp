@@ -9,6 +9,7 @@
 #include "resourceidentifiers.hpp"
 #include "scenenode.hpp"
 #include "character.hpp"
+#include "tile.hpp"
 #include "commandqueue.hpp"
 
 #include <SFML/Graphics/View.hpp>
@@ -147,25 +148,10 @@ namespace AFP
             /// Box2D world.
             b2World* mWorldBox;
 
-            /// Ground body definition
-            ///
-            ///
-            b2BodyDef mBodyDef;
-
             /// Ground body
             ///
             ///
             b2Body* mGroundBody;
-
-            /// Ground polygon
-            ///
-            ///
-            b2PolygonShape mGroundBox;
-
-            /// Rag Norris
-            ///
-            /// Testing shibe
-            Character* ragNorris;
 
     };
 

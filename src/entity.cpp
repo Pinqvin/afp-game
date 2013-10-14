@@ -3,19 +3,21 @@
 #include "entity.hpp"
 
 AFP::Entity::Entity(void):
-    mVelocity(), mBodyDef(), mBody(), mDynamicBox(), mFixtureDef()
+    mVelocity(), mBody()
 {
 }
 
 void AFP::Entity::setVelocity(sf::Vector2f velocity)
 {
 	mVelocity = velocity;
+
 }
 
 void AFP::Entity::setVelocity(float vx, float vy)
 {
 	mVelocity.x = vx;
 	mVelocity.y = vy;
+
 }
 
 sf::Vector2f AFP::Entity::getVelocity() const
@@ -40,6 +42,8 @@ void AFP::Entity::accelerate(sf::Vector2f vector)
 {
     mVelocity += vector;
 
+    mBody->ApplyForce(b2Vec2(vector.x, vector.y), mBody->GetWorldCenter());
+
 }
 
 /// Accelerate entity
@@ -48,24 +52,47 @@ void AFP::Entity::accelerate(float vx, float vy)
     mVelocity.x += vx;
     mVelocity.y += vy;
 
+    mBody->ApplyForce(b2Vec2(vx, vy), mBody->GetWorldCenter());
+
 }
 
 /// Create body
-void AFP::Entity::createBody(b2World* world)
+void AFP::Entity::createBody(b2World* world, float posX, float posY,
+                             float sizeX, float sizeY, float density,
+                             float friction, bool staticBody)
 {
-    mBodyDef.type = b2_dynamicBody; 
-    mBodyDef.position.Set(20.0f, 20.0f);
+
+    b2BodyDef mBodyDef;
+    b2PolygonShape mDynamicBox;
+    b2FixtureDef mFixtureDef;
+
+    if ( staticBody ) {
+        mBodyDef.type = b2_staticBody;
+    } else {
+        mBodyDef.type = b2_dynamicBody;
+        mBodyDef.fixedRotation = true;
+    }
+
+    /// Convert to meters
+    posX /= 16;
+    posY /= 16;
+
+    mBodyDef.position.Set(posX, posY);
     mBody = world->CreateBody(&mBodyDef);
 
-    mDynamicBox.SetAsBox(1.0f, 2.0f);
+    mDynamicBox.SetAsBox(sizeX, sizeY);
  
     mFixtureDef.shape = &mDynamicBox; 
-    mFixtureDef.density = 1.0f;    mFixtureDef.friction = 0.3f;    mBody->CreateFixture(&mFixtureDef);
+    mFixtureDef.density = density;    mFixtureDef.friction = friction;    mBody->CreateFixture(&mFixtureDef);
 }
 
 /// Convert position to pixels
 sf::Vector2f AFP::Entity::getBodyPosition()
 {
+    if ( mBody == NULL ) {
+        return sf::Vector2f(0.f, 0.f);
+    }
+
     sf::Vector2f getPos;
     b2Vec2 position = mBody->GetPosition();
 
@@ -77,3 +104,7 @@ sf::Vector2f AFP::Entity::getBodyPosition()
     return getPos;
 }
 
+float AFP::Entity::getBodyAngle()
+{
+    return -mBody->GetAngle();
+}

@@ -11,7 +11,7 @@ AFP::World::World(sf::RenderWindow& window):
     mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
     mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
-    mBodyDef(), mGroundBody(), mGroundBox()
+    mGroundBody()
 {
 
     createWorld();
@@ -51,11 +51,11 @@ void AFP::World::buildScene()
 
     /// Make the background sprite as big as the whole world
     std::unique_ptr<SpriteNode> backgroundSprite(
-            new SpriteNode(texture, textureRect));
+        new SpriteNode(texture, textureRect));
 
     backgroundSprite->setPosition(
-            mWorldBounds.left,
-            mWorldBounds.top);
+        mWorldBounds.left,
+        mWorldBounds.top);
     mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
     /// Set the player to the world
@@ -63,28 +63,13 @@ void AFP::World::buildScene()
     mPlayerCharacter = leader.get();
 
     mPlayerCharacter->setPosition(mSpawnPosition);
-    mPlayerCharacter->setVelocity(40.f, mScrollSpeed);
+    mPlayerCharacter->createCharacter(mWorldBox, mSpawnPosition.x, mSpawnPosition.y);
+
     mSceneLayers[Foreground]->attachChild(std::move(leader));
 
-    /// Add some new planes to follow the player plane
-    std::unique_ptr<Character> leftEscort(new Character(Character::Enemy, mTextures));
-    /// Position is relative to the leader (player)
-    leftEscort->setPosition(-80.f, 50.f);
-    mPlayerCharacter->attachChild(std::move(leftEscort));
-
-    std::unique_ptr<Character> rightEscort(new Character(Character::Enemy, mTextures));
-    rightEscort->setPosition(80.f, 50.f);
-    mPlayerCharacter->attachChild(std::move(rightEscort));
-
-    // Create Rag Norris xD
-    std::unique_ptr<Character> norris(new Character(Character::Player, mTextures));
-    ragNorris = norris.get();
-
-    ragNorris->setPosition(mSpawnPosition);
-    ragNorris->createBody(mWorldBox);
-
-    mSceneLayers[Foreground]->attachChild(std::move(norris));
-
+    /// Create a test tile in box2D world
+    /// Tile testTile;
+    /// testTile.createTile(mWorldBox, mSpawnPosition.x - 32.f, 1700.f, AFP::Tile::Type::Grass);
 }
 
 /// Create the physics world
@@ -93,10 +78,30 @@ void AFP::World::createWorld()
     b2Vec2 gravity(0.0f, -9.81f);
     mWorldBox = new b2World(gravity);
 
-    mBodyDef.position.Set(0.0f, -30.0f);
-    mGroundBody = mWorldBox->CreateBody(&mBodyDef);   
-    mGroundBox.SetAsBox(40.0f, 30.0f);
-    mGroundBody->CreateFixture(&mGroundBox, 0.0f);
+    b2BodyDef bodyDef;
+    b2EdgeShape groundBox;
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &groundBox;
+
+    bodyDef.position.Set(0, 0);
+    mGroundBody = mWorldBox->CreateBody(&bodyDef);
+
+    // Creates walls around area
+    groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
+    mGroundBody->CreateFixture(&fixtureDef);
+
+    groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
+    mGroundBody->CreateFixture(&fixtureDef);
+
+    groundBox.Set(b2Vec2(0, mWorldBounds.height / 16.f), 
+        b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f));
+    mGroundBody->CreateFixture(&fixtureDef);
+
+    groundBox.Set(b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f), 
+        b2Vec2(mWorldBounds.width / 16.f, 0));
+    mGroundBody->CreateFixture(&fixtureDef);
+
+
 
 }
 
@@ -111,8 +116,24 @@ void AFP::World::draw()
 /// Update the world
 void AFP::World::update(sf::Time dt)
 {
-    /// mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
-    mPlayerCharacter->setVelocity(0.f, 0.f);
+
+    /// Moves world view depending on player position
+    sf::Vector2f cameraPosition = mPlayerCharacter->getBodyPosition();
+
+    // If position is too close to world boundaries, camera is not moved
+    if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
+        cameraPosition.x = mWorldView.getSize().x / 2;
+    } else if ( cameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
+        cameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
+    }
+
+    if ( cameraPosition.y < (mWorldView.getSize().y / 2) ) {
+        cameraPosition.y = mWorldView.getSize().y / 2;
+    } else if ( cameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
+        cameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
+    }
+
+    mWorldView.setCenter(cameraPosition);
 
     /// Forward commands to the scene graph
     while (!mCommandQueue.isEmpty())
@@ -131,44 +152,19 @@ void AFP::World::update(sf::Time dt)
     mWorldBox->Step(1.0f / 60.0f, 6, 2);
 
     /// Update position of rag norris
-    ragNorris->setPosition(ragNorris->getBodyPosition());
+    mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition());
+    mPlayerCharacter->setRotation(mPlayerCharacter->getBodyAngle());
 
 }
 
 /// Adapt player position and correct it if out of bounds
 void AFP::World::adaptPlayerPosition()
 {
-    // Keep player's position inside the screen bounds, at least
-    // borderDistance units from the border.
-    sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-    float borderDistance = 40.f;
-
-    sf::Vector2f position = mPlayerCharacter->getPosition();
-    position.x = std::max(position.x, viewBounds.left + borderDistance);
-    position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-    position.y = std::max(position.y, viewBounds.top + borderDistance);
-    position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
-
-    mPlayerCharacter->setPosition(position);
-
 }
 
 /// Adapt player velocity
 void AFP::World::adaptPlayerVelocity()
 {
-    sf::Vector2f velocity = mPlayerCharacter->getVelocity();
-
-    // If moving diagonally, redce velocity (to have alway same
-    // velocity)
-    if (velocity.x != 0.f && velocity.y != 0.f)
-    {
-        mPlayerCharacter->setVelocity(velocity / std::sqrt(2.f));
-
-    }
-
-    // Add scrolling velocity
-    mPlayerCharacter->accelerate(0.f, mScrollSpeed);
-
 }
 
 /// Return the command queue

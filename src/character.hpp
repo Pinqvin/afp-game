@@ -41,6 +41,11 @@ namespace AFP
         /// Returns the character category based on the type
         virtual unsigned int getCategory() const;
 
+        /// Create character in Box2D world
+        ///
+        /// Create character body based on type
+        void createCharacter(b2World* world, float posX, float posY);
+
 	private:
         /// Character type
         ///

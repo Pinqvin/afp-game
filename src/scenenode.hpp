@@ -14,6 +14,8 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
+#include <Box2D/Box2D.h>
+
 #include "category.hpp"
 #include "command.hpp"
 
