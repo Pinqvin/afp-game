@@ -2,7 +2,9 @@
 
 #include <AFP/World.hpp>
 #include <AFP/Scene/SpriteNode.hpp>
+#include <AFP/Utility.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <Box2D/Common/b2Draw.h>
 
 /// Constructor
 AFP::World::World(sf::RenderWindow& window):
@@ -11,7 +13,7 @@ AFP::World::World(sf::RenderWindow& window):
     mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 4, mWorldView.getSize().y * 2),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
     mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
-    mGroundBody()
+    mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true)
 {
 
     createWorld();
@@ -81,7 +83,7 @@ void AFP::World::buildScene()
 /// Create the physics world
 void AFP::World::createWorld()
 {
-    b2Vec2 gravity(0.0f, -9.81f);
+    b2Vec2 gravity(0.0f, 9.81f);
     mWorldBox = new b2World(gravity);
 
     b2BodyDef bodyDef;
@@ -112,6 +114,12 @@ void AFP::World::createWorld()
         b2Vec2(mWorldBounds.width / 16.f, 0));
     mGroundBody->CreateFixture(&fixtureDef);
 
+    /// Setup debug info
+    mWorldBox->SetDebugDraw(&mBoxDebugDraw);
+
+    /// Set basic flags for debug drawing
+    mBoxDebugDraw.SetFlags(b2Draw::e_shapeBit);
+
 }
 
 /// Draw the scene to the window
@@ -119,6 +127,12 @@ void AFP::World::draw()
 {
     mWindow.setView(mWorldView);
     mWindow.draw(mSceneGraph);
+
+    if (mDebugMode)
+    {
+        mWorldBox->DrawDebugData();
+
+    }
 
 }
 
@@ -159,7 +173,7 @@ void AFP::World::update(sf::Time dt)
     adaptPlayerPosition();
 
     // Update Box2D world
-    mWorldBox->Step(1.0f / 60.0f, 6, 2);
+    mWorldBox->Step(UPDATE_PER_FRAME, 6, 2);
 
     /// Update position of rag norris
     mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition(mWorldBounds.width,

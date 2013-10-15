@@ -10,6 +10,7 @@
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Entity/Tile.hpp>
 #include <AFP/Command/CommandQueue.hpp>
+#include <AFP/Debug/BoxDebugDraw.hpp>
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -151,6 +152,12 @@ namespace AFP
             ///
             ///
             b2Body* mGroundBody;
+
+            /// @brief Debug class used to visualize Box2D physics world
+            BoxDebugDraw mBoxDebugDraw;
+
+            /// @brief Debug mode draws additional information like Box2D visualizations
+            bool mDebugMode;
 
     };
 

@@ -109,7 +109,7 @@ sf::Vector2f AFP::Entity::getBodyPosition(float worldSizeX, float worldSizeY)
     /// Calculate positions and invert y axis.
     /// 1 meter = 16 pixels
     getPos.x = position.x * AFP::PTM_RATIO;
-    getPos.y = worldSizeY - (position.y * AFP::PTM_RATIO);
+    getPos.y = (position.y * AFP::PTM_RATIO);
 
     return getPos;
 }

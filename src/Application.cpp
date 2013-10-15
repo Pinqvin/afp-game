@@ -7,9 +7,10 @@
 #include <AFP/State/LoadingState.hpp>
 #include <AFP/State/GameState.hpp>
 #include <AFP/State/PauseState.hpp>
+#include <AFP/Utility.hpp>
 
 /// Handle the updates in steps fixed to 60fps
-const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
+const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(AFP::UPDATE_PER_FRAME);
 
 /// Constructor
 AFP::Application::Application():

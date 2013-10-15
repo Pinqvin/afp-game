@@ -21,5 +21,8 @@ namespace AFP
     /// Pixel to meter ratio
     const float PTM_RATIO = 16;
 
+    /// Time per frame. Fixed to 60fps
+    const float UPDATE_PER_FRAME = 1.f / 60.f;
+
 }
 
