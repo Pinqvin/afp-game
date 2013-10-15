@@ -8,7 +8,7 @@
 AFP::World::World(sf::RenderWindow& window):
     mWindow(window), mWorldView(window.getDefaultView()),
     mTextures(), mSceneGraph(), mSceneLayers(),
-    mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 2, 2000.f),
+    mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 4, mWorldView.getSize().y * 2),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
     mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
     mGroundBody()
@@ -28,6 +28,7 @@ void AFP::World::loadTextures()
     mTextures.load(Textures::Enemy, "Media/Textures/Eagle.png");
     mTextures.load(Textures::Player, "Media/Textures/Rag.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
+    mTextures.load(Textures::GrassTile, "Media/Textures/Grass.png");
 
 }
 
@@ -68,8 +69,13 @@ void AFP::World::buildScene()
     mSceneLayers[Foreground]->attachChild(std::move(leader));
 
     /// Create a test tile in box2D world
-    /// Tile testTile;
-    /// testTile.createTile(mWorldBox, mSpawnPosition.x - 32.f, 1700.f, AFP::Tile::Type::Grass);
+    std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
+
+    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f, AFP::Tile::Type::Grass);
+    testTile->setPosition(testTile->getBodyPosition(mWorldBounds.width,
+                                                    mWorldBounds.height));
+
+    mSceneLayers[Foreground]->attachChild(std::move(testTile));
 }
 
 /// Create the physics world
@@ -88,11 +94,13 @@ void AFP::World::createWorld()
     mGroundBody = mWorldBox->CreateBody(&bodyDef);
 
     // Creates walls around area
+    // Ground
     groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
     mGroundBody->CreateFixture(&fixtureDef);
 
     fixtureDef.friction = 0.0f;
 
+    // Rest of the walls
     groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
     mGroundBody->CreateFixture(&fixtureDef);
 
@@ -103,8 +111,6 @@ void AFP::World::createWorld()
     groundBox.Set(b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f),
         b2Vec2(mWorldBounds.width / 16.f, 0));
     mGroundBody->CreateFixture(&fixtureDef);
-
-
 
 }
 
@@ -121,7 +127,8 @@ void AFP::World::update(sf::Time dt)
 {
 
     /// Moves world view depending on player position
-    sf::Vector2f cameraPosition = mPlayerCharacter->getBodyPosition();
+    sf::Vector2f cameraPosition = mPlayerCharacter->getBodyPosition(mWorldBounds.width,
+                                                                    mWorldBounds.height);
 
     // If position is too close to world boundaries, camera is not moved
     if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
@@ -155,7 +162,8 @@ void AFP::World::update(sf::Time dt)
     mWorldBox->Step(1.0f / 60.0f, 6, 2);
 
     /// Update position of rag norris
-    mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition());
+    mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition(mWorldBounds.width,
+                                                                    mWorldBounds.height));
     mPlayerCharacter->setRotation(mPlayerCharacter->getBodyAngle());
 
 }

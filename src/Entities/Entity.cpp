@@ -1,6 +1,7 @@
 /// Implementation for entity
 
 #include <AFP/Entity/Entity.hpp>
+#include <AFP/Utility.hpp>
 #include <iostream>
 
 AFP::Entity::Entity(void):
@@ -80,24 +81,23 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     }
 
     /// Convert to meters
-    posX /= 16;
-    posY /= 16;
+    posX /= AFP::PTM_RATIO;
+    posY /= AFP::PTM_RATIO;
 
     mBodyDef.position.Set(posX, posY);
     mBody = world->CreateBody(&mBodyDef);
 
-    mDynamicBox.SetAsBox(sizeX, sizeY);
+    mDynamicBox.SetAsBox(sizeX / 2.f, sizeY / 2.f);
 
     mFixtureDef.shape = &mDynamicBox;
     mFixtureDef.density = density;
     mFixtureDef.friction = friction;
     mBody->CreateFixture(&mFixtureDef);
 
-}
-
+}
 
 /// Convert position to pixels
-sf::Vector2f AFP::Entity::getBodyPosition()
+sf::Vector2f AFP::Entity::getBodyPosition(float worldSizeX, float worldSizeY)
 {
     if ( mBody == NULL ) {
         return sf::Vector2f(0.f, 0.f);
@@ -108,8 +108,8 @@ sf::Vector2f AFP::Entity::getBodyPosition()
 
     /// Calculate positions and invert y axis.
     /// 1 meter = 16 pixels
-    getPos.x = position.x * 16;
-    getPos.y = 2000 - (position.y * 16);
+    getPos.x = position.x * AFP::PTM_RATIO;
+    getPos.y = worldSizeY - (position.y * AFP::PTM_RATIO);
 
     return getPos;
 }

@@ -56,7 +56,7 @@ namespace AFP
         /// Return position of body
         ///
         /// Converts position from meters to pixels and returns it.
-        sf::Vector2f getBodyPosition();
+        sf::Vector2f getBodyPosition(float worldSizeX, float worldSizeY);
 
         /// Return the angle of the body
         ///

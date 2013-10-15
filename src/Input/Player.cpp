@@ -120,7 +120,7 @@ sf::Keyboard::Key AFP::Player::getAssignedKey(Action action) const
 /// Initialize actions
 void AFP::Player::initializeActions()
 {
-    const float playerSpeed = 500.f;
+    const float playerSpeed = 200.f;
 
     mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
     mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));

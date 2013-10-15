@@ -5,6 +5,9 @@
 #pragma once
 
 #include <AFP/Entity/Entity.hpp>
+#include <AFP/Resource/ResourceIdentifiers.hpp>
+
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace AFP
 {
@@ -12,13 +15,26 @@ namespace AFP
     {
 
     public:
-        Tile(void);
 
+        /// Tile type
+        ///
+        ///
         enum Type {
             Grass,
             Metal,
             Dicks
         };
+
+        /// Constructor
+        ///
+        ///
+        Tile(Type type, const TextureHolder& textures);
+
+        /// Draw tile sprite
+		///
+		///
+		virtual void drawCurrent(sf::RenderTarget& target,
+			sf::RenderStates states) const;
 
         /// Creates a tile
         ///
@@ -27,7 +43,15 @@ namespace AFP
 
     private:
 
+        /// Tile type
+        ///
+        ///
         Type mType;
+
+        /// Tile sprite
+		///
+		///
+		sf::Sprite mSprite;
 
     };
 }

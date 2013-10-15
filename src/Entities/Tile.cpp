@@ -1,12 +1,48 @@
-/// Kommentoikaa nyt ne vitun tiedostot ja funktiot
+/// Implementation for Tile class
 
 #include <AFP/Entity/Tile.hpp>
+#include <AFP/Resource/ResourceHolder.hpp>
+#include <AFP/Resource/ResourceIdentifiers.hpp>
 
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 
-AFP::Tile::Tile(void)
+/// Return texture based on the type
+AFP::Textures::ID toTextureId(AFP::Tile::Type type)
 {
+    /// TODO: Change when actual textures added
+    switch (type)
+    {
+    case AFP::Tile::Grass:
+        return AFP::Textures::GrassTile;
+
+    case AFP::Tile::Metal:
+        return AFP::Textures::Enemy;
+
+    default:
+        return AFP::Textures::Player;
+
+    }
+
 }
 
+AFP::Tile::Tile(Type type, const TextureHolder& textures):
+    mType(type), mSprite(textures.get(toTextureId(type)))
+{
+    /// Align the origin to the center of the texture
+    sf::FloatRect bounds = mSprite.getLocalBounds();
+    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
+}
+
+void AFP::Tile::drawCurrent(sf::RenderTarget& target,
+						   sf::RenderStates states) const
+{
+	target.draw(mSprite, states);
+
+}
+
+/// Creates a tile
 void AFP::Tile::createTile(b2World* world, float posX, float posY, Type type)
 {
     switch (type)

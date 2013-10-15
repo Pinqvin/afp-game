@@ -35,8 +35,13 @@ file(GLOB_RECURSE
     src/*
 )
 
+file(GLOB_RECURSE
+    headers
+    include/*
+)
+
 set(EXECUTABLE_NAME "afpgame")
-add_executable(${EXECUTABLE_NAME} ${source_files})
+add_executable(${EXECUTABLE_NAME} ${source_files} ${headers})
 
 # User needs to define SFML-path
 if(WIN32 AND NOT SFML_ROOT)

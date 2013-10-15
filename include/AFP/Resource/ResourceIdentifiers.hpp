@@ -23,6 +23,7 @@ namespace AFP
             Enemy,
             Desert,
             TitleScreen,
+            GrassTile,
 
         };
 
