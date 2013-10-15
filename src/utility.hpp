@@ -18,5 +18,7 @@ namespace AFP
     /// Centers a text to its origin
     void centerOrigin(sf::Text& text);
 
+    const float PTM_RATIO = 16;
+
 }
 

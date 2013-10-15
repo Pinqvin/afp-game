@@ -8,7 +8,7 @@
 AFP::World::World(sf::RenderWindow& window):
     mWindow(window), mWorldView(window.getDefaultView()),
     mTextures(), mSceneGraph(), mSceneLayers(),
-    mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f),
+    mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 2, 2000.f),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
     mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
     mGroundBody()
@@ -82,6 +82,7 @@ void AFP::World::createWorld()
     b2EdgeShape groundBox;
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &groundBox;
+    fixtureDef.friction = 0.35f;
 
     bodyDef.position.Set(0, 0);
     mGroundBody = mWorldBox->CreateBody(&bodyDef);
@@ -89,6 +90,8 @@ void AFP::World::createWorld()
     // Creates walls around area
     groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
     mGroundBody->CreateFixture(&fixtureDef);
+
+    fixtureDef.friction = 0.0f;
 
     groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
     mGroundBody->CreateFixture(&fixtureDef);

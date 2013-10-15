@@ -12,7 +12,7 @@ const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
 /// Constructor
 AFP::Application::Application():
-    mWindow(sf::VideoMode(640, 480), "States", sf::Style::Close),
+    mWindow(sf::VideoMode(854, 480), "States", sf::Style::Close),
     mTextures(), mFonts(), mPlayer(),
     mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer)),
     mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames()

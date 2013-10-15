@@ -119,8 +119,8 @@ void AFP::Player::initializeActions()
 
     mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
     mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
-    mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed));
-    mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
+    mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
+    mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed));
 
 }
 
