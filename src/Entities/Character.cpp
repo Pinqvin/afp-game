@@ -26,7 +26,7 @@ AFP::Textures::ID toTextureId(AFP::Character::Type type)
 }
 
 AFP::Character::Character(Type type, const TextureHolder& textures):
-    mType(type), mSprite(textures.get(toTextureId(type)))
+    mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f)
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -73,3 +73,26 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
 
 }
 
+/// Move character along horizontal axis
+void AFP::Character::moveHorizontal(float vx)
+{
+    b2Vec2 velocity = getVelocity();
+
+    /// Acceleration
+    if ( vx < 0 ) 
+    {
+        velocity.x = b2Max(velocity.x - 3.0f, vx);
+    } else
+    {
+        velocity.x = b2Min(velocity.x + 3.0f, vx);
+    }
+
+    setVelocity(velocity);
+}
+
+/// Make character jump
+void AFP::Character::jump()
+{
+    float force = mJumpStrength * getMass();
+    applyImpulse(b2Vec2(0, force));
+}

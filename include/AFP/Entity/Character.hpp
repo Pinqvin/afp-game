@@ -45,6 +45,16 @@ namespace AFP
         /// Create character body based on type
         void createCharacter(b2World* world, float posX, float posY);
 
+        /// Move character
+        ///
+        /// Move character along horizontal axis
+        void moveHorizontal(float vx);
+
+        /// Jump
+        ///
+        /// Make character jump
+        void jump();
+
 	private:
         /// Character type
         ///
@@ -55,6 +65,12 @@ namespace AFP
 		///
 		///
 		sf::Sprite mSprite;
+
+        /// Jump Strength
+        ///
+        /// Increasing will make character
+        /// jump higher
+        float mJumpStrength;
 
 	};
 

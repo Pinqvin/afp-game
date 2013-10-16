@@ -15,20 +15,19 @@ namespace AFP
     struct CharacterMover
     {
         /// Constructor set's the velocity vector
-        CharacterMover(float vx, float vy): velocity(vx, vy)
+        CharacterMover(float vx): velocity(vx)
         {
-
 
         }
 
         /// This gets called when the CharacterMover functor is called
         void operator() (AFP::Character& character, sf::Time) const
         {
-            character.accelerate(velocity);
+            character.moveHorizontal(velocity);
 
         }
 
-        sf::Vector2f velocity;
+        float velocity;
 
     };
 
@@ -42,8 +41,8 @@ AFP::Player::Player(): mKeyBinding(), mActionBinding()
     /// Set initial key bindings
     mKeyBinding[sf::Keyboard::A] = MoveLeft;
     mKeyBinding[sf::Keyboard::D] = MoveRight;
-    mKeyBinding[sf::Keyboard::W] = MoveUp;
-    mKeyBinding[sf::Keyboard::S] = MoveDown;
+    mKeyBinding[sf::Keyboard::W] = Jump;
+    mKeyBinding[sf::Keyboard::Space] = Jump;
 
     /// Set initial action bindings
     initializeActions();
@@ -120,12 +119,11 @@ sf::Keyboard::Key AFP::Player::getAssignedKey(Action action) const
 /// Initialize actions
 void AFP::Player::initializeActions()
 {
-    const float playerSpeed = 200.f;
+    const float playerSpeed = 20.f;
 
-    mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
-    mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
-    mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
-    mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed));
+    mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed));
+    mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed));
+    mActionBinding[Jump].action = derivedAction<Character>([] (Character& c, sf::Time) { c.jump(); });
 
 }
 
@@ -136,8 +134,6 @@ bool AFP::Player::isRealtimeAction(Action action)
     {
         case MoveLeft:
         case MoveRight:
-        case MoveDown:
-        case MoveUp:
             return true;
 
         default:

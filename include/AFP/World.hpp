@@ -63,16 +63,6 @@ namespace AFP
             /// TextureHolder.
             void buildScene();
 
-            /// Adapts the player position
-            ///
-            /// Don't allow the player to go out of bounds
-            void adaptPlayerPosition();
-
-            /// Adapts the player velocity
-            ///
-            /// If moving diagonaly, reduce velocity
-            void adaptPlayerVelocity();
-
             /// Create world with gravity
             ///
             /// Build the Box2D world.

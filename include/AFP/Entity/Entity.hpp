@@ -18,12 +18,12 @@ namespace AFP
         /// Set velocity
         ///
         /// Sets the velocity of the entity
-        void setVelocity(sf::Vector2f velocity);
+        void setVelocity(b2Vec2 velocity);
 
         /// Set velocity
         ///
-        /// Sets the velocity of the entity
-        void setVelocity(float vx, float vy);
+        /// Applies an impulse to the entity
+        void applyImpulse(b2Vec2 impulse);
 
         /// Update the movement
         ///
@@ -32,19 +32,13 @@ namespace AFP
 
         /// Get velocity
         ///
-        /// Returns the velocity of the entity
-        sf::Vector2f getVelocity() const;
+        /// Returns the linear velocity of the entity
+        b2Vec2 getVelocity() const;
 
-        /// Accelerate entity
+        /// Get velocity
         ///
-        /// Add the provided velocity to the current velocity
-        void accelerate(sf::Vector2f velocity);
-
-        /// Accelerate entity
-        ///
-        /// From a velocity vector from the provided floats and
-        /// add it to the current velocity
-        void accelerate(float vx, float vy);
+        /// Returns the mass of the entity
+        float getMass() const;
 
         /// Create body for entity
         ///
@@ -56,7 +50,7 @@ namespace AFP
         /// Return position of body
         ///
         /// Converts position from meters to pixels and returns it.
-        sf::Vector2f getBodyPosition(float worldSizeX, float worldSizeY);
+        sf::Vector2f getBodyPosition();
 
         /// Return the angle of the body
         ///
@@ -64,10 +58,6 @@ namespace AFP
         float getBodyAngle();
 
     private:
-        /// Velocity
-        ///
-        /// Velocity of the entity in a 2D vector
-        sf::Vector2f mVelocity;
 
         /// Body
         ///

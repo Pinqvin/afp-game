@@ -29,8 +29,7 @@ namespace AFP
             {
                 MoveLeft,
                 MoveRight,
-                MoveUp,
-                MoveDown,
+                Jump,
                 ActionCount
 
             };

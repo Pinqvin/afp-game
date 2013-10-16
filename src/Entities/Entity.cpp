@@ -5,33 +5,44 @@
 #include <iostream>
 
 AFP::Entity::Entity(void):
-    mVelocity(), mBody()
+    mBody()
 {
 
 }
 
-void AFP::Entity::setVelocity(sf::Vector2f velocity)
+/// Set velocity of mBody
+void AFP::Entity::setVelocity(b2Vec2 velocity)
 {
-	mVelocity = velocity;
-
+    mBody->SetLinearVelocity(velocity);
 }
 
-void AFP::Entity::setVelocity(float vx, float vy)
+/// Applies impulse to mBody
+void AFP::Entity::applyImpulse(b2Vec2 impulse)
 {
-	mVelocity.x = vx;
-	mVelocity.y = vy;
-
+    mBody->ApplyLinearImpulse(impulse, mBody->GetWorldCenter() );
 }
 
-sf::Vector2f AFP::Entity::getVelocity() const
+/// Return velocty of mBody
+b2Vec2 AFP::Entity::getVelocity() const
 {
-	return mVelocity;
+	return mBody->GetLinearVelocity();
+}
+
+/// Return mass of mBody
+float AFP::Entity::getMass() const
+{
+    return mBody->GetMass();
 }
 
 void AFP::Entity::updateCurrent(sf::Time dt)
 {
-    move(mVelocity * dt.asSeconds());
+    
+    /// Stop movement in x-axis
+    b2Vec2 velocity = mBody->GetLinearVelocity();
+    velocity.x *= 0.90;
+    mBody->SetLinearVelocity(velocity);
 
+    /*
     /// Print Box2D info
     if (mBody != nullptr)
     {
@@ -41,26 +52,7 @@ void AFP::Entity::updateCurrent(sf::Time dt)
             << " " << angle << std::endl;
 
     }
-
-}
-
-/// Accelerate entity
-void AFP::Entity::accelerate(sf::Vector2f vector)
-{
-    mVelocity = vector;
-
-    mBody->ApplyLinearImpulse(b2Vec2(vector.x, vector.y), mBody->GetWorldCenter());
-
-}
-
-/// Accelerate entity
-void AFP::Entity::accelerate(float vx, float vy)
-{
-    mVelocity.x = vx;
-    mVelocity.y = vy;
-
-    mBody->ApplyLinearImpulse(b2Vec2(vx, vy), mBody->GetWorldCenter());
-
+    */
 }
 
 /// Create body
@@ -91,13 +83,13 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 
     mFixtureDef.shape = &mDynamicBox;
     mFixtureDef.density = density;
-    mFixtureDef.friction = friction;
+    mFixtureDef.friction = friction;
     mBody->CreateFixture(&mFixtureDef);
 
 }
 
 /// Convert position to pixels
-sf::Vector2f AFP::Entity::getBodyPosition(float worldSizeX, float worldSizeY)
+sf::Vector2f AFP::Entity::getBodyPosition()
 {
     if ( mBody == NULL ) {
         return sf::Vector2f(0.f, 0.f);
@@ -109,7 +101,7 @@ sf::Vector2f AFP::Entity::getBodyPosition(float worldSizeX, float worldSizeY)
     /// Calculate positions and invert y axis.
     /// 1 meter = 16 pixels
     getPos.x = position.x * AFP::PTM_RATIO;
-    getPos.y = (position.y * AFP::PTM_RATIO);
+    getPos.y = position.y * AFP::PTM_RATIO;
 
     return getPos;
 }

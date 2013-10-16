@@ -74,8 +74,7 @@ void AFP::World::buildScene()
     std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
 
     testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f, AFP::Tile::Type::Grass);
-    testTile->setPosition(testTile->getBodyPosition(mWorldBounds.width,
-                                                    mWorldBounds.height));
+    testTile->setPosition(testTile->getBodyPosition());
 
     mSceneLayers[Foreground]->attachChild(std::move(testTile));
 }
@@ -83,14 +82,14 @@ void AFP::World::buildScene()
 /// Create the physics world
 void AFP::World::createWorld()
 {
-    b2Vec2 gravity(0.0f, 9.81f);
+    b2Vec2 gravity(0.0f, 90.8f);
     mWorldBox = new b2World(gravity);
 
     b2BodyDef bodyDef;
     b2EdgeShape groundBox;
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &groundBox;
-    fixtureDef.friction = 0.35f;
+    fixtureDef.friction = 0.0f;
 
     bodyDef.position.Set(0, 0);
     mGroundBody = mWorldBox->CreateBody(&bodyDef);
@@ -99,8 +98,6 @@ void AFP::World::createWorld()
     // Ground
     groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
     mGroundBody->CreateFixture(&fixtureDef);
-
-    fixtureDef.friction = 0.0f;
 
     // Rest of the walls
     groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
@@ -141,8 +138,7 @@ void AFP::World::update(sf::Time dt)
 {
 
     /// Moves world view depending on player position
-    sf::Vector2f cameraPosition = mPlayerCharacter->getBodyPosition(mWorldBounds.width,
-                                                                    mWorldBounds.height);
+    sf::Vector2f cameraPosition = mPlayerCharacter->getBodyPosition();
 
     // If position is too close to world boundaries, camera is not moved
     if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
@@ -166,30 +162,16 @@ void AFP::World::update(sf::Time dt)
 
     }
 
-    adaptPlayerVelocity();
-
-    // Regular update step, adapt position (correct if outside view)
-    mSceneGraph.update(dt);
-    adaptPlayerPosition();
-
     // Update Box2D world
     mWorldBox->Step(UPDATE_PER_FRAME, 6, 2);
 
     /// Update position of rag norris
-    mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition(mWorldBounds.width,
-                                                                    mWorldBounds.height));
+    mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition());
     mPlayerCharacter->setRotation(mPlayerCharacter->getBodyAngle());
 
-}
+    // Regular update step, adapt position (correct if outside view)
+    mSceneGraph.update(dt);
 
-/// Adapt player position and correct it if out of bounds
-void AFP::World::adaptPlayerPosition()
-{
-}
-
-/// Adapt player velocity
-void AFP::World::adaptPlayerVelocity()
-{
 }
 
 /// Return the command queue
