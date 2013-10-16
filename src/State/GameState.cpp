@@ -49,7 +49,6 @@ bool AFP::GameState::handleEvent(const sf::Event& event)
 
     }
 
-
     return true;
 
 }

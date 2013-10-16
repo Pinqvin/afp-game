@@ -93,6 +93,12 @@ void AFP::Application::processInput()
             mWindow.close();
 
         }
+        // If mouse moved, update new place to player
+        else if (event.type == sf::Event::MouseMoved)
+        {
+            mPlayer.setMousePosition(sf::Vector2f(sf::Mouse::getPosition(mWindow)));
+
+        }
 
     }
 

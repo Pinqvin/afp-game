@@ -90,22 +90,23 @@ void AFP::World::createWorld()
     b2EdgeShape groundBox;
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &groundBox;
-    fixtureDef.friction = 0.0f;
-
+    
     bodyDef.position.Set(0, 0);
     mGroundBody = mWorldBox->CreateBody(&bodyDef);
 
     // Creates walls around area
     // Ground
-    groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
+    fixtureDef.friction = 0.35f;
+    groundBox.Set(b2Vec2(0, mWorldBounds.height / 16.f),
+        b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f));
     mGroundBody->CreateFixture(&fixtureDef);
 
     // Rest of the walls
-    groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
+    fixtureDef.friction = 0.0f;
+    groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
     mGroundBody->CreateFixture(&fixtureDef);
 
-    groundBox.Set(b2Vec2(0, mWorldBounds.height / 16.f),
-        b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f));
+    groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
     mGroundBody->CreateFixture(&fixtureDef);
 
     groundBox.Set(b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f),
@@ -155,6 +156,13 @@ void AFP::World::update(sf::Time dt)
     }
 
     mWorldView.setCenter(cameraPosition);
+
+    // Calculate mouse translation and pass it to player character
+    sf::Vector2f viewCenter = mWorldView.getCenter();
+    sf::Vector2f halfExtents = mWorldView.getSize() / 2.0f;
+    sf::Vector2f translation = viewCenter - halfExtents;
+
+    mPlayerCharacter->setMouseTranslation(translation);
 
     /// Forward commands to the scene graph
     while (!mCommandQueue.isEmpty())

@@ -56,7 +56,13 @@ namespace AFP
         ///
         /// Sets mIsFiring true so shooting
         /// will happen
-        void fire();
+        void fire(sf::Vector2f target);
+
+        /// Set mouse translation
+        ///
+        /// Mouse translation is used in converting
+        /// view coordinates to world coordinates
+        void setMouseTranslation(sf::Vector2f translation);
 
     private:
         /// Draw character sprite
@@ -104,7 +110,7 @@ namespace AFP
         /// jump higher
         float mJumpStrength;
 
-        ///
+        /// Command for firing
         ///
         ///
         Command mFireCommand;
@@ -113,6 +119,18 @@ namespace AFP
         ///
         /// Marked true if firing
         bool mIsFiring;
+
+        /// Firing angle
+        /// 
+        /// Bullets are shot in this direction.
+        /// Updated everytime fire command is called.
+        sf::Vector2f mFireTarget;
+
+        /// Mouse translation
+        ///
+        /// Used to correct the position from view
+        /// to world
+        sf::Vector2f mMouseTranslation;
 
         ///  
         ///

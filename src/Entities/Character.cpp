@@ -28,8 +28,8 @@ AFP::Textures::ID toTextureId(AFP::Character::Type type)
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
     mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
-    mIsFiring(false), mFireCountdown(sf::Time::Zero), mFireCommand(),
-    mFireRateLevel(1)
+    mIsFiring(false), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
+    mFireCommand(), mFireRateLevel(1)
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -100,9 +100,26 @@ void AFP::Character::jump()
 }
 
 /// Set firing flag true
-void AFP::Character::fire()
+void AFP::Character::fire(sf::Vector2f target)
 {
     mIsFiring = true;
+
+    // Apply mouse translation
+    target.x += mMouseTranslation.x;
+    target.y += mMouseTranslation.y;
+
+    // Calculate target position relative to
+    // character
+    target.x -= getPosition().x;
+    target.y -= getPosition().y;
+    mFireTarget = target;
+
+}
+
+/// Set mouse translation
+void AFP::Character::setMouseTranslation(sf::Vector2f translation)
+{
+    mMouseTranslation = translation;
 }
 
 /// Draw character
@@ -146,7 +163,11 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 /// Create many bullets
 void AFP::Character::createBullets(SceneNode& node, const TextureHolder& textures)
 {
-    createProjectile(node, Projectile::Bullet, 0.0f, 0.0f, textures);
+    // TODO:
+    // Calculate offset using target so projectile is created in correct
+    // place. For example when shooting up the projectile is created
+    // on top of the character.
+    createProjectile(node, Projectile::Bullet, 0.0f, -16.0f, textures);
 
 }
 
@@ -164,7 +185,7 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
     position.y += yOffset;
 
     /// Create projectile in Box2D world
-    projectile->createProjectile(getWorld(), position.x, position.y, type);
+    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget, type);
 
     /// Set position
     projectile->setPosition(projectile->getPosition());

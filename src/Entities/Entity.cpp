@@ -79,8 +79,9 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     if ( isProjectile ) 
     {
         mBodyDef.bullet = true;
-    }
 
+    } 
+        
     /// Convert to meters
     posX /= AFP::PTM_RATIO;
     posY /= AFP::PTM_RATIO;
@@ -119,10 +120,12 @@ sf::Vector2f AFP::Entity::getPosition()
 b2Vec2 AFP::Entity::getBodyPosition()
 {
     return mBody->GetPosition();
+
 }
 
 /// Return pointer to world
 b2World* AFP::Entity::getWorld()
 {
     return mBody->GetWorld();
+
 }

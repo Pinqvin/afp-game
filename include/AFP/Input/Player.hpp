@@ -52,10 +52,26 @@ namespace AFP
             /// are assigned when the game is instantiated.
             void assignKey(Action action, sf::Keyboard::Key key);
 
+            /// Assign a key to a specific action
+            ///
+            /// Can be used by a GUI to assign the keys. Default values
+            /// are assigned when the game is instantiated.
+            void assignMouseButton(Action action, sf::Mouse::Button button);
+
             /// Get the key an action is assigned to
             ///
             /// Returns the key the action is bound to
             sf::Keyboard::Key getAssignedKey(Action action) const;
+
+            /// Get the mouse button an action is assigned to
+            ///
+            /// Returns the mouse button the action is bound to
+            sf::Mouse::Button getAssignedButton(Action action) const;
+
+            /// Set mouse position
+            ///
+            ///
+            void setMousePosition(sf::Vector2f position);
 
         private:
             /// Initialize actions for movement
@@ -73,10 +89,20 @@ namespace AFP
             ///
             std::map<sf::Keyboard::Key, Action> mKeyBinding;
 
+            /// Mouse Buttons are bound to specific actions
+            ///
+            ///
+            std::map<sf::Mouse::Button, Action> mMouseBinding;
+
             /// Actions are bound to specific commands
             ///
             ///
             std::map<Action, Command> mActionBinding;
+
+            /// Mouse position
+            ///
+            /// Mouse position relative to window
+            sf::Vector2f mMousePosition;
 
     };
 

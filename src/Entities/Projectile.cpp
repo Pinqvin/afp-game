@@ -7,6 +7,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include <iostream>
+
 /// Return texture based on the type
 AFP::Textures::ID toTextureId(AFP::Projectile::Type type)
 {
@@ -48,14 +50,17 @@ void AFP::Projectile::updateCurrent(sf::Time dt, CommandQueue& commands)
 }
 
 /// Creates a projectile
-void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, Type type)
+void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type)
 {
     switch(type)
     {
     case AFP::Projectile::Bullet:
-        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 0.3f, false, false);
-        /// Apply impulse to bullet
-        applyImpulse(b2Vec2(30.0f, -30.0f));
+        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 10.0f, false, false);
+        // Amount of force
+        target.x *= 0.4f;
+        target.y *= 0.4f;
+        // Apply impulse to bullet
+        applyImpulse(b2Vec2(target.x, target.y));
         break;
     default:
         break;

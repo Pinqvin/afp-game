@@ -43,7 +43,7 @@ namespace AFP
         /// Creates a projectile
         ///
         /// Create a projectile based on projectile type.
-        void createProjectile(b2World* world, float posX, float posY, Type type);
+        void createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type);
 
     private:
 
