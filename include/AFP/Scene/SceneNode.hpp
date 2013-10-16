@@ -17,6 +17,7 @@
 
 #include <AFP/Command/Category.hpp>
 #include <AFP/Command/Command.hpp>
+#include <AFP/Command/CommandQueue.hpp>
 
 #include <memory>
 #include <vector>
@@ -51,7 +52,7 @@ namespace AFP
         /// Update the nodes
         ///
         /// Updates the node and all of its children
-        void update(sf::Time dt);
+        void update(sf::Time dt, CommandQueue& commands);
 
         /// Gets the transformation relative to the world
         ///
@@ -61,7 +62,7 @@ namespace AFP
         /// Gets the node's position in the world
         ///
         /// Returns the absolute position of the node
-        void getWorldPosition();
+        sf::Vector2f getWorldPosition() const;
 
         /// Returns the category of the game object
         ///
@@ -73,6 +74,11 @@ namespace AFP
         /// Runs the specified command on all the nodes with the
         /// same category that the command is aimed at
         void onCommand(const Command& command, sf::Time dt);
+
+        /// Get parent nodes position
+        ///
+        /// Returns the position of this nodes parent
+        sf::Vector2f getParentPosition();
 
 	private:
 		/// Draw SceneNode
@@ -96,12 +102,12 @@ namespace AFP
         /// Update the current node
         ///
         /// Only updates the node currently being worked on
-        virtual void updateCurrent(sf::Time dt);
+        virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
         /// Update all the child nodes
         ///
         /// Update all the nodes in the mChildren vector
-        void updateChildren(sf::Time dt);
+        void updateChildren(sf::Time dt, CommandQueue& commands);
 
 		/// mChildren holds all the children.
 		///

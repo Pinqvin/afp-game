@@ -1,4 +1,4 @@
-/// This is a class for tile objects in the game
+/// This is the class for tile objects in the game
 ///
 /// Tiles are static box2d objects
 

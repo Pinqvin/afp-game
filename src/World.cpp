@@ -31,6 +31,7 @@ void AFP::World::loadTextures()
     mTextures.load(Textures::Player, "Media/Textures/Rag.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
     mTextures.load(Textures::GrassTile, "Media/Textures/Grass.png");
+    mTextures.load(Textures::Bullet, "Media/Textures/Grass.png");
 
 }
 
@@ -65,8 +66,8 @@ void AFP::World::buildScene()
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
     mPlayerCharacter = leader.get();
 
-    mPlayerCharacter->setPosition(mSpawnPosition);
     mPlayerCharacter->createCharacter(mWorldBox, mSpawnPosition.x, mSpawnPosition.y);
+    mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
 
     mSceneLayers[Foreground]->attachChild(std::move(leader));
 
@@ -74,7 +75,7 @@ void AFP::World::buildScene()
     std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
 
     testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f, AFP::Tile::Type::Grass);
-    testTile->setPosition(testTile->getBodyPosition());
+    testTile->setPosition(testTile->getPosition());
 
     mSceneLayers[Foreground]->attachChild(std::move(testTile));
 }
@@ -138,7 +139,7 @@ void AFP::World::update(sf::Time dt)
 {
 
     /// Moves world view depending on player position
-    sf::Vector2f cameraPosition = mPlayerCharacter->getBodyPosition();
+    sf::Vector2f cameraPosition = mPlayerCharacter->getPosition();
 
     // If position is too close to world boundaries, camera is not moved
     if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
@@ -165,12 +166,8 @@ void AFP::World::update(sf::Time dt)
     // Update Box2D world
     mWorldBox->Step(UPDATE_PER_FRAME, 6, 2);
 
-    /// Update position of rag norris
-    mPlayerCharacter->setPosition(mPlayerCharacter->getBodyPosition());
-    mPlayerCharacter->setRotation(mPlayerCharacter->getBodyAngle());
-
     // Regular update step, adapt position (correct if outside view)
-    mSceneGraph.update(dt);
+    mSceneGraph.update(dt, mCommandQueue);
 
 }
 

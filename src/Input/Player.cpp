@@ -43,6 +43,7 @@ AFP::Player::Player(): mKeyBinding(), mActionBinding()
     mKeyBinding[sf::Keyboard::D] = MoveRight;
     mKeyBinding[sf::Keyboard::W] = Jump;
     mKeyBinding[sf::Keyboard::Space] = Jump;
+    mKeyBinding[sf::Keyboard::E] = Fire;
 
     /// Set initial action bindings
     initializeActions();
@@ -124,6 +125,7 @@ void AFP::Player::initializeActions()
     mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed));
     mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed));
     mActionBinding[Jump].action = derivedAction<Character>([] (Character& c, sf::Time) { c.jump(); });
+    mActionBinding[Fire].action = derivedAction<Character>([] (Character& c, sf::Time) { c.fire(); });
 
 }
 

@@ -29,6 +29,8 @@ AFP::Application::Application():
     registerStates();
     mStateStack.pushState(States::Title);
 
+    mWindow.setFramerateLimit(60);
+
 }
 
 /// Register all the different states the game can have to

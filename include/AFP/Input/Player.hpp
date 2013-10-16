@@ -30,6 +30,7 @@ namespace AFP
                 MoveLeft,
                 MoveRight,
                 Jump,
+                Fire,
                 ActionCount
 
             };

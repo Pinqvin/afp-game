@@ -34,13 +34,14 @@ float AFP::Entity::getMass() const
     return mBody->GetMass();
 }
 
-void AFP::Entity::updateCurrent(sf::Time dt)
+void AFP::Entity::updateCurrent(sf::Time dt, CommandQueue&)
 {
     
-    /// Stop movement in x-axis
-    b2Vec2 velocity = mBody->GetLinearVelocity();
-    velocity.x *= 0.90;
-    mBody->SetLinearVelocity(velocity);
+    /// Set position of entity
+    sf::Vector2f position = getPosition();
+    position.x -= getParentPosition().x;
+    position.y -= getParentPosition().y;
+    setPosition(position);
 
     /*
     /// Print Box2D info
@@ -58,18 +59,26 @@ void AFP::Entity::updateCurrent(sf::Time dt)
 /// Create body
 void AFP::Entity::createBody(b2World* world, float posX, float posY,
                              float sizeX, float sizeY, float density,
-                             float friction, bool staticBody)
+                             float friction, bool staticBody, bool isProjectile)
 {
 
     b2BodyDef mBodyDef;
     b2PolygonShape mDynamicBox;
     b2FixtureDef mFixtureDef;
 
-    if ( staticBody ) {
+    if ( staticBody ) 
+    {
         mBodyDef.type = b2_staticBody;
-    } else {
+    } else 
+    {
         mBodyDef.type = b2_dynamicBody;
         mBodyDef.fixedRotation = true;
+    }
+
+    /// Enable continuous collision detection
+    if ( isProjectile ) 
+    {
+        mBodyDef.bullet = true;
     }
 
     /// Convert to meters
@@ -89,7 +98,7 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 }
 
 /// Convert position to pixels
-sf::Vector2f AFP::Entity::getBodyPosition()
+sf::Vector2f AFP::Entity::getPosition()
 {
     if ( mBody == NULL ) {
         return sf::Vector2f(0.f, 0.f);
@@ -106,7 +115,14 @@ sf::Vector2f AFP::Entity::getBodyPosition()
     return getPos;
 }
 
-float AFP::Entity::getBodyAngle()
+/// Return body position in meters
+b2Vec2 AFP::Entity::getBodyPosition()
 {
-    return -mBody->GetAngle();
+    return mBody->GetPosition();
+}
+
+/// Return pointer to world
+b2World* AFP::Entity::getWorld()
+{
+    return mBody->GetWorld();
 }

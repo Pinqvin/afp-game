@@ -24,7 +24,7 @@ namespace AFP
             Desert,
             TitleScreen,
             GrassTile,
-
+            Bullet
         };
 
     }

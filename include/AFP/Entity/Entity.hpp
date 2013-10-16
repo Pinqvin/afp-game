@@ -25,11 +25,6 @@ namespace AFP
         /// Applies an impulse to the entity
         void applyImpulse(b2Vec2 impulse);
 
-        /// Update the movement
-        ///
-        /// Update the movement done in deltaTime
-        virtual void updateCurrent(sf::Time dt);
-
         /// Get velocity
         ///
         /// Returns the linear velocity of the entity
@@ -45,17 +40,28 @@ namespace AFP
         ///
         void createBody(b2World* world, float posX, float posY,
             float sizeX, float sizeY, float density,
-            float friction, bool staticBody);
+            float friction, bool staticBody = false, bool isProjectile = false );
 
         /// Return position of body
         ///
         /// Converts position from meters to pixels and returns it.
-        sf::Vector2f getBodyPosition();
+        sf::Vector2f getPosition();
 
-        /// Return the angle of the body
+        /// Return position of body
+        ///
+        /// Return body position in meters.
+        b2Vec2 getBodyPosition();
+
+        /// Return world pointer
         ///
         ///
-        float getBodyAngle();
+        b2World* getWorld();
+
+    protected:
+        /// Update the movement
+        ///
+        /// Update the movement done in deltaTime
+        virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
     private:
 

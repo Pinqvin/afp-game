@@ -5,15 +5,18 @@
 #pragma once
 
 #include <AFP/Entity/Entity.hpp>
+#include <AFP/Entity/Projectile.hpp>
+#include <AFP/Command/Command.hpp>
+#include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
 namespace AFP
 {
-	class Character : public Entity
-	{
-	public:
+    class Character : public Entity
+    {
+    public:
         /// Character type
         ///
         ///
@@ -27,13 +30,7 @@ namespace AFP
         /// Constructor
         ///
         ///
-		Character(Type type, const TextureHolder& textures);
-
-		/// Draw character sprite
-		///
-		///
-		virtual void drawCurrent(sf::RenderTarget& target,
-			sf::RenderStates states) const;
+        Character(Type type, const TextureHolder& textures);
 
         /// Return character category
         ///
@@ -55,16 +52,51 @@ namespace AFP
         /// Make character jump
         void jump();
 
-	private:
+        /// Fire
+        ///
+        /// Sets mIsFiring true so shooting
+        /// will happen
+        void fire();
+
+    private:
+        /// Draw character sprite
+        ///
+        ///
+        virtual void drawCurrent(sf::RenderTarget& target,
+            sf::RenderStates states) const;
+
+        /// Update character
+        ///
+        ///
+        virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
+
+        /// Check projectile launch
+        ///
+        /// Contains cooldown calculation for firing.
+        void checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
+
+        /// Create bullets
+        ///
+        /// Creates many projectiles
+        void createBullets(SceneNode& node, const TextureHolder& textures);
+
+        /// Create projectile
+        ///
+        /// Creates a projectile and links it to this node
+        void createProjectile(SceneNode& node, 
+            Projectile::Type type, float xOffset, 
+            float yOffset, const TextureHolder& textures);
+
+    private:
         /// Character type
         ///
         ///
         Type mType;
 
-		/// Character sprite
-		///
-		///
-		sf::Sprite mSprite;
+        /// Character sprite
+        ///
+        ///
+        sf::Sprite mSprite;
 
         /// Jump Strength
         ///
@@ -72,7 +104,27 @@ namespace AFP
         /// jump higher
         float mJumpStrength;
 
-	};
+        ///
+        ///
+        ///
+        Command mFireCommand;
+
+        /// Is character firing
+        ///
+        /// Marked true if firing
+        bool mIsFiring;
+
+        ///  
+        ///
+        /// Firing cooldown
+        sf::Time mFireCountdown;
+
+        ///
+        ///
+        /// Firing rate
+        int mFireRateLevel;
+
+    };
 
 }
 

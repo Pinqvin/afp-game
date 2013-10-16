@@ -56,29 +56,34 @@ void AFP::SceneNode::drawCurrent(sf::RenderTarget&,
 }
 
 /// Update all the nodes
-void AFP::SceneNode::update(sf::Time dt)
+void AFP::SceneNode::update(sf::Time dt, CommandQueue& commands)
 {
-    updateCurrent(dt);
-    updateChildren(dt);
+    updateCurrent(dt, commands);
+    updateChildren(dt, commands);
 
 }
 
 
-void AFP::SceneNode::updateCurrent(sf::Time)
+void AFP::SceneNode::updateCurrent(sf::Time, CommandQueue&)
 {
     /// Do nothing by default
 
 }
 
 /// Update all the children
-void AFP::SceneNode::updateChildren(sf::Time dt)
+void AFP::SceneNode::updateChildren(sf::Time dt, CommandQueue& commands)
 {
     for (const Ptr& child : mChildren)
     {
-        child->update(dt);
+        child->update(dt, commands);
 
     }
 
+}
+
+sf::Vector2f AFP::SceneNode::getWorldPosition() const
+{
+	return getWorldTransform() * sf::Vector2f();
 }
 
 /// Return the transformation relative to world. sf::Transform
@@ -126,3 +131,8 @@ void AFP::SceneNode::onCommand(const Command& command, sf::Time dt)
 
 }
 
+/// Return position of the parent
+sf::Vector2f AFP::SceneNode::getParentPosition()
+{
+    return mParent->getPosition();
+}
