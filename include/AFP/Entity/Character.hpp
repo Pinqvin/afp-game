@@ -60,7 +60,7 @@ namespace AFP
 
         /// Teleport
         ///
-        /// Teleports the hero to target location
+        /// Setis mIsTeleporting true
         void teleport(sf::Vector2f target);
 
         /// Set mouse translation
@@ -98,6 +98,12 @@ namespace AFP
             Projectile::Type type, float xOffset, 
             float yOffset, const TextureHolder& textures);
 
+        /// Teleport character
+        ///
+        /// Moves character to target position
+        void teleportCharacter(SceneNode& node,
+            const TextureHolder& textures);
+
     private:
         /// Character type
         ///
@@ -120,10 +126,25 @@ namespace AFP
         ///
         Command mFireCommand;
 
+        /// Command for teleporting
+        ///
+        ///
+        Command mTeleportCommand;
+
         /// Is character firing
         ///
         /// Marked true if firing
         bool mIsFiring;
+
+        /// Is character teleporting
+        ///
+        ///
+        bool mIsTeleporting;
+
+        /// Teleporting target
+        ///
+        /// Target position to teleport
+        b2Vec2 mTeleportTarget;
 
         /// Firing angle
         /// 

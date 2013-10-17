@@ -68,6 +68,7 @@ void AFP::World::buildScene()
 
     mPlayerCharacter->createCharacter(mWorldBox, mSpawnPosition.x, mSpawnPosition.y);
     mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
+    cameraPosition = mPlayerCharacter->getPosition();
 
     mSceneLayers[Foreground]->attachChild(std::move(leader));
 
@@ -139,29 +140,12 @@ void AFP::World::draw()
 void AFP::World::update(sf::Time dt)
 {
 
-    /// Moves world view depending on player position
-    sf::Vector2f cameraPosition = mPlayerCharacter->getPosition();
-
-    // If position is too close to world boundaries, camera is not moved
-    if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
-        cameraPosition.x = mWorldView.getSize().x / 2;
-    } else if ( cameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
-        cameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
-    }
-
-    if ( cameraPosition.y < (mWorldView.getSize().y / 2) ) {
-        cameraPosition.y = mWorldView.getSize().y / 2;
-    } else if ( cameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
-        cameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
-    }
-
-    mWorldView.setCenter(cameraPosition);
+    moveCamera();
 
     // Calculate mouse translation and pass it to player character
     sf::Vector2f viewCenter = mWorldView.getCenter();
     sf::Vector2f halfExtents = mWorldView.getSize() / 2.0f;
     sf::Vector2f translation = viewCenter - halfExtents;
-
     mPlayerCharacter->setMouseTranslation(translation);
 
     /// Forward commands to the scene graph
@@ -185,3 +169,28 @@ AFP::CommandQueue& AFP::World::getCommandQueue()
     return mCommandQueue;
 
 }
+
+void AFP::World::moveCamera()
+{
+    // Moves world view depending on player position
+    sf::Vector2f playerPosition = mPlayerCharacter->getPosition();
+
+    // Moves camera smoothly
+    cameraPosition += (playerPosition - cameraPosition) / CAMERA_SPEED;
+
+    // If position is too close to world boundaries, camera is not moved
+    if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
+        cameraPosition.x = mWorldView.getSize().x / 2;
+    } else if ( cameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
+        cameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
+    }
+
+    if ( cameraPosition.y < (mWorldView.getSize().y / 2) ) {
+        cameraPosition.y = mWorldView.getSize().y / 2;
+    } else if ( cameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
+        cameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
+    }
+
+    mWorldView.setCenter(cameraPosition);
+}
+

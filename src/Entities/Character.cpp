@@ -28,17 +28,23 @@ AFP::Textures::ID toTextureId(AFP::Character::Type type)
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
     mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
-    mIsFiring(false), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
-    mFireCommand(), mFireRateLevel(1)
+    mIsFiring(false), mIsTeleporting(false), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
+    mFireCommand(), mTeleportCommand(), mFireRateLevel(1)
 {
-    /// Align the origin to the center of the texture
+    // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
     mFireCommand.category = Category::PlayerCharacter;
-    /// Create the fire command
+    mTeleportCommand.category = Category::PlayerCharacter;
+    // Create the fire command
     mFireCommand.action = [this, &textures] (SceneNode& node, sf::Time) {
         createBullets(node, textures);
+    };
+
+    // Create the teleport command
+    mTeleportCommand.action = [this, &textures] (SceneNode& node, sf::Time) {
+        teleportCharacter(node, textures);
     };
 
 }
@@ -116,18 +122,18 @@ void AFP::Character::fire(sf::Vector2f target)
 
 }
 
+/// Set teleporting flag true
 void AFP::Character::teleport(sf::Vector2f target)
 {
+    mIsTeleporting = true;
+
     // Apply mouse translation
     target.x += mMouseTranslation.x;
     target.y += mMouseTranslation.y;
 
-    b2Vec2 tar;
-    tar.x = target.x;
-    tar.y = target.y;
+    mTeleportTarget.x = target.x;
+    mTeleportTarget.y = target.y;
 
-    /// Move the player body to target position
-    setBodyPosition(tar);
 }
 
 /// Set mouse translation
@@ -166,10 +172,18 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
         commands.push(mFireCommand);
         mFireCountdown += sf::seconds(1.f / (mFireRateLevel+1));
         mIsFiring = false;
+
     }
     else if (mFireCountdown > sf::Time::Zero)
     {
         mFireCountdown -= dt;
+    }
+
+    if (mIsTeleporting)
+    {
+        commands.push(mTeleportCommand);
+        mIsTeleporting = false;
+
     }
 
 }
@@ -207,4 +221,12 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
     /// Attach node to this character
     node.attachChild(std::move(projectile));
 
+}
+
+/// Teleport character
+void AFP::Character::teleportCharacter(SceneNode& node,
+                                       const TextureHolder& textures)
+{
+    /// Move the player body to target position
+    setBodyPosition(mTeleportTarget);
 }

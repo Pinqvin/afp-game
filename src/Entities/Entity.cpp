@@ -128,6 +128,7 @@ void AFP::Entity::setBodyPosition(b2Vec2 target)
     target.x /= AFP::PTM_RATIO;
     target.y /= AFP::PTM_RATIO;
     mBody->SetTransform(target, 0);
+    mBody->SetAwake(true);
 }
 
 /// Return pointer to world

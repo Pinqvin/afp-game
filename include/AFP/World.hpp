@@ -68,6 +68,12 @@ namespace AFP
             /// Build the Box2D world.
             void createWorld();
 
+            /// Move camera
+            ///
+            /// Moves the camera towards the player
+            void moveCamera();
+
+    private:
             /// Divite the draws to two different categories: background
             /// (the area the player can't interract with) and foreground
             ///
@@ -148,6 +154,11 @@ namespace AFP
 
             /// @brief Debug mode draws additional information like Box2D visualizations
             bool mDebugMode;
+
+            /// Camera position
+            ///
+            /// Camera position in a 2D-vector
+            sf::Vector2f cameraPosition;
 
     };
 

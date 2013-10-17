@@ -24,5 +24,8 @@ namespace AFP
     /// Time per frame. Fixed to 60fps
     const float UPDATE_PER_FRAME = 1.f / 60.f;
 
+    /// Camera speed
+    const float CAMERA_SPEED = 20.f;
+
 }
 
