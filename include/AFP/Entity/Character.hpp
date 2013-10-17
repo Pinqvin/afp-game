@@ -58,6 +58,11 @@ namespace AFP
         /// will happen
         void fire(sf::Vector2f target);
 
+        /// Teleport
+        ///
+        /// Teleports the hero to target location
+        void teleport(sf::Vector2f target);
+
         /// Set mouse translation
         ///
         /// Mouse translation is used in converting

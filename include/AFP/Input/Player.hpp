@@ -31,6 +31,7 @@ namespace AFP
                 MoveRight,
                 Jump,
                 Fire,
+                Teleport,
                 ActionCount
 
             };

@@ -123,6 +123,13 @@ b2Vec2 AFP::Entity::getBodyPosition()
 
 }
 
+void AFP::Entity::setBodyPosition(b2Vec2 target)
+{
+    target.x /= AFP::PTM_RATIO;
+    target.y /= AFP::PTM_RATIO;
+    mBody->SetTransform(target, 0);
+}
+
 /// Return pointer to world
 b2World* AFP::Entity::getWorld()
 {

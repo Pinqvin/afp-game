@@ -47,6 +47,7 @@ AFP::Player::Player(): mKeyBinding(), mMouseBinding(), mActionBinding()
 
     // Set initial mouse button bindings
     mMouseBinding[sf::Mouse::Left] = Fire;
+    mMouseBinding[sf::Mouse::Right] = Teleport;
 
     /// Set initial action bindings
     initializeActions();
@@ -190,8 +191,9 @@ void AFP::Player::initializeActions()
     mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed));
     mActionBinding[Jump].action = derivedAction<Character>([] (Character& c, sf::Time) { c.jump(); });
     mActionBinding[Fire].action = derivedAction<Character>([=] (Character& c, sf::Time) {
-        c.fire(mMousePosition);
-    });
+        c.fire(mMousePosition); });
+    mActionBinding[Teleport].action = derivedAction<Character>([=] (Character& c, sf::Time) {
+        c.teleport(mMousePosition); });
 
 }
 

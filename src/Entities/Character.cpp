@@ -116,6 +116,20 @@ void AFP::Character::fire(sf::Vector2f target)
 
 }
 
+void AFP::Character::teleport(sf::Vector2f target)
+{
+    // Apply mouse translation
+    target.x += mMouseTranslation.x;
+    target.y += mMouseTranslation.y;
+
+    b2Vec2 tar;
+    tar.x = target.x;
+    tar.y = target.y;
+
+    /// Move the player body to target position
+    setBodyPosition(tar);
+}
+
 /// Set mouse translation
 void AFP::Character::setMouseTranslation(sf::Vector2f translation)
 {

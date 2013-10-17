@@ -52,6 +52,11 @@ namespace AFP
         /// Return body position in meters.
         b2Vec2 getBodyPosition();
 
+        /// Set position of body
+        ///
+        /// Set body position in meters.
+        void setBodyPosition(b2Vec2 target);
+
         /// Return world pointer
         ///
         ///
