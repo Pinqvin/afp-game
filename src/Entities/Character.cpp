@@ -28,8 +28,9 @@ AFP::Textures::ID toTextureId(AFP::Character::Type type)
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
     mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
-    mIsFiring(false), mIsTeleporting(false), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
-    mFireCommand(), mTeleportCommand(), mFireRateLevel(1)
+    mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false), mTeleportTarget(),
+    mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
+    mFireRateLevel(1)
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -87,7 +88,7 @@ void AFP::Character::moveHorizontal(float vx)
     b2Vec2 velocity = getVelocity();
 
     /// Acceleration
-    if ( vx < 0 ) 
+    if ( vx < 0 )
     {
         velocity.x = b2Max(velocity.x - 3.0f, vx);
     } else
@@ -100,7 +101,7 @@ void AFP::Character::moveHorizontal(float vx)
 
 /// Make character jump
 void AFP::Character::jump()
-{ 
+{
     float force = mJumpStrength * getMass();
     applyImpulse(b2Vec2(0, force));
 }
@@ -200,8 +201,8 @@ void AFP::Character::createBullets(SceneNode& node, const TextureHolder& texture
 }
 
 /// Creates a projectile
-void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type, 
-                                      float xOffset, float yOffset, 
+void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
+                                      float xOffset, float yOffset,
                                       const TextureHolder& textures)
 {
     /// Make new node for projectile
@@ -224,8 +225,8 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
 }
 
 /// Teleport character
-void AFP::Character::teleportCharacter(SceneNode& node,
-                                       const TextureHolder& textures)
+void AFP::Character::teleportCharacter(SceneNode&,
+                                       const TextureHolder&)
 {
     /// Move the player body to target position
     setBodyPosition(mTeleportTarget);

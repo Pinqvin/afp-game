@@ -34,9 +34,9 @@ float AFP::Entity::getMass() const
     return mBody->GetMass();
 }
 
-void AFP::Entity::updateCurrent(sf::Time dt, CommandQueue&)
+void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
 {
-    
+
     /// Set position of entity
     sf::Vector2f position = getPosition();
     position.x -= getParentPosition().x;
@@ -66,22 +66,22 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     b2PolygonShape mDynamicBox;
     b2FixtureDef mFixtureDef;
 
-    if ( staticBody ) 
+    if ( staticBody )
     {
         mBodyDef.type = b2_staticBody;
-    } else 
+    } else
     {
         mBodyDef.type = b2_dynamicBody;
         mBodyDef.fixedRotation = true;
     }
 
     /// Enable continuous collision detection
-    if ( isProjectile ) 
+    if ( isProjectile )
     {
         mBodyDef.bullet = true;
 
-    } 
-        
+    }
+
     /// Convert to meters
     posX /= AFP::PTM_RATIO;
     posY /= AFP::PTM_RATIO;
