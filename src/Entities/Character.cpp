@@ -7,6 +7,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include <iostream>
+
 /// Return texture based on the type
 AFP::Textures::ID toTextureId(AFP::Character::Type type)
 {
@@ -119,6 +121,14 @@ void AFP::Character::fire(sf::Vector2f target)
     // character
     target.x -= getPosition().x;
     target.y -= getPosition().y;
+
+    // Make target into a direction vector
+    float length = sqrt(pow(target.x,2) + pow(target.y,2));
+    target /= length;
+
+    std::cout << length << " " << target.x << " " << target.y << std::endl;
+
+
     mFireTarget = target;
 
 }
@@ -196,7 +206,7 @@ void AFP::Character::createBullets(SceneNode& node, const TextureHolder& texture
     // Calculate offset using target so projectile is created in correct
     // place. For example when shooting up the projectile is created
     // on top of the character.
-    createProjectile(node, Projectile::Bullet, 0.0f, -16.0f, textures);
+    createProjectile(node, Projectile::Bullet, mFireTarget.x * 16.0f, mFireTarget.y * 32.0f, textures);
 
 }
 

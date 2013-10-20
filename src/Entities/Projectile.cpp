@@ -57,8 +57,7 @@ void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, s
     case AFP::Projectile::Bullet:
         createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 10.0f, false, false);
         // Amount of force
-        target.x *= 0.4f;
-        target.y *= 0.4f;
+        target *= 100.0f;
         // Apply impulse to bullet
         applyImpulse(b2Vec2(target.x, target.y));
         break;
