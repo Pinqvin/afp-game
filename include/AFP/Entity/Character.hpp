@@ -104,6 +104,11 @@ namespace AFP
         void teleportCharacter(SceneNode& node,
             const TextureHolder& textures);
 
+        /// Logic when colliding with something
+        ///
+        /// 
+        void startContact();
+
     private:
         /// Character type
         ///

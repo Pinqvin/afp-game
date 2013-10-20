@@ -241,3 +241,8 @@ void AFP::Character::teleportCharacter(SceneNode&,
     /// Move the player body to target position
     setBodyPosition(mTeleportTarget);
 }
+
+///testing
+void AFP::Character::startContact(){
+    jump();
+}

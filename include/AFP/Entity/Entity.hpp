@@ -62,6 +62,12 @@ namespace AFP
         ///
         b2World* getWorld();
 
+        /// Start Contact
+        ///
+        /// Logic applied when entity is in contact with something
+        virtual void startContact();
+
+
     protected:
         /// Update the movement
         ///

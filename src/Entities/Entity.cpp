@@ -89,6 +89,9 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     mBodyDef.position.Set(posX, posY);
     mBody = world->CreateBody(&mBodyDef);
 
+    ///set this entity in the body's user data
+    mBody->SetUserData( this ); 
+
     mDynamicBox.SetAsBox(sizeX / 2.f, sizeY / 2.f);
 
     mFixtureDef.shape = &mDynamicBox;
@@ -137,3 +140,11 @@ b2World* AFP::Entity::getWorld()
     return mBody->GetWorld();
 
 }
+
+///empty implementation of a virtual function
+void AFP::Entity::startContact()
+{
+
+}
+
+
