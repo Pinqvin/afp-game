@@ -15,8 +15,9 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/NonCopyable.hpp>
+#include <TmxParser/Tmx.h>
 #include <Box2D/Box2D.h>
-#include <array>
+#include <vector>
 
 /// Forward declaration
 namespace sf
@@ -73,19 +74,7 @@ namespace AFP
             /// Moves the camera towards the player
             void moveCamera();
 
-    private:
-            /// Divite the draws to two different categories: background
-            /// (the area the player can't interract with) and foreground
-            ///
-            /// LayerCount isn't used to differentiate layers, it's used to
-            /// keep a count of the different layers.
-            enum Layer
-            {
-                Background,
-                Foreground,
-                LayerCount
-            };
-
+        private:
             /// Reference to the render window
             ///
             /// Used to draw all the scene nodes
@@ -110,7 +99,11 @@ namespace AFP
             /// Differentiate scene nodes by their layer
             ///
             ///
-            std::array<SceneNode*, LayerCount> mSceneLayers;
+            std::vector<SceneNode*> mSceneLayers;
+
+            /// @brief Map file holds all the physical boundaries of the map,
+            /// all the objects, tile layers and their positions
+            Tmx::Map mMap;
 
             /// Defines the world bounds
             ///

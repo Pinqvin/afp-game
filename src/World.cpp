@@ -5,14 +5,14 @@
 #include <AFP/Utility.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <Box2D/Common/b2Draw.h>
+#include <iostream>
 
 /// Constructor
 AFP::World::World(sf::RenderWindow& window):
     mWindow(window), mWorldView(window.getDefaultView()),
-    mTextures(), mSceneGraph(), mSceneLayers(),
-    mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 4, mWorldView.getSize().y * 2),
-    mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
-    mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
+    mTextures(), mSceneGraph(), mSceneLayers(), mMap(),
+    mWorldBounds(), mSpawnPosition(), mScrollSpeed(-50.f),
+    mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
     mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true)
 {
 
@@ -35,12 +35,19 @@ void AFP::World::loadTextures()
 
 }
 
-/// Build the scene depicted by the world
+/// Build the scene depicted by the world. Parses the map file to build
+/// the scene properly
 void AFP::World::buildScene()
 {
+    mMap.ParseFile("Maps/lol.tmx");
+
     /// Initialize the different scene layers
-    for (std::size_t i = 0; i < LayerCount; ++i)
+    for (int i = 0; i < mMap.GetNumTilesets(); ++i)
     {
+        const Tmx::Tileset* tileset = mMap.GetTileset(i);
+
+        std::cout << tileset->GetName() << std::endl;
+
         SceneNode::Ptr layer(new SceneNode());
         mSceneLayers[i] = layer.get();
 
@@ -60,7 +67,7 @@ void AFP::World::buildScene()
     backgroundSprite->setPosition(
         mWorldBounds.left,
         mWorldBounds.top);
-    mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
+    mSceneLayers[0]->attachChild(std::move(backgroundSprite));
 
     /// Set the player to the world
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
@@ -70,7 +77,7 @@ void AFP::World::buildScene()
     mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
     cameraPosition = mPlayerCharacter->getPosition();
 
-    mSceneLayers[Foreground]->attachChild(std::move(leader));
+    mSceneLayers[mSceneLayers.size() - 1]->attachChild(std::move(leader));
 
     /// Create a test tile in box2D world
     std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
@@ -78,7 +85,7 @@ void AFP::World::buildScene()
     testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f, AFP::Tile::Type::Grass);
     testTile->setPosition(testTile->getPosition());
 
-    mSceneLayers[Foreground]->attachChild(std::move(testTile));
+    mSceneLayers[mSceneLayers.size() - 1]->attachChild(std::move(testTile));
 }
 
 /// Create the physics world
@@ -91,7 +98,7 @@ void AFP::World::createWorld()
     b2EdgeShape groundBox;
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &groundBox;
-    
+
     bodyDef.position.Set(0, 0);
     mGroundBody = mWorldBox->CreateBody(&bodyDef);
 
