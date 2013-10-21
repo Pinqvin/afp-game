@@ -16,5 +16,33 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
         static_cast<Entity*>(bodyBUserData)->startContact();
     }
 
+    void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+    //if fixtureA is the character's foot sensor
+    if (fixtureUserData)
+    {
+        static_cast<Character*>(fixtureUserData)->startFootContact();
+    }
+
+    fixtureUserData = contact->GetFixtureB()->GetUserData();
+    //if fixtureB is the character's foot sensor
+    if (fixtureUserData)
+    {
+        static_cast<Character*>(fixtureUserData)->startFootContact();
+    }
+}
+
+void AFP::ContactListener::EndContact(b2Contact* contact)
+{
+    void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+    if (fixtureUserData)
+    {
+        static_cast<Character*>(fixtureUserData)->endFootContact();
+    }
+
+    fixtureUserData = contact->GetFixtureB()->GetUserData();
+    if (fixtureUserData)
+    {
+        static_cast<Character*>(fixtureUserData)->endFootContact();
+    }
 }
 

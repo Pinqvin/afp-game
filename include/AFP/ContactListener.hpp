@@ -17,8 +17,13 @@ namespace AFP
 
         /// Contact handler
         ///
-        /// Called when two bodies contact
+        /// Called when two fixtures contact
         void BeginContact(b2Contact* contact);
+
+        /// Contact handler
+        ///
+        /// Called when contact ends
+        void EndContact(b2Contact* contact);
 
     };
 

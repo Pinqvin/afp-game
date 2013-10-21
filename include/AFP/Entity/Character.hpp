@@ -69,6 +69,16 @@ namespace AFP
         /// view coordinates to world coordinates
         void setMouseTranslation(sf::Vector2f translation);
 
+        /// Character can jump
+        ///
+        /// set mCanJump to true
+        void startFootContact();
+
+        /// Character can't jump
+        ///
+        /// set mCanJump to false
+        void endFootContact();
+
     private:
         /// Draw character sprite
         ///
@@ -114,6 +124,12 @@ namespace AFP
         /// Called when character comes in contact with
         /// something.
         void startContact();
+
+        /// Foot sensor for jump check
+        ///
+        /// Create a sensor box beneath the character that helps 
+        /// deciding whether character can jump or not
+        void createFootSensor();
 
     private:
         /// Character type
@@ -178,6 +194,11 @@ namespace AFP
         ///
         /// Firing rate
         int mFireRateLevel;
+
+        ///
+        ///
+        /// Is the character on the ground?
+        int mFootContacts;
 
     };
 

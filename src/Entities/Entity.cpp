@@ -58,7 +58,7 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
 /// Create body
 void AFP::Entity::createBody(b2World* world, float posX, float posY,
                              float sizeX, float sizeY, float density,
-                             float friction, bool staticBody, bool isProjectile)
+                             float friction, bool isCharacter, bool staticBody, bool isProjectile)
 {
 
     b2BodyDef mBodyDef;
@@ -97,6 +97,16 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     mFixtureDef.density = density;
     mFixtureDef.friction = friction;
     mBody->CreateFixture(&mFixtureDef);
+
+    if(isCharacter)
+    {
+      ///add foot sensor fixture
+      mDynamicBox.SetAsBox(0.3, 0.3, b2Vec2(0, 1), 0);
+      mFixtureDef.isSensor = true;
+      b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
+      ///set pointer to this entity in it's footsensor
+      footSensorFixture->SetUserData( this );
+    }
 
 }
 

@@ -32,7 +32,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
     mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false), mTeleportTarget(),
     mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
-    mFireRateLevel(1)
+    mFireRateLevel(1), mFootContacts(0)
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -73,10 +73,10 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
     switch (mType)
     {
     case AFP::Character::Player:
-        createBody(world, posX, posY, 1.0f, 2.0f, 20.0f, 0.7f);
+        createBody(world, posX, posY, 1.0f, 2.0f, 20.0f, 0.7f, true);
         break;
     case AFP::Character::Enemy:
-        createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.3f);
+        createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.3f, true);
         break;
     default:
         break;
@@ -104,8 +104,11 @@ void AFP::Character::moveHorizontal(float vx)
 /// Make character jump
 void AFP::Character::jump()
 {
-    float force = mJumpStrength * getMass();
-    applyImpulse(b2Vec2(0, force));
+    if (mFootContacts > 0)
+    {
+        float force = mJumpStrength * getMass();
+        applyImpulse(b2Vec2(0, force));
+    }
 }
 
 /// Set firing flag true
@@ -250,3 +253,14 @@ void AFP::Character::teleportCharacter(SceneNode&,
 void AFP::Character::startContact()
 {
 }
+
+void AFP::Character::startFootContact()
+{
+    mFootContacts++;
+}
+
+void AFP::Character::endFootContact()
+{
+    mFootContacts--;
+}
+
