@@ -40,12 +40,23 @@ namespace AFP
         virtual void updateCurrent(sf::Time dt, 
             CommandQueue& commands);
 
+        /// Get body type
+        ///
+        /// Return ProjectileBody
+        AFP::BodyType getEntityType();
+
         /// Creates a projectile
         ///
         /// Create a projectile based on projectile type.
         void createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type);
 
     private:
+
+        /// Projectile contact
+        ///
+        /// Called when projectile comes in contact with
+        /// something.
+        void startContact();
 
         /// Tile type
         ///

@@ -126,9 +126,6 @@ void AFP::Character::fire(sf::Vector2f target)
     float length = sqrt(pow(target.x,2) + pow(target.y,2));
     target /= length;
 
-    std::cout << length << " " << target.x << " " << target.y << std::endl;
-
-
     mFireTarget = target;
 
 }
@@ -172,6 +169,13 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     setVelocity(velocity);
 
     Entity::updateCurrent(dt, commands);
+
+}
+
+/// Return body type
+AFP::BodyType AFP::Character::getEntityType()
+{
+    return AFP::CharacterBody;
 
 }
 
@@ -242,7 +246,7 @@ void AFP::Character::teleportCharacter(SceneNode&,
     setBodyPosition(mTeleportTarget);
 }
 
-///testing
-void AFP::Character::startContact(){
-    jump();
+// Handle contact
+void AFP::Character::startContact()
+{
 }

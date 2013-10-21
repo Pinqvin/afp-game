@@ -6,6 +6,7 @@
 #pragma once
 
 #include <AFP/Scene/SceneNode.hpp>
+#include <AFP/Utility.hpp>
 
 namespace AFP
 {
@@ -65,7 +66,12 @@ namespace AFP
         /// Start Contact
         ///
         /// Logic applied when entity is in contact with something
-        virtual void startContact();
+        virtual void startContact() = 0;
+
+        /// Get entity type
+        ///
+        /// Return type of entity
+        virtual AFP::BodyType getEntityType() = 0;
 
 
     protected:

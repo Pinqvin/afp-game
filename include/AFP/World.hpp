@@ -11,6 +11,7 @@
 #include <AFP/Entity/Tile.hpp>
 #include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Debug/BoxDebugDraw.hpp>
+#include <AFP/ContactListener.hpp>
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -158,7 +159,12 @@ namespace AFP
             /// Camera position
             ///
             /// Camera position in a 2D-vector
-            sf::Vector2f cameraPosition;
+            sf::Vector2f mCameraPosition;
+
+            /// Contact listener
+            ///
+            /// Contact listener instance
+            AFP::ContactListener mContactListener;
 
     };
 

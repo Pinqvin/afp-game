@@ -12,6 +12,13 @@ namespace sf
 
 namespace AFP
 {
+    enum BodyType
+    {
+        CharacterBody,
+        TileBody,
+        ProjectileBody
+    };
+
     /// Centers a sprite to its origin
     void centerOrigin(sf::Sprite& sprite);
 

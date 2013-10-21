@@ -1,7 +1,6 @@
 /// Implementation for entity
 
 #include <AFP/Entity/Entity.hpp>
-#include <AFP/Utility.hpp>
 #include <iostream>
 
 AFP::Entity::Entity(void):
@@ -138,12 +137,6 @@ void AFP::Entity::setBodyPosition(b2Vec2 target)
 b2World* AFP::Entity::getWorld()
 {
     return mBody->GetWorld();
-
-}
-
-///empty implementation of a virtual function
-void AFP::Entity::startContact()
-{
 
 }
 

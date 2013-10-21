@@ -81,6 +81,11 @@ namespace AFP
         ///
         virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
+        /// Get body type
+        ///
+        /// Return CharacterBody
+        AFP::BodyType getEntityType();
+
         /// Check projectile launch
         ///
         /// Contains cooldown calculation for firing.
@@ -104,9 +109,10 @@ namespace AFP
         void teleportCharacter(SceneNode& node,
             const TextureHolder& textures);
 
-        /// Logic when colliding with something
+        /// Character contact
         ///
-        /// 
+        /// Called when character comes in contact with
+        /// something.
         void startContact();
 
     private:

@@ -42,6 +42,13 @@ void AFP::Tile::drawCurrent(sf::RenderTarget& target,
 
 }
 
+/// Return body type
+AFP::BodyType AFP::Tile::getEntityType()
+{
+    return AFP::TileBody;
+
+}
+
 /// Creates a tile
 void AFP::Tile::createTile(b2World* world, float posX, float posY, Type type)
 {
@@ -60,4 +67,9 @@ void AFP::Tile::createTile(b2World* world, float posX, float posY, Type type)
         break;
     }
 
+}
+
+// Handle contact
+void AFP::Tile::startContact()
+{
 }

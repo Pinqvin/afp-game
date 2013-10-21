@@ -49,6 +49,13 @@ void AFP::Projectile::updateCurrent(sf::Time dt, CommandQueue& commands)
     Entity::updateCurrent(dt, commands);
 }
 
+/// Return body type
+AFP::BodyType AFP::Projectile::getEntityType()
+{
+    return AFP::ProjectileBody;
+
+}
+
 /// Creates a projectile
 void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type)
 {
@@ -66,3 +73,7 @@ void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, s
     }
 }
 
+// Handle contact
+void AFP::Projectile::startContact()
+{
+}

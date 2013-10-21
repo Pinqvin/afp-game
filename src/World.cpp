@@ -68,7 +68,7 @@ void AFP::World::buildScene()
 
     mPlayerCharacter->createCharacter(mWorldBox, mSpawnPosition.x, mSpawnPosition.y);
     mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
-    cameraPosition = mPlayerCharacter->getPosition();
+    mCameraPosition = mPlayerCharacter->getPosition();
 
     mSceneLayers[Foreground]->attachChild(std::move(leader));
 
@@ -86,6 +86,9 @@ void AFP::World::createWorld()
 {
     b2Vec2 gravity(0.0f, 90.8f);
     mWorldBox = new b2World(gravity);
+
+    // Set up contact listener
+    mWorldBox->SetContactListener(&mContactListener);
 
     b2BodyDef bodyDef;
     b2EdgeShape groundBox;
@@ -176,21 +179,21 @@ void AFP::World::moveCamera()
     sf::Vector2f playerPosition = mPlayerCharacter->getPosition();
 
     // Moves camera smoothly
-    cameraPosition += (playerPosition - cameraPosition) / CAMERA_SPEED;
+    mCameraPosition += (playerPosition - mCameraPosition) / CAMERA_SPEED;
 
     // If position is too close to world boundaries, camera is not moved
-    if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
-        cameraPosition.x = mWorldView.getSize().x / 2;
-    } else if ( cameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
-        cameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
+    if ( mCameraPosition.x < (mWorldView.getSize().x / 2) ) {
+        mCameraPosition.x = mWorldView.getSize().x / 2;
+    } else if ( mCameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
+        mCameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
     }
 
-    if ( cameraPosition.y < (mWorldView.getSize().y / 2) ) {
-        cameraPosition.y = mWorldView.getSize().y / 2;
-    } else if ( cameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
-        cameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
+    if ( mCameraPosition.y < (mWorldView.getSize().y / 2) ) {
+        mCameraPosition.y = mWorldView.getSize().y / 2;
+    } else if ( mCameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
+        mCameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
     }
 
-    mWorldView.setCenter(cameraPosition);
+    mWorldView.setCenter(mCameraPosition);
 }
 
