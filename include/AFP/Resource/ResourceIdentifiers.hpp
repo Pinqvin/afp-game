@@ -24,7 +24,8 @@ namespace AFP
             Desert,
             TitleScreen,
             GrassTile,
-            Bullet
+            Bullet,
+            Coin
         };
 
     }

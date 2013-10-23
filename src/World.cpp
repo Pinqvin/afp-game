@@ -32,6 +32,7 @@ void AFP::World::loadTextures()
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
     mTextures.load(Textures::GrassTile, "Media/Textures/Grass.png");
     mTextures.load(Textures::Bullet, "Media/Textures/Grass.png");
+    mTextures.load(Textures::Coin, "Media/Textures/Coin.png");
 
 }
 
@@ -79,6 +80,15 @@ void AFP::World::buildScene()
     testTile->setPosition(testTile->getPosition());
 
     mSceneLayers[Foreground]->attachChild(std::move(testTile));
+
+
+    /// Create a test coin in box2D world
+    std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
+
+    testCoin->createCollectable(mWorldBox, mSpawnPosition.x + 64.f, 800.f, AFP::Collectable::Type::Coin);
+    testCoin->setPosition(testCoin->getPosition());
+
+    mSceneLayers[Foreground]->attachChild(std::move(testCoin));
 }
 
 /// Create the physics world

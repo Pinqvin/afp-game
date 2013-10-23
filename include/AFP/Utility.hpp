@@ -16,7 +16,8 @@ namespace AFP
     {
         CharacterBody,
         TileBody,
-        ProjectileBody
+        ProjectileBody,
+        CollectableBody
     };
 
     /// Centers a sprite to its origin

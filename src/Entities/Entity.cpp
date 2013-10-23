@@ -58,7 +58,7 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
 /// Create body
 void AFP::Entity::createBody(b2World* world, float posX, float posY,
                              float sizeX, float sizeY, float density,
-                             float friction, bool isCharacter, bool staticBody, bool isProjectile)
+                             float friction, bool isCharacter, bool staticBody, bool isProjectile, bool isCollectable)
 {
 
     b2BodyDef mBodyDef;
@@ -81,27 +81,36 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 
     }
 
+    ///make the fixture a sensor, so it won't collide with anything in the world
+    if(isCollectable)
+    {
+        mFixtureDef.isSensor = true;
+    }
+
+
     /// Convert to meters
     posX /= AFP::PTM_RATIO;
     posY /= AFP::PTM_RATIO;
 
     mBodyDef.position.Set(posX, posY);
+
     mBody = world->CreateBody(&mBodyDef);
 
     ///set this entity in the body's user data
     mBody->SetUserData( this ); 
 
     mDynamicBox.SetAsBox(sizeX / 2.f, sizeY / 2.f);
-
+    
+        
     mFixtureDef.shape = &mDynamicBox;
     mFixtureDef.density = density;
-    mFixtureDef.friction = friction;
+    mFixtureDef.friction = friction;
     mBody->CreateFixture(&mFixtureDef);
 
     if(isCharacter)
     {
       ///add foot sensor fixture
-      mDynamicBox.SetAsBox(0.3, 0.3, b2Vec2(0, 1), 0);
+      mDynamicBox.SetAsBox(sizeX/2.f-0.2f, 0.3, b2Vec2(0, sizeY/2.f), 0);
       mFixtureDef.isSensor = true;
       b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
       ///set pointer to this entity in it's footsensor

@@ -41,7 +41,8 @@ namespace AFP
         ///
         void createBody(b2World* world, float posX, float posY,
             float sizeX, float sizeY, float density,
-            float friction, bool isCharacter = false, bool staticBody = false, bool isProjectile = false );
+            float friction, bool isCharacter = false, bool staticBody = false, 
+            bool isProjectile = false, bool isCollectable = false);
 
         /// Return position of body
         ///
