@@ -79,6 +79,11 @@ namespace AFP
         /// set mCanJump to false
         void endFootContact();
 
+        /// Return true if marked for removal
+        ///
+        ///
+        bool isMarkedForRemoval();
+
     private:
         /// Draw character sprite
         ///
@@ -199,6 +204,11 @@ namespace AFP
         ///
         /// Is the character on the ground?
         int mFootContacts;
+
+        /// Is marked for removal
+        ///
+        /// Set to true when character can be removed from the game.
+        bool mIsMarkedForRemoval;
 
     };
 

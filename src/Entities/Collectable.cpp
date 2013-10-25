@@ -23,7 +23,7 @@ AFP::Textures::ID toTextureId(AFP::Collectable::Type type)
 }
 
 AFP::Collectable::Collectable(Type type, const TextureHolder& textures):
-    mType(type), mSprite(textures.get(toTextureId(type)))
+    Entity(1), mType(type), mSprite(textures.get(toTextureId(type)))
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();

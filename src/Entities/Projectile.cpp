@@ -27,7 +27,7 @@ AFP::Textures::ID toTextureId(AFP::Projectile::Type type)
 
 /// Constructor
 AFP::Projectile::Projectile(Type type, const TextureHolder& textures):
-    mType(type), mSprite(textures.get(toTextureId(type)))
+    Entity(1), mType(type), mSprite(textures.get(toTextureId(type)))
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -46,6 +46,8 @@ void AFP::Projectile::drawCurrent(sf::RenderTarget& target,
 /// Update projectile
 void AFP::Projectile::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
+    // Projectile moves at constant speed
+    setVelocity(mTarget);
     Entity::updateCurrent(dt, commands);
 }
 
@@ -59,21 +61,36 @@ AFP::BodyType AFP::Projectile::getEntityType()
 /// Creates a projectile
 void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type)
 {
+    
+    // Make target into a direction vector
+    float length = sqrt(pow(target.x,2) + pow(target.y,2));
+    target /= length;
+
+    mTarget = b2Vec2(target.x, target.y);
+
+    // Speed
+    mTarget *= 40.0f;
+
     switch(type)
     {
     case AFP::Projectile::Bullet:
-        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 10.0f, false, false);
-        // Amount of force
-        target *= 100.0f;
-        // Apply impulse to bullet
-        applyImpulse(b2Vec2(target.x, target.y));
+        // Create body for bullet and apply velocity
+        createBody(world, posX, posY, 0.2f, 0.2f, 1.0f, 0.0f, false, false, true);
+        setVelocity(mTarget);
         break;
     default:
         break;
     }
+
+    // Save target to maintain constant speed
+    // or maintain target in case of a homing missile
+
+
 }
 
-// Handle contact
+/// Handle contact
 void AFP::Projectile::startContact()
 {
+    // Projectiles are destroyed on collision
+    destroy();
 }

@@ -29,10 +29,10 @@ AFP::Textures::ID toTextureId(AFP::Character::Type type)
 
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
-    mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
+    Entity(1), mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
     mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false), mTeleportTarget(),
     mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
-    mFireRateLevel(1), mFootContacts(0)
+    mFireRateLevel(5), mFootContacts(0), mIsMarkedForRemoval(false)
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -125,9 +125,6 @@ void AFP::Character::fire(sf::Vector2f target)
     target.x -= getPosition().x;
     target.y -= getPosition().y;
 
-    // Make target into a direction vector
-    float length = sqrt(pow(target.x,2) + pow(target.y,2));
-    target /= length;
 
     mFireTarget = target;
 
@@ -206,14 +203,22 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 
 }
 
-/// Create many bullets
+/// Create bullets
 void AFP::Character::createBullets(SceneNode& node, const TextureHolder& textures)
 {
     // TODO:
     // Calculate offset using target so projectile is created in correct
     // place. For example when shooting up the projectile is created
     // on top of the character.
-    createProjectile(node, Projectile::Bullet, mFireTarget.x * 16.0f, mFireTarget.y * 32.0f, textures);
+
+    sf::Vector2f offset = mFireTarget;
+    float length = sqrt(pow(offset.x,2) + pow(offset.y,2));
+    offset /= length;
+
+    offset.x *= 16.0f;
+    offset.y *= 32.0f;
+
+    createProjectile(node, Projectile::Bullet, offset.x, offset.y, textures);
 
 }
 
@@ -263,4 +268,3 @@ void AFP::Character::endFootContact()
 {
     mFootContacts--;
 }
-

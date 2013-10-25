@@ -3,10 +3,9 @@
 #include <AFP/Entity/Entity.hpp>
 #include <iostream>
 
-AFP::Entity::Entity(void):
-    mBody()
+AFP::Entity::Entity(int hitpoints):
+    mBody(), mHitpoints(hitpoints)
 {
-
 }
 
 /// Set velocity of mBody
@@ -21,10 +20,16 @@ void AFP::Entity::applyImpulse(b2Vec2 impulse)
     mBody->ApplyLinearImpulse(impulse, mBody->GetWorldCenter() );
 }
 
+/// Applies force to mBody
+void AFP::Entity::applyForce(b2Vec2 force)
+{
+    mBody->ApplyForce(force, mBody->GetWorldCenter());
+}
+
 /// Return velocty of mBody
 b2Vec2 AFP::Entity::getVelocity() const
 {
-	return mBody->GetLinearVelocity();
+    return mBody->GetLinearVelocity();
 }
 
 /// Return mass of mBody
@@ -46,10 +51,10 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
     /// Print Box2D info
     if (mBody != nullptr)
     {
-        b2Vec2 position = mBody->GetPosition();
-        float32 angle = mBody->GetAngle();
-        std::cout << position.x << " " << position.y
-            << " " << angle << std::endl;
+    b2Vec2 position = mBody->GetPosition();
+    float32 angle = mBody->GetAngle();
+    std::cout << position.x << " " << position.y
+    << " " << angle << std::endl;
 
     }
     */
@@ -100,8 +105,8 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     mBody->SetUserData( this ); 
 
     mDynamicBox.SetAsBox(sizeX / 2.f, sizeY / 2.f);
-    
-        
+
+
     mFixtureDef.shape = &mDynamicBox;
     mFixtureDef.density = density;
     mFixtureDef.friction = friction;
@@ -109,18 +114,18 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 
     if(isCharacter)
     {
-      ///add foot sensor fixture
-      mDynamicBox.SetAsBox(sizeX/2.f-0.2f, 0.3, b2Vec2(0, sizeY/2.f), 0);
-      mFixtureDef.isSensor = true;
-      b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
-      ///set pointer to this entity in it's footsensor
-      footSensorFixture->SetUserData( this );
+        ///add foot sensor fixture
+        mDynamicBox.SetAsBox(sizeX/2.f-0.2f, 0.3f, b2Vec2(0, sizeY/2.f), 0);
+        mFixtureDef.isSensor = true;
+        b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
+        ///set pointer to this entity in it's footsensor
+        footSensorFixture->SetUserData( this );
     }
 
 }
 
 /// Convert position to pixels
-sf::Vector2f AFP::Entity::getPosition()
+sf::Vector2f AFP::Entity::getPosition() const
 {
     if ( mBody == NULL ) {
         return sf::Vector2f(0.f, 0.f);
@@ -138,7 +143,7 @@ sf::Vector2f AFP::Entity::getPosition()
 }
 
 /// Return body position in meters
-b2Vec2 AFP::Entity::getBodyPosition()
+b2Vec2 AFP::Entity::getBodyPosition() const
 {
     return mBody->GetPosition();
 
@@ -153,10 +158,52 @@ void AFP::Entity::setBodyPosition(b2Vec2 target)
 }
 
 /// Return pointer to world
-b2World* AFP::Entity::getWorld()
+b2World* AFP::Entity::getWorld() const
 {
     return mBody->GetWorld();
 
 }
 
+/// Return entity hitpoints
+int AFP::Entity::getHitpoints() const
+{
+    return mHitpoints;
 
+}
+
+/// Decreases hitpoints
+void AFP::Entity::damage(int points)
+{
+    assert(points > 0);
+
+    mHitpoints -= points;
+
+}
+
+/// Increases hitpoints
+void AFP::Entity::heal(int points)
+{
+    assert(points > 0);
+
+    mHitpoints += points;
+}
+
+/// Destroy entity
+void AFP::Entity::destroy()
+{
+    mHitpoints= 0;
+
+}
+
+/// Returns true if hitpoints are below or equal to zero
+bool AFP::Entity::isDestroyed() const
+{
+    return mHitpoints <= 0;
+
+}
+
+/// Destroy body
+void AFP::Entity::destroyBody()
+{
+    mBody->GetWorld()->DestroyBody(mBody);
+}

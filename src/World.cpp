@@ -6,6 +6,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <Box2D/Common/b2Draw.h>
 
+#include <iostream>
+
 /// Constructor
 AFP::World::World(sf::RenderWindow& window):
     mWindow(window), mWorldView(window.getDefaultView()),
@@ -31,7 +33,7 @@ void AFP::World::loadTextures()
     mTextures.load(Textures::Player, "Media/Textures/Rag.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
     mTextures.load(Textures::GrassTile, "Media/Textures/Grass.png");
-    mTextures.load(Textures::Bullet, "Media/Textures/Grass.png");
+    mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
     mTextures.load(Textures::Coin, "Media/Textures/Coin.png");
 
 }
@@ -81,7 +83,6 @@ void AFP::World::buildScene()
 
     mSceneLayers[Foreground]->attachChild(std::move(testTile));
 
-
     /// Create a test coin in box2D world
     std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
 
@@ -94,7 +95,7 @@ void AFP::World::buildScene()
 /// Create the physics world
 void AFP::World::createWorld()
 {
-    b2Vec2 gravity(0.0f, 90.8f);
+    b2Vec2 gravity(0.0f, GRAVITY);
     mWorldBox = new b2World(gravity);
 
     // Set up contact listener
@@ -170,6 +171,9 @@ void AFP::World::update(sf::Time dt)
 
     // Update Box2D world
     mWorldBox->Step(UPDATE_PER_FRAME, 6, 2);
+
+    // Remove destroyed entities
+    mSceneGraph.removeWrecks();
 
     // Regular update step, adapt position (correct if outside view)
     mSceneGraph.update(dt, mCommandQueue);

@@ -14,7 +14,7 @@ namespace AFP
     {
     public:
         /// @brief Constructor
-        Entity();
+        explicit Entity(int hitpoints);
 
         /// Set velocity
         ///
@@ -25,6 +25,11 @@ namespace AFP
         ///
         /// Applies an impulse to the entity
         void applyImpulse(b2Vec2 impulse);
+
+        /// Apply force
+        ///
+        /// Applies force to the entity
+        void applyForce(b2Vec2 force);
 
         /// Get velocity
         ///
@@ -47,12 +52,12 @@ namespace AFP
         /// Return position of body
         ///
         /// Converts position from meters to pixels and returns it.
-        sf::Vector2f getPosition();
+        sf::Vector2f getPosition() const;
 
         /// Return position of body
         ///
         /// Return body position in meters.
-        b2Vec2 getBodyPosition();
+        b2Vec2 getBodyPosition() const;
 
         /// Set position of body
         ///
@@ -62,7 +67,7 @@ namespace AFP
         /// Return world pointer
         ///
         ///
-        b2World* getWorld();
+        b2World* getWorld() const;
 
         /// Start Contact
         ///
@@ -74,6 +79,35 @@ namespace AFP
         /// Return type of entity
         virtual AFP::BodyType getEntityType() = 0;
 
+        /// Get hitpoints
+        ///
+        /// Return entity hitpoints
+        int getHitpoints() const;
+
+        /// Damage entity
+        ///
+        /// Decreases hitpoints
+        void damage(int points);
+
+        /// Heal entity
+        ///
+        /// Increases hitpoints
+        void heal(int points);
+
+        /// Destroy
+        ///
+        /// Destroy entity
+        void destroy();
+
+        /// Is entity destroyed
+        ///
+        /// Returns true if hitpoints are below or equal to zero
+        bool isDestroyed() const;
+
+        /// Destroy body
+        ///
+        /// Destroy Box2D body.
+        void destroyBody();
 
     protected:
         /// Update the movement
@@ -87,6 +121,12 @@ namespace AFP
         ///
         ///
         b2Body* mBody;
+
+        /// Hitpoints
+        ///
+        /// Hitpoints of the entity. Entity is destroyed when
+        /// hitpoints reach zero.
+        int mHitpoints;
 
     };
 

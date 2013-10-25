@@ -18,6 +18,7 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
 
     void* fixtureUserData = contact->GetFixtureA()->GetUserData();
     //if fixtureA is the character's foot sensor
+    // Foot sensor is the only fixture with user data
     if (fixtureUserData)
     {
         static_cast<Character*>(fixtureUserData)->startFootContact();
@@ -33,6 +34,7 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
 
 void AFP::ContactListener::EndContact(b2Contact* contact)
 {
+    // Updates jump sensor when ending contact
     void* fixtureUserData = contact->GetFixtureA()->GetUserData();
     if (fixtureUserData)
     {

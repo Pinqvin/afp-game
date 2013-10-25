@@ -35,5 +35,7 @@ namespace AFP
     /// Camera speed
     const float CAMERA_SPEED = 20.f;
 
+    const float GRAVITY = 90.8f;
+
 }
 

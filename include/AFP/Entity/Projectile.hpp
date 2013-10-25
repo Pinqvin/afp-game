@@ -68,5 +68,10 @@ namespace AFP
         ///
         sf::Sprite mSprite;
 
+        /// Projectile target
+        ///
+        /// Projectile moves towards this.
+        b2Vec2 mTarget;
+
     };
 }
