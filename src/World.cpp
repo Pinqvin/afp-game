@@ -39,14 +39,23 @@ void AFP::World::loadTextures()
 /// the scene properly
 void AFP::World::buildScene()
 {
-    mMap.ParseFile("Maps/lol.tmx");
+    mMap.ParseFile("Media/Maps/lol.tmx");
+
+    if (mMap.HasError())
+    {
+        throw std::runtime_error("World::buildScene - Map is faulty. Error: "
+             + mMap.GetErrorText());
+
+    }
+
+    mSceneLayers.resize(mMap.GetNumLayers());
 
     /// Initialize the different scene layers
-    for (int i = 0; i < mMap.GetNumTilesets(); ++i)
+    for (int i = 0; i < mMap.GetNumLayers(); ++i)
     {
-        const Tmx::Tileset* tileset = mMap.GetTileset(i);
+        const Tmx::Layer* tileLayer = mMap.GetLayer(i);
 
-        std::cout << tileset->GetName() << std::endl;
+        std::cout << tileLayer->GetName() << std::endl;
 
         SceneNode::Ptr layer(new SceneNode());
         mSceneLayers[i] = layer.get();
