@@ -20,7 +20,8 @@ namespace AFP
         ///
         ///
         enum Type {
-            Coin
+            Coin,
+            TypeCount
         };
 
         /// Constructor
@@ -34,24 +35,17 @@ namespace AFP
 		virtual void drawCurrent(sf::RenderTarget& target,
 			sf::RenderStates states) const;
 
-        /// Get body type
+        /// Get category
         ///
-        /// Return CollectableBody
-        AFP::BodyType getEntityType();
+        /// Return Collectable
+        virtual unsigned int getCategory() const;
 
         /// Creates a collectable item
         ///
         /// Create an item based on collectable type.
-        void createCollectable(b2World* world, float posX, float posY, Type type);
+        void createCollectable(b2World* world, float posX, float posY);
 
     private:
-
-        /// Collectable contact
-        ///
-        /// Called when item comes in contact with
-        /// something.
-        void startContact();
-
         /// Collectable type
         ///
         ///

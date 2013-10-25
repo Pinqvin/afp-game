@@ -14,7 +14,7 @@ AFP::World::World(sf::RenderWindow& window):
     mTextures(), mSceneGraph(), mSceneLayers(),
     mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 4, mWorldView.getSize().y * 2),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
-    mScrollSpeed(-50.f), mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
+    mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
     mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true)
 {
 
@@ -29,7 +29,7 @@ AFP::World::World(sf::RenderWindow& window):
 /// Load all the textures required for the world
 void AFP::World::loadTextures()
 {
-    mTextures.load(Textures::Enemy, "Media/Textures/Eagle.png");
+    mTextures.load(Textures::Enemy, "Media/Textures/telepolice_stopped.png");
     mTextures.load(Textures::Player, "Media/Textures/Rag.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
     mTextures.load(Textures::GrassTile, "Media/Textures/Grass.png");
@@ -78,7 +78,7 @@ void AFP::World::buildScene()
     /// Create a test tile in box2D world
     std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
 
-    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f, AFP::Tile::Type::Grass);
+    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f);
     testTile->setPosition(testTile->getPosition());
 
     mSceneLayers[Foreground]->attachChild(std::move(testTile));
@@ -86,10 +86,19 @@ void AFP::World::buildScene()
     /// Create a test coin in box2D world
     std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
 
-    testCoin->createCollectable(mWorldBox, mSpawnPosition.x + 64.f, 800.f, AFP::Collectable::Type::Coin);
+    testCoin->createCollectable(mWorldBox, mSpawnPosition.x + 64.f, 800.f);
     testCoin->setPosition(testCoin->getPosition());
 
     mSceneLayers[Foreground]->attachChild(std::move(testCoin));
+
+    /// Create a test enemy
+    std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
+
+    enemy->createCharacter(mWorldBox, 500.0f, 500.0f);
+    enemy->setPosition(enemy->getPosition());
+
+    mSceneLayers[Foreground]->attachChild(std::move(enemy));
+
 }
 
 /// Create the physics world

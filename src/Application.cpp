@@ -29,7 +29,7 @@ AFP::Application::Application():
     registerStates();
     mStateStack.pushState(States::Title);
 
-    //mWindow.setFramerateLimit(60);
+    mWindow.setFramerateLimit(60);
 
 }
 

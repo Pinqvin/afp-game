@@ -46,8 +46,12 @@ namespace AFP
         ///
         void createBody(b2World* world, float posX, float posY,
             float sizeX, float sizeY, float density,
-            float friction, bool isCharacter = false, bool staticBody = false, 
-            bool isProjectile = false, bool isCollectable = false);
+            float friction);
+
+        ///
+        ///
+        ///
+        void createFootSensor(float sizeX, float sizeY);
 
         /// Return position of body
         ///
@@ -68,16 +72,6 @@ namespace AFP
         ///
         ///
         b2World* getWorld() const;
-
-        /// Start Contact
-        ///
-        /// Logic applied when entity is in contact with something
-        virtual void startContact() = 0;
-
-        /// Get entity type
-        ///
-        /// Return type of entity
-        virtual AFP::BodyType getEntityType() = 0;
 
         /// Get hitpoints
         ///

@@ -7,6 +7,8 @@
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <AFP/Entity/Entity.hpp>
 #include <AFP/Entity/Character.hpp>
+#include <AFP/Entity/Collectable.hpp>
+#include <AFP/Entity/Tile.hpp>
 
 namespace AFP
 {
@@ -24,6 +26,13 @@ namespace AFP
         ///
         /// Called when contact ends
         void EndContact(b2Contact* contact);
+
+        /// Check if categories match
+        ///
+        /// If categories match, return true. If categories are in wrong order
+        /// swap them and return true.
+        bool matchesCategories(std::pair<Entity*, Entity*>& colliders, 
+            Category::Type type1, Category::Type type2);
 
     };
 

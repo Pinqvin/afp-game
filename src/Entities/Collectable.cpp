@@ -3,27 +3,20 @@
 #include <AFP/Entity/Collectable.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Entity/DataTables.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
-/// Return texture based on the type
-AFP::Textures::ID toTextureId(AFP::Collectable::Type type)
+/// Character data table
+namespace
 {
-    /// TODO: Change when actual textures added
-    switch (type)
-    {
-    case AFP::Collectable::Coin:
-        return AFP::Textures::Coin;
-    default:
-        return AFP::Textures::Player;
-
-    }
-
+    const std::vector<AFP::CollectableData> Table = AFP::initializeCollectableData();
 }
 
+/// Constructor
 AFP::Collectable::Collectable(Type type, const TextureHolder& textures):
-    Entity(1), mType(type), mSprite(textures.get(toTextureId(type)))
+    Entity(1), mType(type), mSprite(textures.get(Table[type].texture))
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -38,31 +31,23 @@ void AFP::Collectable::drawCurrent(sf::RenderTarget& target,
 
 }
 
-/// Return body type
-AFP::BodyType AFP::Collectable::getEntityType()
+/// Return category
+unsigned int AFP::Collectable::getCategory() const
 {
-    return AFP::CollectableBody;
+    return Category::Collectable;
 
 }
 
 /// Creates a collectable item
-void AFP::Collectable::createCollectable(b2World* world, float posX, float posY, Type type)
+void AFP::Collectable::createCollectable(b2World* world, float posX, float posY)
 {
-    switch (type)
+    switch (mType)
     {
     case AFP::Collectable::Coin:
-        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 0.3f, false, true, false, true);
+        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 0.3f);
         break;
     default:
         break;
     }
 
-}
-
-/// Handle contact
-void AFP::Collectable::startContact()
-{
-    
-    ///Todo:
-    ///delete the collectable when in collision with player
 }

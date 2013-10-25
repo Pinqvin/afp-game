@@ -12,14 +12,6 @@ namespace sf
 
 namespace AFP
 {
-    enum BodyType
-    {
-        CharacterBody,
-        TileBody,
-        ProjectileBody,
-        CollectableBody
-    };
-
     /// Centers a sprite to its origin
     void centerOrigin(sf::Sprite& sprite);
 
@@ -35,6 +27,7 @@ namespace AFP
     /// Camera speed
     const float CAMERA_SPEED = 20.f;
 
+    /// Gravity
     const float GRAVITY = 90.8f;
 
 }

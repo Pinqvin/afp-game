@@ -125,11 +125,6 @@ namespace AFP
             ///
             sf::Vector2f mSpawnPosition;
 
-            /// Defines the speed the world scrolls at
-            ///
-            /// Most likely set to the same as the player's speed
-            float mScrollSpeed;
-
             /// Pointer to the player entity
             ///
             ///

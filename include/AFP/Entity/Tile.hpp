@@ -22,7 +22,8 @@ namespace AFP
         enum Type {
             Grass,
             Metal,
-            Dicks
+            Crate,
+            TypeCount
         };
 
         /// Constructor
@@ -39,21 +40,14 @@ namespace AFP
         /// Get body type
         ///
         /// Return TileBody
-        AFP::BodyType getEntityType();
+        virtual unsigned int getCategory() const;
 
         /// Creates a tile
         ///
         /// Create a tile based on tile type.
-        void createTile(b2World* world, float posX, float posY, Type type);
+        void createTile(b2World* world, float posX, float posY);
 
     private:
-
-        /// Tile contact
-        ///
-        /// Called when tile comes in contact with
-        /// something.
-        void startContact();
-
         /// Tile type
         ///
         ///

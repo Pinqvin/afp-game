@@ -23,7 +23,8 @@ namespace AFP
         enum Type
         {
             Player,
-            Enemy
+            Enemy,
+            TypeCount
 
         };
 
@@ -96,11 +97,6 @@ namespace AFP
         ///
         virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
-        /// Get body type
-        ///
-        /// Return CharacterBody
-        AFP::BodyType getEntityType();
-
         /// Check projectile launch
         ///
         /// Contains cooldown calculation for firing.
@@ -124,17 +120,10 @@ namespace AFP
         void teleportCharacter(SceneNode& node,
             const TextureHolder& textures);
 
-        /// Character contact
+        /// Is character friendly
         ///
-        /// Called when character comes in contact with
-        /// something.
-        void startContact();
-
-        /// Foot sensor for jump check
-        ///
-        /// Create a sensor box beneath the character that helps 
-        /// deciding whether character can jump or not
-        void createFootSensor();
+        /// Returns true if character is friendly
+        bool isFriendly() const;
 
     private:
         /// Character type

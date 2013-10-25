@@ -3,36 +3,26 @@
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Entity/DataTables.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
 #include <iostream>
 
-/// Return texture based on the type
-AFP::Textures::ID toTextureId(AFP::Character::Type type)
+/// Character data table
+namespace
 {
-    switch (type)
-    {
-    case AFP::Character::Player:
-        return AFP::Textures::Player;
-
-    case AFP::Character::Enemy:
-        return AFP::Textures::Enemy;
-
-    default:
-        return AFP::Textures::Player;
-
-    }
-
+    const std::vector<AFP::CharacterData> Table = AFP::initializeCharacterData();
 }
 
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
-    Entity(1), mType(type), mSprite(textures.get(toTextureId(type))), mJumpStrength(-40.f),
-    mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false), mTeleportTarget(),
-    mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
-    mFireRateLevel(5), mFootContacts(0), mIsMarkedForRemoval(false)
+    Entity(Table[type].hitpoints)
+    , mType(type), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
+    , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
+    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRateLevel(5)
+    , mFootContacts(0), mIsMarkedForRemoval(false)
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -55,14 +45,13 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
 /// Return category based on Type
 unsigned int AFP::Character::getCategory() const
 {
-    switch (mType)
+    if (isFriendly())
     {
-    case Player:
         return Category::PlayerCharacter;
-
-    default:
+    }
+    else
+    {
         return Category::EnemyCharacter;
-
     }
 
 }
@@ -73,10 +62,11 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
     switch (mType)
     {
     case AFP::Character::Player:
-        createBody(world, posX, posY, 1.0f, 2.0f, 20.0f, 0.7f, true);
+        createBody(world, posX, posY, 1.0f, 2.0f, 20.0f, 0.7f);
+        createFootSensor(1.0f, 2.0f);
         break;
     case AFP::Character::Enemy:
-        createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.3f, true);
+        createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.3f);
         break;
     default:
         break;
@@ -125,7 +115,6 @@ void AFP::Character::fire(sf::Vector2f target)
     target.x -= getPosition().x;
     target.y -= getPosition().y;
 
-
     mFireTarget = target;
 
 }
@@ -169,13 +158,6 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     setVelocity(velocity);
 
     Entity::updateCurrent(dt, commands);
-
-}
-
-/// Return body type
-AFP::BodyType AFP::Character::getEntityType()
-{
-    return AFP::CharacterBody;
 
 }
 
@@ -236,7 +218,7 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
     position.y += yOffset;
 
     /// Create projectile in Box2D world
-    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget, type);
+    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget, isFriendly());
 
     /// Set position
     projectile->setPosition(projectile->getPosition());
@@ -254,9 +236,10 @@ void AFP::Character::teleportCharacter(SceneNode&,
     setBodyPosition(mTeleportTarget);
 }
 
-// Handle contact
-void AFP::Character::startContact()
+// Returns true if character is friendly
+bool AFP::Character::isFriendly() const
 {
+    return mType == Player;
 }
 
 void AFP::Character::startFootContact()
