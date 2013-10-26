@@ -10,16 +10,16 @@
 #include <iostream>
 
 /// Return texture based on the type
-AFP::Textures::ID toTextureId(AFP::Projectile::Type type)
+std::string toTextureId(AFP::Projectile::Type type)
 {
     /// TODO: Change when actual textures added
     switch (type)
     {
     case AFP::Projectile::Bullet:
-        return AFP::Textures::Bullet;
+        return "AFP::Textures::Bullet";
 
     default:
-        return AFP::Textures::Bullet;
+        return "AFP::Textures::Bullet";
 
     }
 

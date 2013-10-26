@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <string>
+
 /// Forward declare sf::Texture
 namespace sf
 {
@@ -45,8 +47,8 @@ namespace AFP
     template <typename Resource, typename Identifier>
     class ResourceHolder;
 
-    typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
-    typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
+    typedef ResourceHolder<sf::Texture, std::string> TextureHolder;
+    typedef ResourceHolder<sf::Font, std::string> FontHolder;
 
 }
 

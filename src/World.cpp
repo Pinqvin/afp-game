@@ -27,11 +27,11 @@ AFP::World::World(sf::RenderWindow& window):
 /// Load all the textures required for the world
 void AFP::World::loadTextures()
 {
-    mTextures.load(Textures::Enemy, "Media/Textures/Eagle.png");
-    mTextures.load(Textures::Player, "Media/Textures/Rag.png");
-    mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
-    mTextures.load(Textures::GrassTile, "Media/Textures/Grass.png");
-    mTextures.load(Textures::Bullet, "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::Enemy", "Media/Textures/Eagle.png");
+    mTextures.load("AFP::Textures::Player", "Media/Textures/Rag.png");
+    mTextures.load("AFP::Textures::Desert", "Media/Textures/Desert.png");
+    mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::Bullet", "Media/Textures/Grass.png");
 
 }
 
@@ -50,7 +50,7 @@ void AFP::World::buildScene()
 
     mSceneLayers.resize(mMap.GetNumLayers());
 
-    /// Initialize the different scene layers
+    /// Initialize the different scene layers and the tiles in them
     for (int i = 0; i < mMap.GetNumLayers(); ++i)
     {
         const Tmx::Layer* tileLayer = mMap.GetLayer(i);
@@ -62,10 +62,28 @@ void AFP::World::buildScene()
 
         mSceneGraph.attachChild(std::move(layer));
 
+        /// Go through the tiles
+        for (int y = 0; y < tileLayer->GetHeight(); ++y)
+        {
+            for (int x = 0; x < tileLayer->GetWidth(); ++x)
+            {
+                unsigned int currentTile = tileLayer->GetTileId(x, y);
+
+                /// There's no tile if it's zero
+                if (currentTile == 0)
+                {
+                    continue;
+
+                }
+
+            }
+
+        }
+
     }
 
     /// Set the background texture to be tiled
-    sf::Texture& texture = mTextures.get(Textures::Desert);
+    sf::Texture& texture = mTextures.get("AFP::Textures::Desert");
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 

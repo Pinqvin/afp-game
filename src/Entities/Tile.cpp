@@ -8,19 +8,19 @@
 #include <SFML/Graphics/RenderStates.hpp>
 
 /// Return texture based on the type
-AFP::Textures::ID toTextureId(AFP::Tile::Type type)
+const std::string toTextureId(AFP::Tile::Type type)
 {
     /// TODO: Change when actual textures added
     switch (type)
     {
     case AFP::Tile::Grass:
-        return AFP::Textures::GrassTile;
+        return "AFP::Textures::GrassTile";
 
     case AFP::Tile::Metal:
-        return AFP::Textures::Enemy;
+        return "AFP::Textures::Enemy";
 
     default:
-        return AFP::Textures::Player;
+        return "AFP::Textures::Player";
 
     }
 

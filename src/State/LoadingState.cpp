@@ -9,7 +9,7 @@
 AFP::LoadingState::LoadingState(StateStack& stack, State::Context context):
     State(stack, context), mLoadingText(), mProgressBarBackground(), mProgressBar(), mLoadingTask()
 {
-    sf::Font& font = context.fonts->get(Fonts::Debug);
+    sf::Font& font = context.fonts->get("AFP::Fonts::Debug");
     sf::RenderWindow& window = *getContext().window;
 
     mLoadingText.setFont(font);

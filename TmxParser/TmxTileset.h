@@ -34,7 +34,7 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	class Image;
 	class Tile;
@@ -44,7 +44,7 @@ namespace Tmx
 	// A tileset is a collection of tiles, of whom each may contain properties.
 	// The tileset class itself does not have properties.
 	//-------------------------------------------------------------------------
-	class Tileset 
+	class Tileset
 	{
 	public:
 		Tileset();
@@ -60,7 +60,7 @@ namespace Tmx
 		const std::string &GetName() const { return name; }
 
 		// Get the width of a single tile.
-		int GetTileWidth() const { return tile_width; } 
+		int GetTileWidth() const { return tile_width; }
 
 		// Get the height of a single tile.
 		int GetTileHeight() const { return tile_height; }
@@ -71,7 +71,7 @@ namespace Tmx
 		// Get the spacing of the tileset.
 		int GetSpacing() const { return spacing; }
 
-		// Returns a variable containing information 
+		// Returns a variable containing information
 		// about the image of the tileset.
 		const Tmx::Image* GetImage() const { return image; }
 
@@ -79,25 +79,26 @@ namespace Tmx
 		const Tmx::Tile *GetTile(int index) const;
 
 		// Returns the whole tile collection.
-		const std::vector< Tmx::Tile *> &GetTiles() const { return tiles; } 
-		
+		const std::vector< Tmx::Tile *> &GetTiles() const { return tiles; }
+
 		// Get a set of properties regarding the tile.
 		const Tmx::PropertySet &GetProperties() const { return properties; }
 
 	private:
 		int first_gid;
-		
+
 		std::string name;
-		
+
 		int tile_width;
 		int tile_height;
 		int margin;
 		int spacing;
-		
+
 		Tmx::Image* image;
 
 		std::vector< Tmx::Tile* > tiles;
-		
+
 		Tmx::PropertySet properties;
 	};
-};
+}
+

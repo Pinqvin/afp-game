@@ -31,12 +31,12 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	//-------------------------------------------------------------------------
 	// An image within a tileset.
 	//-------------------------------------------------------------------------
-	class Image 
+	class Image
 	{
 	public:
 		Image();
@@ -55,7 +55,7 @@ namespace Tmx
 		int GetHeight() const { return height; }
 
 		// Get the transparent color used in the image.
-		const std::string &GetTransparentColor() const 
+		const std::string &GetTransparentColor() const
 		{ return transparent_color; }
 
 	private:
@@ -64,4 +64,5 @@ namespace Tmx
 		int height;
 		std::string transparent_color;
 	};
-};
+}
+

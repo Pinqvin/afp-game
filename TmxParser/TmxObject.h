@@ -33,7 +33,7 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	class Ellipse;
 	class Polygon;
@@ -42,7 +42,7 @@ namespace Tmx
 	//-------------------------------------------------------------------------
 	// Class used for representing a single object from the objectgroup.
 	//-------------------------------------------------------------------------
-	class Object 
+	class Object
 	{
 	public:
 		Object();
@@ -50,10 +50,10 @@ namespace Tmx
 
 		// Parse an object node.
 		void Parse(const TiXmlNode *objectNode);
-	
+
 		// Get the name of the object.
 		const std::string &GetName() const { return name; }
-		
+
 		// Get the type of the object.
 		const std::string &GetType() const { return type; }
 
@@ -62,10 +62,10 @@ namespace Tmx
 
 		// Get the top side of the object, in pixels.
 		int GetY() const { return y; }
-		
+
 		// Get the width of the object, in pixels.
 		int GetWidth() const { return width; }
-		
+
 		// Get the height of the object, in pixels.
 		int GetHeight() const { return height; }
 
@@ -100,4 +100,5 @@ namespace Tmx
 
 		Tmx::PropertySet properties;
 	};
-};
+}
+

@@ -29,9 +29,9 @@
 
 #include <string>
 
-namespace Tmx 
+namespace Tmx
 {
-	class Util 
+	class Util
 	{
 	public:
 		// Decode a base-64 encoded string.
@@ -40,4 +40,5 @@ namespace Tmx
 		// Decompress a gzip encoded byte array.
 		static char* DecompressGZIP(const char *data, int dataSize, int expectedSize);
 	};
-};
+}
+

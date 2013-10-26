@@ -34,15 +34,15 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	class Object;
-	
+
 	//-------------------------------------------------------------------------
 	// A class used for holding a list of objects.
 	// This class doesn't have a property set.
 	//-------------------------------------------------------------------------
-	class ObjectGroup 
+	class ObjectGroup
 	{
 	public:
 		ObjectGroup();
@@ -79,13 +79,13 @@ namespace Tmx
 
 		// Get the zorder of the object group.
 		int GetZOrder() const { return zOrder; }
-		
+
 		// Set the zorder of the object group.
 		void SetZOrder( int z ) { zOrder = z; }
 
 	private:
 		std::string name;
-		
+
 		int width;
 		int height;
 		int visible;
@@ -95,4 +95,5 @@ namespace Tmx
 
 		std::vector< Tmx::Object* > objects;
 	};
-};
+}
+

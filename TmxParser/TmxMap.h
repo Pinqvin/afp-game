@@ -32,7 +32,7 @@
 
 #include "TmxPropertySet.h"
 
-namespace Tmx 
+namespace Tmx
 {
 	class Layer;
 	class ImageLayer;
@@ -42,7 +42,7 @@ namespace Tmx
 	//-------------------------------------------------------------------------
 	// Error in handling of the Map class.
 	//-------------------------------------------------------------------------
-	enum MapError 
+	enum MapError
 	{
 		// A file could not be opened. (usually due to permission problems)
 		TMX_COULDNT_OPEN = 0x01,
@@ -50,7 +50,7 @@ namespace Tmx
 		// There was an error in parsing the TMX file.
 		// This is being caused by TinyXML parsing problems.
 		TMX_PARSING_ERROR = 0x02,
-		
+
 		// The size of the file is invalid.
 		TMX_INVALID_FILE_SIZE = 0x04
 	};
@@ -58,7 +58,7 @@ namespace Tmx
 	//-------------------------------------------------------------------------
 	// The way the map is viewed.
 	//-------------------------------------------------------------------------
-	enum MapOrientation 
+	enum MapOrientation
 	{
 		// This map is an orthogonal map.
 		TMX_MO_ORTHOGONAL = 0x01,
@@ -75,7 +75,7 @@ namespace Tmx
 	// It has all of the information in regard to the TMX file.
 	// This class has a property set.
 	//-------------------------------------------------------------------------
-	class Map 
+	class Map
 	{
 	private:
 		// Prevent copy constructor.
@@ -88,7 +88,7 @@ namespace Tmx
 		// Read a file and parse it.
 		// Note: use '/' instead of '\\' as it is using '/' to find the path.
 		void ParseFile(const std::string &fileName);
-		
+
 		// Parse text containing TMX formatted XML.
 		void ParseText(const std::string &text);
 
@@ -193,4 +193,5 @@ namespace Tmx
 
 		Tmx::PropertySet properties;
 	};
-};
+}
+

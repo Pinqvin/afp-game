@@ -29,24 +29,24 @@
 
 #include "TmxPropertySet.h"
 
-namespace Tmx 
+namespace Tmx
 {
 	//-------------------------------------------------------------------------
-	// Class to contain information about every tile in the tileset/tiles 
+	// Class to contain information about every tile in the tileset/tiles
 	// element.
 	// It may expand if there are more elements or attributes added into the
 	// the tile element.
 	// This class also contains a property set.
 	//-------------------------------------------------------------------------
-	class Tile 
+	class Tile
 	{
 	public:
 		Tile();
 		~Tile();
-	
+
 		// Parse a tile node.
 		void Parse(const TiXmlNode *tileNode);
-		
+
 		// Get the Id. (relative to the tilset)
 		int GetId() const { return id; }
 
@@ -58,4 +58,5 @@ namespace Tmx
 
 		Tmx::PropertySet properties;
 	};
-};
+}
+

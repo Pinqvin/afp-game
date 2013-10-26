@@ -34,7 +34,7 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	class Map;
 	class Image;
@@ -44,7 +44,7 @@ namespace Tmx
 	// A tileset is a collection of tiles, of whom each may contain properties.
 	// The tileset class itself does not have properties.
 	//-------------------------------------------------------------------------
-	class ImageLayer 
+	class ImageLayer
 	{
 	public:
 		ImageLayer(const Tmx::Map *_map);
@@ -57,7 +57,7 @@ namespace Tmx
 		const std::string &GetName() const { return name; }
 
 		// Get the width of the ImageLayer.
-		int GetWidth() const { return width; } 
+		int GetWidth() const { return width; }
 
 		// Get the height of the ImageLayer.
 		int GetHeight() const { return height; }
@@ -65,7 +65,7 @@ namespace Tmx
 		// Get the visibility of the ImageLayer.
 		bool IsVisible() const { return visible; }
 
-		// Returns a variable containing information 
+		// Returns a variable containing information
 		// about the image of the ImageLayer.
 		const Tmx::Image* GetImage() const { return image; }
 
@@ -74,7 +74,7 @@ namespace Tmx
 
 		// Get the zorder of the ImageLayer.
 		int GetZOrder() const { return zOrder; }
-		
+
 		// Set the zorder of the ImageLayer.
 		void SetZOrder( int z ) { zOrder = z; }
 
@@ -82,16 +82,17 @@ namespace Tmx
 		const Tmx::Map *map;
 
 		std::string name;
-		
+
 		int width;
 		int height;
 
 		float opacity;
 		bool visible;
 		int zOrder;
-		
+
 		Tmx::Image* image;
 
 		Tmx::PropertySet properties;
 	};
-};
+}
+

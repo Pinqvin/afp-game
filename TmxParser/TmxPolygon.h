@@ -55,4 +55,5 @@ namespace Tmx
 	private:
 		std::vector< Tmx::Point > points;
 	};
-};
+}
+

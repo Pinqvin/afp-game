@@ -19,10 +19,10 @@ AFP::Application::Application():
     mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer)),
     mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames()
 {
-    mFonts.load(Fonts::Debug, "Media/Sansation.ttf");
-    mTextures.load(Textures::TitleScreen, "Media/Textures/TitleScreen.png");
+    mFonts.load("AFP::Fonts::Debug", "Media/Sansation.ttf");
+    mTextures.load("Textures::TitleScreen", "Media/Textures/TitleScreen.png");
 
-    mStatisticsText.setFont(mFonts.get(Fonts::Debug));
+    mStatisticsText.setFont(mFonts.get("AFP::Fonts::Debug"));
     mStatisticsText.setPosition(5.f, 5.f);
     mStatisticsText.setCharacterSize(10u);
 

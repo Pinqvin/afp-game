@@ -27,7 +27,7 @@
 //-----------------------------------------------------------------------------
 #pragma once
 
-namespace Tmx 
+namespace Tmx
 {
 	//-------------------------------------------------------------------------
 	// Flags that may be in the first two bits of the gid.
@@ -39,7 +39,7 @@ namespace Tmx
 	//-------------------------------------------------------------------------
 	// Struct to store information about a specific tile in the map layer.
 	//-------------------------------------------------------------------------
-	struct MapTile 
+	struct MapTile
 	{
 		// Default constructor.
 		MapTile()
@@ -77,4 +77,5 @@ namespace Tmx
 		// True when the tile should be drawn flipped diagonally.
 		bool flippedDiagonally;
 	};
-};
+}
+

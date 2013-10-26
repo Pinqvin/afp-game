@@ -8,7 +8,7 @@
 AFP::MenuState::MenuState(StateStack& stack, Context context):
     State(stack, context), mBackgroundSprite(), mOptions(), mOptionIndex(0)
 {
-    sf::Font& font = context.fonts->get(Fonts::Debug);
+    sf::Font& font = context.fonts->get("AFP::Fonts::Debug");
 
     // A rudimentary menu
     sf::Text playOption;

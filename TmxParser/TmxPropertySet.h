@@ -32,12 +32,12 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	//-----------------------------------------------------------------------------
 	// This class contains a map of properties.
 	//-----------------------------------------------------------------------------
-	class PropertySet 
+	class PropertySet
 	{
 	public:
 		PropertySet();
@@ -45,7 +45,7 @@ namespace Tmx
 
 		// Parse a node containing all the property nodes.
 		void Parse(const TiXmlNode *propertiesNode);
-	
+
 		// Get a numeric property (integer).
 		int GetNumericProperty(const std::string &name) const;
 		// Get a numeric property (float).
@@ -60,7 +60,7 @@ namespace Tmx
 		bool HasProperty( const std::string& name ) const;
 
 		// Returns the STL map of the properties.
-		std::map< std::string, std::string > GetList() const 
+		std::map< std::string, std::string > GetList() const
 		{ return properties; }
 
 		// Returns whether there are no properties.
@@ -70,4 +70,5 @@ namespace Tmx
 		std::map< std::string, std::string > properties;
 
 	};
-};
+}
+

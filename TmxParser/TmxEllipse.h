@@ -48,10 +48,10 @@ namespace Tmx
 
 		// Get the center of the object, in pixels.
 		int GetCenterY() const { return y; }
-		
+
 		// Get the RadiusX of the object, in pixels.
 		int GetRadiusX() const { return radiusX; }
-		
+
 		// Get the RadiusY of the object, in pixels.
 		int GetRadiusY() const { return radiusY; }
 
@@ -61,4 +61,5 @@ namespace Tmx
 		int radiusX;
 		int radiusY;
 	};
-};
+}
+

@@ -34,14 +34,14 @@
 
 class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
 	class Map;
 
 	//-------------------------------------------------------------------------
 	// Type used for the encoding of the layer data.
 	//-------------------------------------------------------------------------
-	enum LayerEncodingType 
+	enum LayerEncodingType
 	{
 		TMX_ENCODING_XML,
 		TMX_ENCODING_BASE64,
@@ -51,7 +51,7 @@ namespace Tmx
 	//-------------------------------------------------------------------------
 	// Type used for the compression of the layer data.
 	//-------------------------------------------------------------------------
-	enum LayerCompressionType 
+	enum LayerCompressionType
 	{
 		TMX_COMPRESSION_NONE,
 		TMX_COMPRESSION_ZLIB,
@@ -62,7 +62,7 @@ namespace Tmx
 	// Used for storing information about the tile ids for every layer.
 	// This class also have a property set.
 	//-------------------------------------------------------------------------
-	class Layer 
+	class Layer
 	{
 	private:
 		// Prevent copy constructor.
@@ -97,11 +97,11 @@ namespace Tmx
 		int GetTileTilesetIndex(int x, int y) const { return tile_map[y * width + x].tilesetId; }
 
 		// Get whether a tile is flipped horizontally.
-		bool IsTileFlippedHorizontally(int x, int y) const 
+		bool IsTileFlippedHorizontally(int x, int y) const
 		{ return tile_map[y * width + x].flippedHorizontally; }
 
 		// Get whether a tile is flipped vertically.
-		bool IsTileFlippedVertically(int x, int y) const 
+		bool IsTileFlippedVertically(int x, int y) const
 		{ return tile_map[y * width + x].flippedVertically; }
 
 		// Get whether a tile is flipped diagonally.
@@ -121,7 +121,7 @@ namespace Tmx
 
 		// Get the zorder of the layer.
 		int GetZOrder() const { return zOrder; }
-		
+
 		// Set the zorder of the layer.
 		void SetZOrder( int z ) { zOrder = z; }
 
@@ -133,10 +133,10 @@ namespace Tmx
 		const Tmx::Map *map;
 
 		std::string name;
-		
+
 		int width;
 		int height;
-	
+
 		float opacity;
 		bool visible;
 		int zOrder;
@@ -148,4 +148,5 @@ namespace Tmx
 		Tmx::LayerEncodingType encoding;
 		Tmx::LayerCompressionType compression;
 	};
-};
+}
+
