@@ -31,10 +31,12 @@ namespace AFP
     class World : private sf::NonCopyable
     {
         public:
-            /// Constructor
+            /// @brief World constructor
             ///
-            ///
-            explicit World(sf::RenderWindow& window);
+            /// Loads the necessary resources and sets the world dimensions
+            /// @param window Window we render the world to
+            /// @param mapFile Path to the map file we parse for the world
+            explicit World(sf::RenderWindow& window, std::string mapFile);
 
             /// Update the SceneGraph
             ///

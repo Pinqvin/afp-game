@@ -3,6 +3,7 @@
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Utility.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -32,9 +33,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero),
     mFireRateLevel(1)
 {
-    // Align the origin to the center of the texture
-    sf::FloatRect bounds = mSprite.getLocalBounds();
-    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    centerOrigin(mSprite);
 
     mFireCommand.category = Category::PlayerCharacter;
     mTeleportCommand.category = Category::PlayerCharacter;

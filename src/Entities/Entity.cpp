@@ -43,17 +43,6 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
     position.y -= getParentPosition().y;
     setPosition(position);
 
-    /*
-    /// Print Box2D info
-    if (mBody != nullptr)
-    {
-        b2Vec2 position = mBody->GetPosition();
-        float32 angle = mBody->GetAngle();
-        std::cout << position.x << " " << position.y
-            << " " << angle << std::endl;
-
-    }
-    */
 }
 
 /// Create body
@@ -92,8 +81,8 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     mDynamicBox.SetAsBox(sizeX / 2.f, sizeY / 2.f);
 
     mFixtureDef.shape = &mDynamicBox;
-    mFixtureDef.density = density;
-    mFixtureDef.friction = friction;
+    mFixtureDef.density = density;
+    mFixtureDef.friction = friction;
     mBody->CreateFixture(&mFixtureDef);
 
 }
@@ -137,3 +126,4 @@ b2World* AFP::Entity::getWorld()
     return mBody->GetWorld();
 
 }
+

@@ -4,17 +4,33 @@
 #include <AFP/Scene/SpriteNode.hpp>
 #include <AFP/Utility.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <Box2D/Common/b2Draw.h>
 #include <iostream>
 
 /// Constructor
-AFP::World::World(sf::RenderWindow& window):
+AFP::World::World(sf::RenderWindow& window, std::string mapFile):
     mWindow(window), mWorldView(window.getDefaultView()),
     mTextures(), mSceneGraph(), mSceneLayers(), mMap(),
     mWorldBounds(), mSpawnPosition(), mScrollSpeed(-50.f),
     mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
     mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true)
 {
+    mMap.ParseFile(mapFile);
+
+    if (mMap.HasError())
+    {
+        throw std::runtime_error("World::World (constructor): Map is faulty. "
+                "Error: " + mMap.GetErrorText());
+
+    }
+
+    mWorldBounds.left = 0.f;
+    mWorldBounds.top = 0.f;
+    mWorldBounds.width = static_cast <float>
+        (mMap.GetWidth() * mMap.GetTileWidth());
+    mWorldBounds.height = static_cast <float>
+        (mMap.GetHeight() * mMap.GetTileHeight());
 
     createWorld();
     loadTextures();
@@ -24,7 +40,7 @@ AFP::World::World(sf::RenderWindow& window):
 
 }
 
-/// Load all the textures required for the world
+/// Load all the textures and tilesets required for the world.
 void AFP::World::loadTextures()
 {
     mTextures.load("AFP::Textures::Enemy", "Media/Textures/Eagle.png");
@@ -33,22 +49,63 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Grass.png");
 
+    for (int i = 0; i < mMap.GetNumTilesets(); ++i)
+    {
+        const Tmx::Tileset* tileSet = mMap.GetTileset(i);
+
+        mTextures.load(tileSet->GetName(),
+                "Media/Maps/" + tileSet->GetImage()->GetSource());
+
+    }
+
+    for (int i = 0; i < mMap.GetNumImageLayers(); ++i)
+    {
+        const Tmx::ImageLayer* imageLayer = mMap.GetImageLayer(i);
+
+        mTextures.load(imageLayer->GetName(),
+                "Media/Maps/" + imageLayer->GetImage()->GetSource());
+
+    }
+
 }
 
 /// Build the scene depicted by the world. Parses the map file to build
 /// the scene properly
 void AFP::World::buildScene()
 {
-    mMap.ParseFile("Media/Maps/lol.tmx");
-
-    if (mMap.HasError())
+    /// Initialize the different tiling backround layers
+    for (int i = 0; i < mMap.GetNumImageLayers(); ++i)
     {
-        throw std::runtime_error("World::buildScene - Map is faulty. Error: "
-             + mMap.GetErrorText());
+        SceneNode::Ptr layer(new SceneNode());
+        mSceneLayers.push_back(layer.get());
+
+        mSceneGraph.attachChild(std::move(layer));
+
+        const Tmx::ImageLayer* imageLayer = mMap.GetImageLayer(i);
+        const Tmx::PropertySet layerProperties = imageLayer->GetProperties();
+
+        if (layerProperties.HasProperty("repeat") &&
+                layerProperties.GetLiteralProperty("repeat") == "true")
+        {
+            /// Set backround texture to be tiled
+            sf::Texture& texture = mTextures.get(imageLayer->GetName());
+            sf::IntRect textureRect(mWorldBounds);
+            texture.setRepeated(true);
+
+            /// Make the texture as big as the world bounds
+            std::unique_ptr<SpriteNode> backgroundSprite(
+                    new SpriteNode(texture, textureRect));
+
+            backgroundSprite->setPosition(
+                    mWorldBounds.left,
+                    mWorldBounds.top);
+            mSceneLayers.back()->attachChild(std::move(backgroundSprite));
+
+        }
 
     }
 
-    mSceneLayers.resize(mMap.GetNumLayers());
+
 
     /// Initialize the different scene layers and the tiles in them
     for (int i = 0; i < mMap.GetNumLayers(); ++i)
@@ -58,7 +115,7 @@ void AFP::World::buildScene()
         std::cout << tileLayer->GetName() << std::endl;
 
         SceneNode::Ptr layer(new SceneNode());
-        mSceneLayers[i] = layer.get();
+        mSceneLayers.push_back(layer.get());
 
         mSceneGraph.attachChild(std::move(layer));
 
@@ -76,25 +133,23 @@ void AFP::World::buildScene()
 
                 }
 
+                const Tmx::Tileset* tileset =
+                    mMap.GetTileset(tileLayer->GetTileTilesetIndex(x, y));
+
+                currentTile -= tileset->GetFirstGid();
+
+                int tileWidth = tileset->GetTileWidth();
+                int tileHeight = tileset->GetTileHeight();
+                int tileSpacing = tileset->GetSpacing();
+                int tileMargin = tileset->GetMargin();
+
+                sf::Vector2f position;
+
             }
 
         }
 
     }
-
-    /// Set the background texture to be tiled
-    sf::Texture& texture = mTextures.get("AFP::Textures::Desert");
-    sf::IntRect textureRect(mWorldBounds);
-    texture.setRepeated(true);
-
-    /// Make the background sprite as big as the whole world
-    std::unique_ptr<SpriteNode> backgroundSprite(
-        new SpriteNode(texture, textureRect));
-
-    backgroundSprite->setPosition(
-        mWorldBounds.left,
-        mWorldBounds.top);
-    mSceneLayers[0]->attachChild(std::move(backgroundSprite));
 
     /// Set the player to the world
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
