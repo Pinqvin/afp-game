@@ -102,6 +102,37 @@ void AFP::World::buildScene()
             mSceneLayers.back()->attachChild(std::move(backgroundSprite));
 
         }
+        else if (layerProperties.HasProperty("repeatVertical") &&
+                layerProperties.GetLiteralProperty("repeatVertical") == "true")
+        {
+            /// Tile texture vertically
+            sf::Texture& texture = mTextures.get(imageLayer->GetName());
+            sf::IntRect textureRect(0, 0, mWorldBounds.width,
+                    texture.getSize().y);
+            texture.setRepeated(true);
+
+            std::unique_ptr<SpriteNode> backgroundSprite(
+                    new SpriteNode(texture, textureRect));
+
+            if (!layerProperties.HasProperty("height"))
+            {
+                throw std::runtime_error("World::buildScene(): Missing property"
+                        " height from vertical image layer!");
+
+            }
+
+            /// Set tiled image to the correct height. In tiled the height is
+            /// set as the number of tiles from the bottom
+            int height = layerProperties.GetNumericProperty("height") *
+                mMap.GetTileHeight();
+
+            backgroundSprite->setPosition(
+                    mWorldBounds.left,
+                    mMap.GetHeight() * mMap.GetTileHeight() - height -
+                    texture.getSize().y);
+            mSceneLayers.back()->attachChild(std::move(backgroundSprite));
+
+        }
 
     }
 

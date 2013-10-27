@@ -9,6 +9,13 @@
    <property name="repeat" value="true"/>
   </properties>
  </imagelayer>
+ <imagelayer name="AFP::RepeatingTile::City" width="45" height="45">
+  <image source="Pictures/Night_city_background.png"/>
+  <properties>
+   <property name="height" value="1"/>
+   <property name="repeatVertical" value="true"/>
+  </properties>
+ </imagelayer>
  <layer name="Layer 1" width="45" height="45">
   <data>
    <tile gid="23"/>
