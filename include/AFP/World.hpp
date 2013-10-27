@@ -13,6 +13,7 @@
 #include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Debug/BoxDebugDraw.hpp>
 #include <AFP/ContactListener.hpp>
+#include <AFP/Sound/SoundPlayer.hpp>
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -35,7 +36,7 @@ namespace AFP
             /// Constructor
             ///
             ///
-            explicit World(sf::RenderWindow& window);
+            explicit World(sf::RenderWindow& window, SoundPlayer& sounds);
 
             /// Update the SceneGraph
             ///
@@ -74,6 +75,11 @@ namespace AFP
             ///
             /// Moves the camera towards the player
             void moveCamera();
+
+            /// Update sounds
+            ///
+            /// Update listener positon and remove stopped sounds
+            void updateSounds();
 
     private:
             /// Divite the draws to two different categories: background
@@ -161,6 +167,11 @@ namespace AFP
             ///
             /// Contact listener instance
             AFP::ContactListener mContactListener;
+
+            /// Sound player
+            ///
+            /// Sound player reference
+            SoundPlayer& mSounds;
 
     };
 

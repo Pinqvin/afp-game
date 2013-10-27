@@ -3,7 +3,7 @@
 
 /// Constructor
 AFP::MusicPlayer::MusicPlayer(void):
-    mMusic(), mFilenames(), mVolume(100.0f)
+    mMusic(), mFilenames(), mVolume(50.0f)
 {
     /// Set filenames
     mFilenames[Music::MenuTheme] = "Media/Music/MenuTheme.ogg";

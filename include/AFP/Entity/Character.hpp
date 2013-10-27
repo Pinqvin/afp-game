@@ -9,6 +9,7 @@
 #include <AFP/Command/Command.hpp>
 #include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Sound/SoundPlayer.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -58,6 +59,11 @@ namespace AFP
         /// Sets mIsFiring true so shooting
         /// will happen
         void fire(sf::Vector2f target);
+
+        ///
+        ///
+        ///
+        void playLocalSound(CommandQueue& commands, SoundEffect::ID effect);
 
         /// Teleport
         ///

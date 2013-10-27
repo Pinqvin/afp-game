@@ -4,6 +4,7 @@
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Entity/DataTables.hpp>
+#include <AFP/Sound/SoundNode.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -21,8 +22,8 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints)
     , mType(type), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
-    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRate(1)
-    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge)
+    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRate(400.0f)
+    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mSpread()
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -124,6 +125,22 @@ void AFP::Character::fire(sf::Vector2f target)
 
 }
 
+/// Play sound
+void AFP::Character::playLocalSound(CommandQueue& commands, SoundEffect::ID effect)
+{
+    sf::Vector2f worldPosition = getWorldPosition();
+
+    Command command;
+    command.category = Category::SoundEffect;
+    command.action = derivedAction<SoundNode>(
+        [effect, worldPosition] (SoundNode& node, sf::Time)
+    {
+        node.playSound(effect, worldPosition);
+    });
+
+    commands.push(command);
+}
+
 /// Set teleporting flag true
 /// Teleport-command
 void AFP::Character::teleport(sf::Vector2f target)
@@ -194,7 +211,8 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
     if (mIsFiring && mFireCountdown <= sf::Time::Zero)
     {
         commands.push(mFireCommand);
-        mFireCountdown += sf::seconds(mFireRate);
+        playLocalSound(commands, SoundEffect::Pistol);
+        mFireCountdown += sf::milliseconds(mFireRate);
         mIsFiring = false;
 
     }

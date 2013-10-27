@@ -3,19 +3,22 @@
 #include <AFP/World.hpp>
 #include <AFP/Scene/SpriteNode.hpp>
 #include <AFP/Utility.hpp>
+#include <AFP/Sound/SoundNode.hpp>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <Box2D/Common/b2Draw.h>
 
 #include <iostream>
 
 /// Constructor
-AFP::World::World(sf::RenderWindow& window):
+AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds):
     mWindow(window), mWorldView(window.getDefaultView()),
     mTextures(), mSceneGraph(), mSceneLayers(),
     mWorldBounds(0.f, 0.f, mWorldView.getSize().x * 4, mWorldView.getSize().y * 2),
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
     mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
-    mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true)
+    mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true),
+    mSounds(sounds)
 {
 
     createWorld();
@@ -68,6 +71,10 @@ void AFP::World::buildScene()
         mWorldBounds.top);
     mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
+    // Add sound effect node
+    std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
+    mSceneGraph.attachChild(std::move(soundNode));
+
     /// Set the player to the world
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
     mPlayerCharacter = leader.get();
@@ -117,7 +124,7 @@ void AFP::World::createWorld()
     b2EdgeShape groundBox;
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &groundBox;
-    
+
     bodyDef.position.Set(0, 0);
     mGroundBody = mWorldBox->CreateBody(&bodyDef);
 
@@ -190,6 +197,9 @@ void AFP::World::update(sf::Time dt)
     // Regular update step, adapt position (correct if outside view)
     mSceneGraph.update(dt, mCommandQueue);
 
+    // Update sounds
+    updateSounds();
+
 }
 
 /// Return the command queue
@@ -223,3 +233,12 @@ void AFP::World::moveCamera()
     mWorldView.setCenter(mCameraPosition);
 }
 
+/// Update listener position and remove stopped sounds
+void AFP::World::updateSounds()
+{
+    // Set listener's position to player position
+    mSounds.setListenerPosition(mPlayerCharacter->getWorldPosition());
+
+    // Remove unused sounds
+    mSounds.removeStoppedSounds();
+}
