@@ -11,6 +11,7 @@
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Input/Player.hpp>
+#include <AFP/Sound/MusicPlayer.hpp>
 
 namespace AFP
 {
@@ -76,6 +77,11 @@ namespace AFP
             ///
             /// Events are propagated further to world and the scenegraph
             Player mPlayer;
+
+            /// Music player
+            ///
+            /// Music player handles music
+            MusicPlayer mMusicPlayer;
 
             /// State stack holds all the different states
             ///

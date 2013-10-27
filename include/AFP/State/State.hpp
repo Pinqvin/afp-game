@@ -16,6 +16,7 @@ namespace AFP
 {
     class StateStack;
     class Player;
+    class MusicPlayer;
 
 }
 
@@ -40,7 +41,8 @@ namespace AFP
                 Context(sf::RenderWindow& window,
                         TextureHolder& textures,
                         FontHolder& fonts,
-                        Player& player);
+                        Player& player,
+                        MusicPlayer& music);
 
                 /// Window to render to
                 sf::RenderWindow* window;
@@ -53,6 +55,9 @@ namespace AFP
 
                 /// Player
                 Player* player;
+
+                /// Music player
+                MusicPlayer* music;
 
             };
 

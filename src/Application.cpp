@@ -16,7 +16,7 @@ const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(AFP::UPDATE_PER_FR
 AFP::Application::Application():
     mWindow(sf::VideoMode(854, 480), "States", sf::Style::Close),
     mTextures(), mFonts(), mPlayer(),
-    mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer)),
+    mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mMusicPlayer)),
     mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames()
 {
     mFonts.load(Fonts::Debug, "Media/Sansation.ttf");
