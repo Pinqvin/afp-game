@@ -5,6 +5,7 @@
 #pragma once
 
 #include <AFP/Entity/Entity.hpp>
+#include <AFP/Entity/Character.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
@@ -21,6 +22,7 @@ namespace AFP
         ///
         enum Type {
             Coin,
+            Orb,
             TypeCount
         };
 
@@ -44,6 +46,11 @@ namespace AFP
         ///
         /// Create an item based on collectable type.
         void createCollectable(b2World* world, float posX, float posY);
+
+        /// Apply collectable
+        ///
+        /// Applies collectable to player
+        void apply(Character& player);
 
     private:
         /// Collectable type

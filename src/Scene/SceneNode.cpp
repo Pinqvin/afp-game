@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cassert>
 
-AFP::SceneNode::SceneNode(): mChildren(), mParent(nullptr)
+AFP::SceneNode::SceneNode(Category::Type category): mChildren(), mParent(nullptr), mDefaultCategory(category)
 {
 
 }
@@ -106,8 +106,7 @@ sf::Transform AFP::SceneNode::getWorldTransform() const
 /// Return the category of the game object
 unsigned int AFP::SceneNode::getCategory() const
 {
-    /// Return the scene category by default
-    return Category::Scene;
+    return mDefaultCategory;
 
 }
 

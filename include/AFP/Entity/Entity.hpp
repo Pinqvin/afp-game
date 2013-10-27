@@ -21,6 +21,11 @@ namespace AFP
         /// Sets the velocity of the entity
         void setVelocity(b2Vec2 velocity);
 
+        /// Set position of body
+        ///
+        /// Set body position in meters.
+        void setBodyPosition(b2Vec2 target);
+
         /// Set velocity
         ///
         /// Applies an impulse to the entity
@@ -41,18 +46,6 @@ namespace AFP
         /// Returns the mass of the entity
         float getMass() const;
 
-        /// Create body for entity
-        ///
-        ///
-        void createBody(b2World* world, float posX, float posY,
-            float sizeX, float sizeY, float density,
-            float friction);
-
-        ///
-        ///
-        ///
-        void createFootSensor(float sizeX, float sizeY);
-
         /// Return position of body
         ///
         /// Converts position from meters to pixels and returns it.
@@ -63,11 +56,6 @@ namespace AFP
         /// Return body position in meters.
         b2Vec2 getBodyPosition() const;
 
-        /// Set position of body
-        ///
-        /// Set body position in meters.
-        void setBodyPosition(b2Vec2 target);
-
         /// Return world pointer
         ///
         ///
@@ -77,6 +65,18 @@ namespace AFP
         ///
         /// Return entity hitpoints
         int getHitpoints() const;
+
+        /// Create body for entity
+        ///
+        ///
+        void createBody(b2World* world, float posX, float posY,
+            float sizeX, float sizeY, float density,
+            float friction);
+
+        /// Create foot sensor
+        ///
+        /// Creates a foot sensor on feet
+        void createFootSensor(float sizeX, float sizeY);
 
         /// Damage entity
         ///

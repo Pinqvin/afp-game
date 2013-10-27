@@ -34,7 +34,7 @@ namespace AFP
 		/// Constructor
 		///
 		/// Sets mParent to nullptr
-		SceneNode();
+		explicit SceneNode(Category::Type category = Category::None);
 
 		/// Insert child
 		///
@@ -141,6 +141,11 @@ namespace AFP
 		///
 		///
 		SceneNode* mParent;
+
+        /// Default category
+        ///
+        ///
+        Category::Type mDefaultCategory;
 
 	};
 }

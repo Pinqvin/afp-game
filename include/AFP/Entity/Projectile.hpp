@@ -21,6 +21,7 @@ namespace AFP
         enum Type
         {
             Bullet,
+            Shot,
             Laser,
             TypeCount
         };

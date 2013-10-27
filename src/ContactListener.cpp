@@ -1,5 +1,6 @@
 /// Implementation of ContactListener class
 #include <AFP/ContactListener.hpp>
+#include <iostream>
 
 void AFP::ContactListener::BeginContact(b2Contact* contact)
 {
@@ -24,13 +25,14 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
             character.damage(projectile.getDamage());
             projectile.destroy();
         }
-        // Player collides with a collectible
+        // Player collides with a collectable
         else if (matchesCategories(collisionPair, Category::PlayerCharacter, Category::Collectable))
         {
             // Cast into correct classes
-            auto& character = static_cast<Character&>(*collisionPair.first);
+            auto& player = static_cast<Character&>(*collisionPair.first);
             auto& collectable = static_cast<Collectable&>(*collisionPair.second);
 
+            collectable.apply(player);
             collectable.destroy();
         }
         // Projectile collides with tile
@@ -46,10 +48,9 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
             }
             projectile.destroy();
         }
-
     }
     // Check projectile collisions with walls
-    else if (bodyAUserData)
+    if (bodyAUserData && !bodyBUserData)
     {
         Entity* userData = static_cast<Entity*>(bodyAUserData);
         if (userData->getCategory() & Category::Projectile) 
@@ -58,10 +59,10 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
             projectile.destroy();
         }
     }
-    else if (bodyBUserData)
+    if (bodyBUserData && !bodyAUserData)
     {
         Entity* userData = static_cast<Entity*>(bodyBUserData);
-        if (userData->getCategory() & Category::Projectile) 
+        if (userData->getCategory() & Category::Projectile)
         {
             auto& projectile = static_cast<Projectile&>(*userData);
             projectile.destroy();
@@ -82,6 +83,7 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
     {
         static_cast<Character*>(fixtureUserData)->startFootContact();
     }
+
 }
 
 void AFP::ContactListener::EndContact(b2Contact* contact)

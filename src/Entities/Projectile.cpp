@@ -75,7 +75,7 @@ void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, s
     {
     case AFP::Projectile::Bullet:
         // Create body for bullet and apply velocity
-        createBody(world, posX, posY, 0.2f, 0.2f, 1.0f, 0.0f);
+        createBody(world, posX, posY, 0.1f, 0.1f, 1.0f, 0.0f);
         setVelocity(mTarget);
         break;
     default:

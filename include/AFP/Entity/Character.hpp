@@ -85,6 +85,11 @@ namespace AFP
         ///
         bool isMarkedForRemoval();
 
+        /// Recharge teleport
+        ///
+        ///
+        void recharge(int points);
+
     private:
         /// Draw character sprite
         ///
@@ -173,6 +178,8 @@ namespace AFP
         /// Updated everytime fire command is called.
         sf::Vector2f mFireTarget;
 
+        sf::Vector2f mSpread;
+
         /// Mouse translation
         ///
         /// Used to correct the position from view
@@ -187,7 +194,7 @@ namespace AFP
         ///
         ///
         /// Firing rate
-        int mFireRateLevel;
+        float mFireRate;
 
         ///
         ///
@@ -198,6 +205,14 @@ namespace AFP
         ///
         /// Set to true when character can be removed from the game.
         bool mIsMarkedForRemoval;
+
+        /// Teleport charge
+        ///
+        /// Teleport charge decreases when teleporting
+        /// and increases over time and when picking up
+        /// charges
+        /// Only entities with charge over zero can teleport
+        int mTeleCharge;
 
     };
 

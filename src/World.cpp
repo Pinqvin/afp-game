@@ -44,7 +44,10 @@ void AFP::World::buildScene()
     /// Initialize the different scene layers
     for (std::size_t i = 0; i < LayerCount; ++i)
     {
-        SceneNode::Ptr layer(new SceneNode());
+        // Set foreground layer as scene.
+        Category::Type category = (i == Foreground) ? Category::Scene : Category::None;
+
+        SceneNode::Ptr layer(new SceneNode(category));
         mSceneLayers[i] = layer.get();
 
         mSceneGraph.attachChild(std::move(layer));

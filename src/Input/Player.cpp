@@ -204,6 +204,7 @@ bool AFP::Player::isRealtimeAction(Action action)
     {
     case MoveLeft:
     case MoveRight:
+    case Fire:
         return true;
 
     default:

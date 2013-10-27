@@ -51,3 +51,17 @@ void AFP::Collectable::createCollectable(b2World* world, float posX, float posY)
     }
 
 }
+
+/// Apply collectable
+void AFP::Collectable::apply(Character& player)
+{
+    switch (mType)
+    {
+    case Coin:
+        player.heal(10);
+    case Orb:
+        player.recharge(10);
+    default:
+        break;
+    }
+}

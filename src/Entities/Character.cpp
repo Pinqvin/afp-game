@@ -21,15 +21,17 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints)
     , mType(type), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
-    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRateLevel(5)
-    , mFootContacts(0), mIsMarkedForRemoval(false)
+    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRate(1)
+    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge)
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
-    mFireCommand.category = Category::PlayerCharacter;
-    mTeleportCommand.category = Category::PlayerCharacter;
+    // Set command category as scene so the command is called only once.
+    mFireCommand.category = Category::Scene;
+    mTeleportCommand.category = Category::Scene;
+
     // Create the fire command
     mFireCommand.action = [this, &textures] (SceneNode& node, sf::Time) {
         createBullets(node, textures);
@@ -75,6 +77,7 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
 }
 
 /// Move character along horizontal axis
+/// Move-command
 void AFP::Character::moveHorizontal(float vx)
 {
     b2Vec2 velocity = getVelocity();
@@ -92,6 +95,7 @@ void AFP::Character::moveHorizontal(float vx)
 }
 
 /// Make character jump
+/// Jump-command
 void AFP::Character::jump()
 {
     if (mFootContacts > 0)
@@ -102,6 +106,7 @@ void AFP::Character::jump()
 }
 
 /// Set firing flag true
+/// Fire-command
 void AFP::Character::fire(sf::Vector2f target)
 {
     mIsFiring = true;
@@ -120,6 +125,7 @@ void AFP::Character::fire(sf::Vector2f target)
 }
 
 /// Set teleporting flag true
+/// Teleport-command
 void AFP::Character::teleport(sf::Vector2f target)
 {
     mIsTeleporting = true;
@@ -137,6 +143,27 @@ void AFP::Character::teleport(sf::Vector2f target)
 void AFP::Character::setMouseTranslation(sf::Vector2f translation)
 {
     mMouseTranslation = translation;
+}
+
+/// Start foot contact
+void AFP::Character::startFootContact()
+{
+    mFootContacts++;
+
+}
+
+/// End foot contact
+void AFP::Character::endFootContact()
+{
+    mFootContacts--;
+
+}
+
+/// Recharge telecharge
+void AFP::Character::recharge(int points)
+{
+    mTeleCharge += points;
+
 }
 
 /// Draw character
@@ -167,13 +194,14 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
     if (mIsFiring && mFireCountdown <= sf::Time::Zero)
     {
         commands.push(mFireCommand);
-        mFireCountdown += sf::seconds(1.f / (mFireRateLevel+1));
+        mFireCountdown += sf::seconds(mFireRate);
         mIsFiring = false;
 
     }
     else if (mFireCountdown > sf::Time::Zero)
     {
         mFireCountdown -= dt;
+        mIsFiring = false;
     }
 
     if (mIsTeleporting)
@@ -218,7 +246,7 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
     position.y += yOffset;
 
     /// Create projectile in Box2D world
-    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget, isFriendly());
+    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget + mSpread, isFriendly());
 
     /// Set position
     projectile->setPosition(projectile->getPosition());
@@ -240,14 +268,4 @@ void AFP::Character::teleportCharacter(SceneNode&,
 bool AFP::Character::isFriendly() const
 {
     return mType == Player;
-}
-
-void AFP::Character::startFootContact()
-{
-    mFootContacts++;
-}
-
-void AFP::Character::endFootContact()
-{
-    mFootContacts--;
 }

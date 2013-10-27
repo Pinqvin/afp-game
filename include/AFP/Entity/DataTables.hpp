@@ -11,6 +11,7 @@ namespace AFP
     struct CharacterData
     {
         int hitpoints;
+        int telecharge;
         float speed;
         float jumpStrength;
         Textures::ID texture;

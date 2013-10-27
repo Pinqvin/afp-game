@@ -11,11 +11,13 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     std::vector<AFP::CharacterData> data(AFP::Character::TypeCount);
 
     data[AFP::Character::Player].hitpoints = 100;
+    data[AFP::Character::Player].telecharge = 100;
     data[AFP::Character::Player].speed = 10.0f;
     data[AFP::Character::Player].jumpStrength = -40.0f;
     data[AFP::Character::Player].texture = AFP::Textures::Player;
 
     data[AFP::Character::Enemy].hitpoints = 100;
+    data[AFP::Character::Enemy].telecharge = 100;
     data[AFP::Character::Enemy].speed = 10.0f;
     data[AFP::Character::Enemy].jumpStrength = -10.0f;
     data[AFP::Character::Enemy].texture = AFP::Textures::Enemy;
