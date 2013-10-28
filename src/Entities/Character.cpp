@@ -22,7 +22,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints)
     , mType(type), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
-    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRate(400.0f)
+    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRate(10.0f)
     , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mSpread()
 {
     // Align the origin to the center of the texture
@@ -113,13 +113,11 @@ void AFP::Character::fire(sf::Vector2f target)
     mIsFiring = true;
 
     // Apply mouse translation
-    target.x += mMouseTranslation.x;
-    target.y += mMouseTranslation.y;
+    target += mMouseTranslation;
 
     // Calculate target position relative to
     // character
-    target.x -= getPosition().x;
-    target.y -= getPosition().y;
+    target -= getPosition();
 
     mFireTarget = target;
 
@@ -128,7 +126,7 @@ void AFP::Character::fire(sf::Vector2f target)
 /// Play sound
 void AFP::Character::playLocalSound(CommandQueue& commands, SoundEffect::ID effect)
 {
-    sf::Vector2f worldPosition = getWorldPosition();
+    sf::Vector2f worldPosition = getPosition();
 
     Command command;
     command.category = Category::SoundEffect;
@@ -148,8 +146,7 @@ void AFP::Character::teleport(sf::Vector2f target)
     mIsTeleporting = true;
 
     // Apply mouse translation
-    target.x += mMouseTranslation.x;
-    target.y += mMouseTranslation.y;
+    target += mMouseTranslation;
 
     mTeleportTarget.x = target.x;
     mTeleportTarget.y = target.y;
@@ -234,11 +231,6 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 /// Create bullets
 void AFP::Character::createBullets(SceneNode& node, const TextureHolder& textures)
 {
-    // TODO:
-    // Calculate offset using target so projectile is created in correct
-    // place. For example when shooting up the projectile is created
-    // on top of the character.
-
     sf::Vector2f offset = mFireTarget;
     float length = sqrt(pow(offset.x,2) + pow(offset.y,2));
     offset /= length;

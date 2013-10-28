@@ -5,6 +5,7 @@
 
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
+#include <AFP/Scene/SceneNode.hpp>
 #include <AFP/Entity/Entity.hpp>
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Entity/Collectable.hpp>
@@ -31,7 +32,7 @@ namespace AFP
         ///
         /// If categories match, return true. If categories are in wrong order
         /// swap them and return true.
-        bool matchesCategories(std::pair<Entity*, Entity*>& colliders, 
+        bool matchesCategories(SceneNode::Pair& colliders, 
             Category::Type type1, Category::Type type2);
 
     };

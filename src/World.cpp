@@ -57,6 +57,9 @@ void AFP::World::buildScene()
 
     }
 
+    /// Point user data to foreground
+    mGroundBody->SetUserData(mSceneLayers[Foreground]);
+
     /// Set the background texture to be tiled
     sf::Texture& texture = mTextures.get(Textures::Desert);
     sf::IntRect textureRect(mWorldBounds);

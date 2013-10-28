@@ -11,7 +11,7 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
     if (bodyAUserData && bodyBUserData)
     {
         // Make a pair of entities
-        std::pair<Entity*, Entity*> collisionPair(static_cast<Entity*>(bodyAUserData), static_cast<Entity*>(bodyBUserData));
+        SceneNode::Pair collisionPair(static_cast<SceneNode*>(bodyAUserData), static_cast<SceneNode*>(bodyBUserData));
 
         // Check collision pairs
         // Allied bullet collides with enemy or enemy bullet collides with allied character
@@ -48,25 +48,13 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
             }
             projectile.destroy();
         }
-    }
-    // Check projectile collisions with walls
-    if (bodyAUserData && !bodyBUserData)
-    {
-        Entity* userData = static_cast<Entity*>(bodyAUserData);
-        if (userData->getCategory() & Category::Projectile) 
+        // Projectile collides with walls
+        else if (matchesCategories(collisionPair, Category::Projectile, Category::Scene))
         {
-            auto& projectile = static_cast<Projectile&>(*userData);
+            auto& projectile = static_cast<Projectile&>(*collisionPair.first);
             projectile.destroy();
         }
-    }
-    if (bodyBUserData && !bodyAUserData)
-    {
-        Entity* userData = static_cast<Entity*>(bodyBUserData);
-        if (userData->getCategory() & Category::Projectile)
-        {
-            auto& projectile = static_cast<Projectile&>(*userData);
-            projectile.destroy();
-        }
+
     }
 
     void* fixtureUserData = contact->GetFixtureA()->GetUserData();
@@ -103,7 +91,7 @@ void AFP::ContactListener::EndContact(b2Contact* contact)
 }
 
 /// Match given categories
-bool AFP::ContactListener::matchesCategories(std::pair<Entity*, Entity*>& colliders,
+bool AFP::ContactListener::matchesCategories(SceneNode::Pair& colliders,
                                              Category::Type type1, Category::Type type2)
 {
     unsigned int category1 = colliders.first->getCategory();

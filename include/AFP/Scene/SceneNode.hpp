@@ -30,6 +30,7 @@ namespace AFP
 	{
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
+        typedef std::pair<SceneNode*, SceneNode*> Pair;
 
 		/// Constructor
 		///
