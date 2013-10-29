@@ -6,6 +6,7 @@
 #pragma once
 
 #include <AFP/Scene/SceneNode.hpp>
+#include <AFP/Utility.hpp>
 
 namespace AFP
 {
@@ -13,17 +14,27 @@ namespace AFP
     {
     public:
         /// @brief Constructor
-        Entity();
+        explicit Entity(int hitpoints);
 
         /// Set velocity
         ///
         /// Sets the velocity of the entity
         void setVelocity(b2Vec2 velocity);
 
+        /// Set position of body
+        ///
+        /// Set body position in meters.
+        void setBodyPosition(b2Vec2 target);
+
         /// Set velocity
         ///
         /// Applies an impulse to the entity
         void applyImpulse(b2Vec2 impulse);
+
+        /// Apply force
+        ///
+        /// Applies force to the entity
+        void applyForce(b2Vec2 force);
 
         /// Get velocity
         ///
@@ -35,32 +46,73 @@ namespace AFP
         /// Returns the mass of the entity
         float getMass() const;
 
+        /// Return position of body
+        ///
+        /// Converts position from meters to pixels and returns it.
+        sf::Vector2f getPosition() const;
+
+        /// Return position of body
+        ///
+        /// Return body position in meters.
+        b2Vec2 getBodyPosition() const;
+
+        /// Return world pointer
+        ///
+        ///
+        b2World* getWorld() const;
+
+        /// Get hitpoints
+        ///
+        /// Return entity hitpoints
+        int getHitpoints() const;
+
         /// Create body for entity
         ///
         ///
         void createBody(b2World* world, float posX, float posY,
             float sizeX, float sizeY, float density,
-            float friction, bool staticBody = false, bool isProjectile = false );
+            float friction);
 
-        /// Return position of body
+        /// Create foot sensor
         ///
-        /// Converts position from meters to pixels and returns it.
-        sf::Vector2f getPosition();
+        /// Creates a foot sensor on feet
+        void createFootSensor(float sizeX, float sizeY);
 
-        /// Return position of body
+        /// Create surround sensor
         ///
-        /// Return body position in meters.
-        b2Vec2 getBodyPosition();
+        /// Creates a foot sensor on feet
+        void createSurroundSensor(float radius);
 
-        /// Set position of body
+        /// Create vision sensor
         ///
-        /// Set body position in meters.
-        void setBodyPosition(b2Vec2 target);
+        /// Creates a vision sensor for the entity. 
+        ///Takes radius in meters and the angle in degrees as parameters
+        void createVisionSensor(float radius, float angle);
 
-        /// Return world pointer
+        /// Damage entity
         ///
+        /// Decreases hitpoints
+        void damage(int points);
+
+        /// Heal entity
         ///
-        b2World* getWorld();
+        /// Increases hitpoints
+        void heal(int points);
+
+        /// Destroy
+        ///
+        /// Destroy entity
+        void destroy();
+
+        /// Is entity destroyed
+        ///
+        /// Returns true if hitpoints are below or equal to zero
+        bool isDestroyed() const;
+
+        /// Destroy body
+        ///
+        /// Destroy Box2D body.
+        void destroyBody();
 
     protected:
         /// Update the movement
@@ -74,6 +126,12 @@ namespace AFP
         ///
         ///
         b2Body* mBody;
+
+        /// Hitpoints
+        ///
+        /// Hitpoints of the entity. Entity is destroyed when
+        /// hitpoints reach zero.
+        int mHitpoints;
 
     };
 

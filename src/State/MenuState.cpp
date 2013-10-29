@@ -3,6 +3,7 @@
 #include <AFP/Utility.hpp>
 #include <AFP/State/MenuState.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
+#include <AFP/Sound/MusicPlayer.hpp>
 
 ///  Constructor sets the different menu options
 AFP::MenuState::MenuState(StateStack& stack, Context context):
@@ -27,6 +28,8 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     mOptions.push_back(exitOption);
 
     updateOptionText();
+
+    context.music->play(Music::MenuTheme);
 
 }
 

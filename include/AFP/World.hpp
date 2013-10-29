@@ -9,8 +9,11 @@
 #include <AFP/Scene/SceneNode.hpp>
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Entity/Tile.hpp>
+#include <AFP/Entity/Collectable.hpp>
 #include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Debug/BoxDebugDraw.hpp>
+#include <AFP/ContactListener.hpp>
+#include <AFP/Sound/SoundPlayer.hpp>
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -35,8 +38,10 @@ namespace AFP
             ///
             /// Loads the necessary resources and sets the world dimensions
             /// @param window Window we render the world to
+            /// @param sounds Sounds loaded in Game state are passed to the world
             /// @param mapFile Path to the map file we parse for the world
-            explicit World(sf::RenderWindow& window, std::string mapFile);
+            explicit World(sf::RenderWindow& window, SoundPlayer& sounds,
+                    std::string mapFile);
 
             /// Update the SceneGraph
             ///
@@ -92,7 +97,11 @@ namespace AFP
             /// Moves the camera towards the player
             void moveCamera();
 
-        private:
+            /// Update sounds
+            ///
+            /// Update listener positon and remove stopped sounds
+            void updateSounds();
+
             /// Reference to the render window
             ///
             /// Used to draw all the scene nodes
@@ -134,11 +143,6 @@ namespace AFP
             ///
             sf::Vector2f mSpawnPosition;
 
-            /// Defines the speed the world scrolls at
-            ///
-            /// Most likely set to the same as the player's speed
-            float mScrollSpeed;
-
             /// Pointer to the player entity
             ///
             ///
@@ -169,7 +173,19 @@ namespace AFP
             /// Camera position
             ///
             /// Camera position in a 2D-vector
-            sf::Vector2f cameraPosition;
+            sf::Vector2f mCameraPosition;
+
+            /// Contact listener
+            ///
+            /// Contact listener instance
+            AFP::ContactListener mContactListener;
+
+            /// Sound player
+            ///
+            /// Sound player reference
+            SoundPlayer& mSounds;
+
+            bool mSpaceTimeRipped;
 
     };
 

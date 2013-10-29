@@ -3,18 +3,24 @@
 #include <AFP/World.hpp>
 #include <AFP/Scene/SpriteNode.hpp>
 #include <AFP/Utility.hpp>
+#include <AFP/Sound/SoundNode.hpp>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <Box2D/Common/b2Draw.h>
 #include <iostream>
 
+#include <iostream>
+
 /// Constructor
-AFP::World::World(sf::RenderWindow& window, std::string mapFile):
+AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
+        std::string mapFile):
     mWindow(window), mWorldView(window.getDefaultView()),
     mTextures(), mSceneGraph(), mSceneLayers(), mMap(),
-    mWorldBounds(), mSpawnPosition(), mScrollSpeed(-50.f),
-    mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
-    mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true)
+    mWorldBounds(), mSpawnPosition(), mPlayerCharacter(nullptr),
+    mCommandQueue(), mWorldBox(),
+    mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true),
+    mContactListener(), mSounds(sounds), mSpaceTimeRipped(false)
 {
     mMap.ParseFile(mapFile);
 
@@ -43,11 +49,12 @@ AFP::World::World(sf::RenderWindow& window, std::string mapFile):
 /// Load all the textures and tilesets required for the world.
 void AFP::World::loadTextures()
 {
-    mTextures.load("AFP::Textures::Enemy", "Media/Textures/Eagle.png");
+    mTextures.load("AFP::Textures::Enemy", "Media/Textures/telepolice_stopped.png");
     mTextures.load("AFP::Textures::Player", "Media/Textures/Rag.png");
     mTextures.load("AFP::Textures::Desert", "Media/Textures/Desert.png");
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
 
     for (int i = 0; i < mMap.GetNumTilesets(); ++i)
     {
@@ -75,7 +82,7 @@ void AFP::World::addBackgroundLayers()
     /// Initialize the different tiling backround layers
     for (int i = 0; i < mMap.GetNumImageLayers(); ++i)
     {
-        SceneNode::Ptr layer(new SceneNode());
+        SceneNode::Ptr layer(new SceneNode(Category::None));
         mSceneLayers.push_back(layer.get());
 
         mSceneGraph.attachChild(std::move(layer));
@@ -144,7 +151,7 @@ void AFP::World::addTileLayers()
     {
         const Tmx::Layer* tileLayer = mMap.GetLayer(i);
 
-        SceneNode::Ptr layer(new SceneNode());
+        SceneNode::Ptr layer(new SceneNode(Category::Scene));
         mSceneLayers.push_back(layer.get());
 
         mSceneGraph.attachChild(std::move(layer));
@@ -215,30 +222,59 @@ void AFP::World::buildScene()
     addBackgroundLayers();
     addTileLayers();
 
+    int topLayer = mSceneLayers.size() - 1;
+
+    // Point user data to foreground
+    mGroundBody->SetUserData(mSceneLayers[topLayer]);
+
+    // Add sound effect node
+    std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
+    mSceneGraph.attachChild(std::move(soundNode));
+
     /// Set the player to the world
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
     mPlayerCharacter = leader.get();
 
     mPlayerCharacter->createCharacter(mWorldBox, mSpawnPosition.x, mSpawnPosition.y);
     mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
-    cameraPosition = mPlayerCharacter->getPosition();
+    mCameraPosition = mPlayerCharacter->getPosition();
 
-    mSceneLayers[mSceneLayers.size() - 1]->attachChild(std::move(leader));
+    mSceneLayers[topLayer]->attachChild(std::move(leader));
 
     /// Create a test tile in box2D world
     std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
 
-    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f, AFP::Tile::Type::Grass);
+    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f);
     testTile->setPosition(testTile->getPosition());
 
-    mSceneLayers[mSceneLayers.size() - 1]->attachChild(std::move(testTile));
+    mSceneLayers[topLayer]->attachChild(std::move(testTile));
+
+    /// Create a test coin in box2D world
+    std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
+
+    testCoin->createCollectable(mWorldBox, mSpawnPosition.x + 64.f, 800.f);
+    testCoin->setPosition(testCoin->getPosition());
+
+    mSceneLayers[topLayer]->attachChild(std::move(testCoin));
+
+    /// Create a test enemy
+    std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
+
+    enemy->createCharacter(mWorldBox, 500.0f, 500.0f);
+    enemy->setPosition(enemy->getPosition());
+
+    mSceneLayers[topLayer]->attachChild(std::move(enemy));
+
 }
 
 /// Create the physics world
 void AFP::World::createWorld()
 {
-    b2Vec2 gravity(0.0f, 90.8f);
+    b2Vec2 gravity(0.0f, GRAVITY);
     mWorldBox = new b2World(gravity);
+
+    // Set up contact listener
+    mWorldBox->SetContactListener(&mContactListener);
 
     b2BodyDef bodyDef;
     b2EdgeShape groundBox;
@@ -311,8 +347,14 @@ void AFP::World::update(sf::Time dt)
     // Update Box2D world
     mWorldBox->Step(UPDATE_PER_FRAME, 6, 2);
 
+    // Remove destroyed entities
+    mSceneGraph.removeWrecks();
+
     // Regular update step, adapt position (correct if outside view)
     mSceneGraph.update(dt, mCommandQueue);
+
+    // Update sounds
+    updateSounds();
 
 }
 
@@ -329,21 +371,31 @@ void AFP::World::moveCamera()
     sf::Vector2f playerPosition = mPlayerCharacter->getPosition();
 
     // Moves camera smoothly
-    cameraPosition += (playerPosition - cameraPosition) / CAMERA_SPEED;
+    mCameraPosition += (playerPosition - mCameraPosition) / CAMERA_SPEED;
 
     // If position is too close to world boundaries, camera is not moved
-    if ( cameraPosition.x < (mWorldView.getSize().x / 2) ) {
-        cameraPosition.x = mWorldView.getSize().x / 2;
-    } else if ( cameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
-        cameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
+    if ( mCameraPosition.x < (mWorldView.getSize().x / 2) ) {
+        mCameraPosition.x = mWorldView.getSize().x / 2;
+    } else if ( mCameraPosition. x > (mWorldBounds.width - (mWorldView.getSize().x / 2)) ) {
+        mCameraPosition.x = mWorldBounds.width - mWorldView.getSize().x / 2;
     }
 
-    if ( cameraPosition.y < (mWorldView.getSize().y / 2) ) {
-        cameraPosition.y = mWorldView.getSize().y / 2;
-    } else if ( cameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
-        cameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
+    if ( mCameraPosition.y < (mWorldView.getSize().y / 2) ) {
+        mCameraPosition.y = mWorldView.getSize().y / 2;
+    } else if ( mCameraPosition. y > (mWorldBounds.height - (mWorldView.getSize().y / 2)) ) {
+        mCameraPosition.y = mWorldBounds.height - mWorldView.getSize().y / 2;
     }
 
-    mWorldView.setCenter(cameraPosition);
+    mWorldView.setCenter(mCameraPosition);
+}
+
+/// Update listener position and remove stopped sounds
+void AFP::World::updateSounds()
+{
+    // Set listener's position to player position
+    mSounds.setListenerPosition(mPlayerCharacter->getWorldPosition());
+
+    // Remove unused sounds
+    mSounds.removeStoppedSounds();
 }
 

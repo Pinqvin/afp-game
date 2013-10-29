@@ -19,6 +19,16 @@ namespace AFP
             PlayerCharacter = 1 << 1,
             AlliedCharacter = 1 << 2,
             EnemyCharacter = 1 << 3,
+            Collectable = 1 << 4,
+            AlliedProjectile = 1 << 5,
+            EnemyProjectile = 1 << 6,
+            DestroyableTile = 1 << 7,
+            StaticTile = 1 << 8,
+            SoundEffect = 1 << 9,
+
+            Tile = DestroyableTile | StaticTile,
+            Character = PlayerCharacter | AlliedCharacter | EnemyCharacter,
+            Projectile = AlliedProjectile | EnemyProjectile,
 
         };
 

@@ -20,7 +20,10 @@ namespace AFP
         ///
         enum Type
         {
-            Bullet
+            Bullet,
+            Shot,
+            Laser,
+            TypeCount
         };
 
         /// Constructor
@@ -40,13 +43,22 @@ namespace AFP
         virtual void updateCurrent(sf::Time dt, 
             CommandQueue& commands);
 
+        /// Get category
+        ///
+        /// Return Projectile
+        virtual unsigned int getCategory() const;
+
         /// Creates a projectile
         ///
         /// Create a projectile based on projectile type.
-        void createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type);
+        void createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, bool friendly);
+
+        /// Get damage
+        ///
+        /// Return projectile damage
+        int getDamage();
 
     private:
-
         /// Tile type
         ///
         ///
@@ -56,6 +68,16 @@ namespace AFP
         ///
         ///
         sf::Sprite mSprite;
+
+        /// Projectile target
+        ///
+        /// Projectile moves towards this.
+        b2Vec2 mTarget;
+
+        /// Is projectile friendly
+        ///
+        /// Set to true if projectile is friendly.
+        bool mFriendly;
 
     };
 }

@@ -30,11 +30,12 @@ namespace AFP
 	{
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
+        typedef std::pair<SceneNode*, SceneNode*> Pair;
 
 		/// Constructor
 		///
 		/// Sets mParent to nullptr
-		SceneNode();
+		explicit SceneNode(Category::Type category = Category::None);
 
 		/// Insert child
 		///
@@ -80,6 +81,27 @@ namespace AFP
         /// Returns the position of this nodes parent
         sf::Vector2f getParentPosition();
 
+        /// Remove entities
+        ///
+        /// Removes entities which are marked for removal
+        void removeWrecks();
+
+        /// Is entity marked for removal
+        ///
+        /// Returns true if entity is ready to be destroyed
+        virtual bool isMarkedForRemoval() const;
+
+        /// Is entity destroyed
+        /// 
+        /// Returns false by default, entities return
+        /// values based on hitpoints
+        virtual bool isDestroyed() const;
+
+        /// Destroy Body
+        ///
+        /// Destroys entitys body
+        virtual void destroyBody();
+
 	private:
 		/// Draw SceneNode
 		///
@@ -109,6 +131,8 @@ namespace AFP
         /// Update all the nodes in the mChildren vector
         void updateChildren(sf::Time dt, CommandQueue& commands);
 
+    private:
+
 		/// mChildren holds all the children.
 		///
 		///
@@ -118,6 +142,11 @@ namespace AFP
 		///
 		///
 		SceneNode* mParent;
+
+        /// Default category
+        ///
+        ///
+        Category::Type mDefaultCategory;
 
 	};
 }

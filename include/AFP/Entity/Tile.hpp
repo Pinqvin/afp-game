@@ -22,7 +22,8 @@ namespace AFP
         enum Type {
             Grass,
             Metal,
-            Dicks
+            Crate,
+            TypeCount
         };
 
         /// Constructor
@@ -36,13 +37,17 @@ namespace AFP
 		virtual void drawCurrent(sf::RenderTarget& target,
 			sf::RenderStates states) const;
 
+        /// Get body type
+        ///
+        /// Return TileBody
+        virtual unsigned int getCategory() const;
+
         /// Creates a tile
         ///
         /// Create a tile based on tile type.
-        void createTile(b2World* world, float posX, float posY, Type type);
+        void createTile(b2World* world, float posX, float posY);
 
     private:
-
         /// Tile type
         ///
         ///

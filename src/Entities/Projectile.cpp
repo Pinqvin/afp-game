@@ -3,31 +3,22 @@
 #include <AFP/Entity/Projectile.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Entity/DataTables.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
 #include <iostream>
 
-/// Return texture based on the type
-std::string toTextureId(AFP::Projectile::Type type)
+/// Projectile data table
+namespace
 {
-    /// TODO: Change when actual textures added
-    switch (type)
-    {
-    case AFP::Projectile::Bullet:
-        return "AFP::Textures::Bullet";
-
-    default:
-        return "AFP::Textures::Bullet";
-
-    }
-
+    const std::vector<AFP::ProjectileData> Table = AFP::initializeProjectileData();
 }
 
 /// Constructor
 AFP::Projectile::Projectile(Type type, const TextureHolder& textures):
-    mType(type), mSprite(textures.get(toTextureId(type)))
+    Entity(1), mType(type), mSprite(textures.get(Table[type].texture))
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -46,24 +37,54 @@ void AFP::Projectile::drawCurrent(sf::RenderTarget& target,
 /// Update projectile
 void AFP::Projectile::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
+    // Projectile moves at constant speed
+    setVelocity(mTarget);
     Entity::updateCurrent(dt, commands);
 }
 
-/// Creates a projectile
-void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, Type type)
+/// Return category
+unsigned int AFP::Projectile::getCategory() const
 {
-    switch(type)
+    if (mFriendly)
     {
-    case AFP::Projectile::Bullet:
-        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 10.0f, false, false);
-        // Amount of force
-        target.x *= 0.4f;
-        target.y *= 0.4f;
-        // Apply impulse to bullet
-        applyImpulse(b2Vec2(target.x, target.y));
-        break;
-    default:
-        break;
+        return Category::AlliedProjectile;
     }
+    else
+    {
+        return Category::EnemyProjectile;
+    }
+
+}
+
+/// Creates a projectile
+void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, bool friendly)
+{
+    mFriendly = friendly;
+
+    float length = sqrt(pow(target.x,2) + pow(target.y,2));
+    float spread = Table[mType].spread;
+
+    // Calculate spread
+    target.x += (float)rand()/((float)RAND_MAX/(length/(spread/2))) - length/spread;
+    target.y += (float)rand()/((float)RAND_MAX/(length/(spread/2))) - length/spread;
+
+    // Make target into a direction vector
+    target /= length;
+
+    mTarget = b2Vec2(target.x, target.y);
+
+    // Apply speed
+    mTarget *= Table[mType].speed;
+
+    // Create body for bullet and apply velocity
+    createBody(world, posX, posY, 0.1f, 0.1f, 1.0f, 0.0f);
+    setVelocity(mTarget);
+
+}
+
+int AFP::Projectile::getDamage()
+{
+    return Table[mType].damage;
+
 }
 

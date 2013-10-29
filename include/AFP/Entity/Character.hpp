@@ -9,6 +9,7 @@
 #include <AFP/Command/Command.hpp>
 #include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Sound/SoundPlayer.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -23,8 +24,17 @@ namespace AFP
         enum Type
         {
             Player,
-            Enemy
+            Enemy,
+            TypeCount
 
+        };
+
+        enum WeaponType
+        {
+            Pistol,
+            Machinegun,
+            Shotgun,
+            WeaponTypeCount
         };
 
         /// Constructor
@@ -58,6 +68,11 @@ namespace AFP
         /// will happen
         void fire(sf::Vector2f target);
 
+        ///
+        ///
+        ///
+        void playLocalSound(CommandQueue& commands, SoundEffect::ID effect);
+
         /// Teleport
         ///
         /// Setis mIsTeleporting true
@@ -68,6 +83,26 @@ namespace AFP
         /// Mouse translation is used in converting
         /// view coordinates to world coordinates
         void setMouseTranslation(sf::Vector2f translation);
+
+        /// Character can jump
+        ///
+        /// set mCanJump to true
+        void startFootContact();
+
+        /// Character can't jump
+        ///
+        /// set mCanJump to false
+        void endFootContact();
+
+        /// Return true if marked for removal
+        ///
+        ///
+        bool isMarkedForRemoval();
+
+        /// Recharge teleport
+        ///
+        ///
+        void recharge(int points);
 
     private:
         /// Draw character sprite
@@ -104,11 +139,21 @@ namespace AFP
         void teleportCharacter(SceneNode& node,
             const TextureHolder& textures);
 
+        /// Is character friendly
+        ///
+        /// Returns true if character is friendly
+        bool isFriendly() const;
+
     private:
         /// Character type
         ///
         ///
         Type mType;
+      
+        /// Weapon type
+        ///
+        ///
+        WeaponType mWeaponType;
 
         /// Character sprite
         ///
@@ -165,8 +210,31 @@ namespace AFP
 
         ///
         ///
-        /// Firing rate
-        int mFireRateLevel;
+        /// Teleport cooldown
+        sf::Time mTeleportCountdown;
+
+        ///
+        ///
+        /// Is the character on the ground?
+        int mFootContacts;
+
+        /// Is marked for removal
+        ///
+        /// Set to true when character can be removed from the game.
+        bool mIsMarkedForRemoval;
+
+        /// Teleport charge
+        ///
+        /// Teleport charge decreases when teleporting
+        /// and increases over time and when picking up
+        /// charges
+        /// Only entities with charge over zero can teleport
+        int mTeleCharge;
+
+        /// Weapon recoil
+        ///
+        /// Used to calculate recoil
+        float mRecoil;
 
     };
 
