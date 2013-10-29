@@ -3,6 +3,7 @@
 #include <AFP/Entity/Tile.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Utility.hpp>
 #include <AFP/Entity/DataTables.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -18,9 +19,7 @@ namespace
 AFP::Tile::Tile(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints), mType(type), mSprite(textures.get(Table[type].texture))
 {
-    /// Align the origin to the center of the texture
-    sf::FloatRect bounds = mSprite.getLocalBounds();
-    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    centerOrigin(mSprite);
 
 }
 
@@ -59,3 +58,4 @@ void AFP::Tile::createTile(b2World* world, float posX, float posY)
     }
 
 }
+

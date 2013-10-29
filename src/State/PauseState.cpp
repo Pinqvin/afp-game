@@ -11,7 +11,7 @@ AFP::PauseState::PauseState(StateStack& stack, State::Context context):
     State(stack, context), mBackgroundSprite(), mPausedText(),
     mInstructionText()
 {
-    sf::Font& font = context.fonts->get(Fonts::Debug);
+    sf::Font& font = context.fonts->get("AFP::Fonts::Debug");
     sf::Vector2f viewSize = context.window->getView().getSize();
 
     mPausedText.setFont(font);

@@ -18,8 +18,9 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/NonCopyable.hpp>
+#include <TmxParser/Tmx.h>
 #include <Box2D/Box2D.h>
-#include <array>
+#include <vector>
 
 /// Forward declaration
 namespace sf
@@ -33,10 +34,14 @@ namespace AFP
     class World : private sf::NonCopyable
     {
         public:
-            /// Constructor
+            /// @brief World constructor
             ///
-            ///
-            explicit World(sf::RenderWindow& window, SoundPlayer& sounds);
+            /// Loads the necessary resources and sets the world dimensions
+            /// @param window Window we render the world to
+            /// @param sounds Sounds loaded in Game state are passed to the world
+            /// @param mapFile Path to the map file we parse for the world
+            explicit World(sf::RenderWindow& window, SoundPlayer& sounds,
+                    std::string mapFile);
 
             /// Update the SceneGraph
             ///
@@ -66,6 +71,22 @@ namespace AFP
             /// TextureHolder.
             void buildScene();
 
+            /// @brief Parses and adds the image layers to the scenegraph
+            ///
+            /// Background layers are represented as image layers in the tiled
+            /// editor. They can be either repeated on the whole worldbox
+            /// (property repeat = true) or repeated vertically at a certain
+            /// height (property repeatVertical = true and height = height in
+            /// pixels from the bottom).
+            void addBackgroundLayers();
+
+            /// @brief Parses and adds the tile layers to the scenegraph
+            ///
+            /// The maps can have multiple tile layers with varying tilesets.
+            /// The individual tiles themselves don't have hitboxes, ground
+            /// areas are defined by an object layer
+            void addTileLayers();
+
             /// Create world with gravity
             ///
             /// Build the Box2D world.
@@ -80,19 +101,6 @@ namespace AFP
             ///
             /// Update listener positon and remove stopped sounds
             void updateSounds();
-
-    private:
-            /// Divite the draws to two different categories: background
-            /// (the area the player can't interract with) and foreground
-            ///
-            /// LayerCount isn't used to differentiate layers, it's used to
-            /// keep a count of the different layers.
-            enum Layer
-            {
-                Background,
-                Foreground,
-                LayerCount
-            };
 
             /// Reference to the render window
             ///
@@ -118,7 +126,11 @@ namespace AFP
             /// Differentiate scene nodes by their layer
             ///
             ///
-            std::array<SceneNode*, LayerCount> mSceneLayers;
+            std::vector<SceneNode*> mSceneLayers;
+
+            /// @brief Map file holds all the physical boundaries of the map,
+            /// all the objects, tile layers and their positions
+            Tmx::Map mMap;
 
             /// Defines the world bounds
             ///

@@ -3,14 +3,13 @@
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Utility.hpp>
 #include <AFP/Entity/DataTables.hpp>
 #include <AFP/Sound/SoundNode.hpp>
 #include <AFP/Entity/Sensor.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
-
-#include <iostream>
 
 /// Character data table
 namespace
@@ -27,9 +26,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
     , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil)
 {
-    // Align the origin to the center of the texture
-    sf::FloatRect bounds = mSprite.getLocalBounds();
-    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    centerOrigin(mSprite);
 
     // Set command category as scene so the command is called only once.
     mFireCommand.category = Category::Scene;
@@ -266,7 +263,7 @@ void AFP::Character::createBullets(SceneNode& node, const TextureHolder& texture
         createProjectile(node, WeaponTable[mWeaponType].bullets, offset.x, offset.y, textures);
         break;
     case WeaponType::Shotgun:
-        for(int i = 0;i < 10;i++) 
+        for(int i = 0;i < 10;i++)
         {
             createProjectile(node, WeaponTable[mWeaponType].bullets, offset.x, offset.y, textures);
         }
@@ -316,3 +313,4 @@ bool AFP::Character::isFriendly() const
 {
     return mType == Player;
 }
+

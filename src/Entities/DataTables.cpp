@@ -11,14 +11,14 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Player].speed = 10.0f;
     data[AFP::Character::Player].jumpStrength = -40.0f;
     data[AFP::Character::Player].weapon = Character::Shotgun;
-    data[AFP::Character::Player].texture = AFP::Textures::Player;
+    data[AFP::Character::Player].texture = "AFP::Textures::Player";
 
     data[AFP::Character::Enemy].hitpoints = 100;
     data[AFP::Character::Enemy].telecharge = 100;
     data[AFP::Character::Enemy].speed = 10.0f;
     data[AFP::Character::Enemy].jumpStrength = -10.0f;
     data[AFP::Character::Enemy].weapon = Character::Pistol;
-    data[AFP::Character::Enemy].texture = AFP::Textures::Enemy;
+    data[AFP::Character::Enemy].texture = "AFP::Textures::Enemy";
 
     return data;
 }
@@ -31,12 +31,12 @@ std::vector<AFP::ProjectileData> AFP::initializeProjectileData()
     data[AFP::Projectile::Bullet].damage = 10;
     data[AFP::Projectile::Bullet].speed = 40.0f;
     data[AFP::Projectile::Bullet].spread = 60.0f;
-    data[AFP::Projectile::Bullet].texture = AFP::Textures::Bullet;
+    data[AFP::Projectile::Bullet].texture = "AFP::Textures::Bullet";
 
     data[AFP::Projectile::Shot].damage = 5;
     data[AFP::Projectile::Shot].speed = 40.0f;
     data[AFP::Projectile::Shot].spread = 10.0f;
-    data[AFP::Projectile::Shot].texture = AFP::Textures::Bullet;
+    data[AFP::Projectile::Shot].texture = "AFP::Textures::Bullet";
 
     return data;
 
@@ -49,7 +49,7 @@ std::vector<AFP::TileData> AFP::initializeTileData()
 
     data[AFP::Tile::Grass].hitpoints = 1;
     data[AFP::Tile::Grass].destroyable = false;
-    data[AFP::Tile::Grass].texture = AFP::Textures::GrassTile;
+    data[AFP::Tile::Grass].texture = "AFP::Textures::GrassTile";
 
     return data;
 
@@ -60,7 +60,7 @@ std::vector<AFP::CollectableData> AFP::initializeCollectableData()
 {
     std::vector<AFP::CollectableData> data(AFP::Collectable::TypeCount);
 
-    data[AFP::Collectable::Coin].texture = AFP::Textures::Coin;
+    data[AFP::Collectable::Coin].texture = "AFP::Textures::Coin";
 
     return data;
 }

@@ -9,7 +9,7 @@ AFP::TitleState::TitleState(StateStack& stack, State::Context context):
     State(stack, context), mText(), mShowText(true),
     mTextEffectTime(sf::Time::Zero)
 {
-    mText.setFont(context.fonts->get(Fonts::Debug));
+    mText.setFont(context.fonts->get("AFP::Fonts::Debug"));
     mText.setString("Press any key to start");
     centerOrigin(mText);
     mText.setPosition(context.window->getView().getSize() / 2.f);

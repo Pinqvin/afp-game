@@ -19,7 +19,7 @@ namespace AFP
         float speed;
         float jumpStrength;
         Character::WeaponType weapon;
-        Textures::ID texture;
+        std::string texture;
     };
 
     struct ProjectileData
@@ -27,20 +27,20 @@ namespace AFP
         int damage;
         float speed;
         float spread;
-        Textures::ID texture;
+        std::string texture;
     };
 
     struct TileData
     {
         int hitpoints;
         bool destroyable;
-        Textures::ID texture;
+        std::string texture;
     };
 
     struct CollectableData
     {
         // TODO: Add collectible action
-        Textures::ID texture;
+        std::string texture;
     };
 
     struct WeaponData

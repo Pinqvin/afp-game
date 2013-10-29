@@ -79,3 +79,4 @@ int AFP::Projectile::getDamage()
     return Table[mType].damage;
 
 }
+

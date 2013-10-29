@@ -2,13 +2,14 @@
 #include <AFP/Sound/SoundPlayer.hpp>
 
 #include <SFML/Audio/Listener.hpp>
+#include <cmath>
 
 namespace
 {
     const float ListenerZ = 300.0f;
     const float Attenuation = 8.0f;
     const float MinDistance2D = 200.0f;
-    const float MinDistance3D = 
+    const float MinDistance3D =
         std::sqrt(MinDistance2D*MinDistance2D + ListenerZ*ListenerZ);
 }
 

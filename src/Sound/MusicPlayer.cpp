@@ -1,5 +1,6 @@
 /// Implementation for music player class
 #include <AFP/Sound/MusicPlayer.hpp>
+#include <stdexcept>
 
 /// Constructor
 AFP::MusicPlayer::MusicPlayer(void):
@@ -38,7 +39,7 @@ void AFP::MusicPlayer::setPaused(bool paused)
     {
         mMusic.pause();
     }
-    else 
+    else
     {
         mMusic.play();
     }

@@ -74,8 +74,9 @@ option(BOX2D_INSTALL "Install Box2D libs, includes, and CMake scripts" ${BOX2D_I
 option(BOX2D_BUILD_STATIC "Build Box2D static libraries" ON)
 set(BOX2D_VERSION 2.1.0)
 add_subdirectory(Box2D)
+add_subdirectory(TmxParser)
 
-target_link_libraries(${PROJECT_NAME} Box2D)
+target_link_libraries(${PROJECT_NAME} Box2D TmxParser)
 
 include_directories( ./ )
 

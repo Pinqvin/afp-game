@@ -5,7 +5,8 @@
 
 /// Constructor
 AFP::GameState::GameState(StateStack& stack, State::Context context):
-    State(stack, context), mWorld(*context.window, *context.sound), mPlayer(*context.player)
+    State(stack, context), mWorld(*context.window, *context.sound, "Media/Maps/lol.tmx"),
+    mPlayer(*context.player)
 {
 
 }
