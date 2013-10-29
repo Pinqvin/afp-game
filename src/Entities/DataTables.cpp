@@ -70,15 +70,15 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
 {
     std::vector<AFP::WeaponData> data(AFP::Character::WeaponTypeCount);
 
-    data[AFP::Character::Pistol].firerate = 300.0f;
+    data[AFP::Character::Pistol].firerate = 300;
     data[AFP::Character::Pistol].recoil = 0.0f;
     data[AFP::Character::Pistol].bullets = AFP::Projectile::Bullet;
 
-    data[AFP::Character::Machinegun].firerate = 50.0f;
+    data[AFP::Character::Machinegun].firerate = 50;
     data[AFP::Character::Machinegun].recoil = 1.2f;
     data[AFP::Character::Machinegun].bullets = AFP::Projectile::Bullet;
 
-    data[AFP::Character::Shotgun].firerate = 1000.0f;
+    data[AFP::Character::Shotgun].firerate = 1000;
     data[AFP::Character::Shotgun].recoil = 1.0f;
     data[AFP::Character::Shotgun].bullets = AFP::Projectile::Shot;
 

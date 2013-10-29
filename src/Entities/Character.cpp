@@ -23,7 +23,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints)
     , mType(type), mWeaponType(Table[type].weapon), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
-    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero)
+    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
     , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil)
 {
     // Align the origin to the center of the texture
@@ -220,14 +220,19 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
         mIsFiring = false;
     }
 
-    if (mIsTeleporting)
+    if (mIsTeleporting && mTeleportCountdown <= sf::Time::Zero)
     {
         commands.push(mTeleportCommand);
+        mTeleportCountdown += sf::milliseconds(500);
         mIsTeleporting = false;
 
     }
+    else if (mTeleportCountdown > sf::Time::Zero)
+    {
+        mTeleportCountdown -= dt;
+        mIsTeleporting = false;
 
-    mRecoil *= 0.95f;
+    }
 
 }
 

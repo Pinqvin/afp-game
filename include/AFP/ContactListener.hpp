@@ -28,6 +28,36 @@ namespace AFP
         /// Called when contact ends
         void EndContact(b2Contact* contact);
 
+        /// Begin contact
+        ///
+        /// Handles Body to Body contacts
+        void beginContactB2B(SceneNode::Pair& collisionPair);
+
+        /// Begin contact
+        ///
+        /// Handles Body to Fixture contacts
+        void beginContactB2F(SceneNode::Pair& collisionPair);
+
+        /// Begin contact
+        ///
+        /// Handles Fixture to Fixture contacts
+        void beginContactF2F(SceneNode::Pair& collisionPair);
+
+        /// End contact
+        ///
+        /// Handles Body to Body contacts
+        void endContactB2B(SceneNode::Pair& collisionPair);
+
+        /// End contact
+        ///
+        /// Handles Body to Fixture contacts
+        void endContactB2F(SceneNode::Pair& collisionPair);
+
+        /// End contact
+        ///
+        /// Handles Fixture to Fixture contacts
+        void endContactF2F(SceneNode::Pair& collisionPair);
+
         /// Check if categories match
         ///
         /// If categories match, return true. If categories are in wrong order

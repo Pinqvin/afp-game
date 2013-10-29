@@ -45,7 +45,7 @@ namespace AFP
 
     struct WeaponData
     {
-        float firerate;
+        int firerate;
         float recoil;
         Projectile::Type bullets;
     };

@@ -173,6 +173,8 @@ namespace AFP
             /// Sound player reference
             SoundPlayer& mSounds;
 
+            bool mSpaceTimeRipped;
+
     };
 
 }

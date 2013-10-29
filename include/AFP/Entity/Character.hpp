@@ -210,6 +210,11 @@ namespace AFP
 
         ///
         ///
+        /// Teleport cooldown
+        sf::Time mTeleportCountdown;
+
+        ///
+        ///
         /// Is the character on the ground?
         int mFootContacts;
 

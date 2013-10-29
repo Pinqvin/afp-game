@@ -6,88 +6,172 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
 {
     void* bodyAUserData = contact->GetFixtureA()->GetBody()->GetUserData();
     void* bodyBUserData = contact->GetFixtureB()->GetBody()->GetUserData();
+    void* fixtureAUserData = contact->GetFixtureA()->GetUserData();
+    void* fixtureBUserData = contact->GetFixtureB()->GetUserData();
 
-    // Check that user data exists
-    if (bodyAUserData && bodyBUserData)
+    SceneNode::Pair collisionPair;
+
+    // Both are bodies
+    if (bodyAUserData)
     {
-        // Make a pair of entities
-        SceneNode::Pair collisionPair(static_cast<SceneNode*>(bodyAUserData), static_cast<SceneNode*>(bodyBUserData));
-
-        // Check collision pairs
-        // Allied bullet collides with enemy or enemy bullet collides with allied character
-        if(matchesCategories(collisionPair, Category::AlliedCharacter, Category::EnemyProjectile)
-            || matchesCategories(collisionPair, Category::EnemyCharacter, Category::AlliedProjectile))
-        {
-            // Cast to correct classes
-            auto& character = static_cast<Character&>(*collisionPair.first);
-            auto& projectile = static_cast<Projectile&>(*collisionPair.second);
-
-            character.damage(projectile.getDamage());
-            projectile.destroy();
-        }
-        // Player collides with a collectable
-        else if (matchesCategories(collisionPair, Category::PlayerCharacter, Category::Collectable))
-        {
-            // Cast into correct classes
-            auto& player = static_cast<Character&>(*collisionPair.first);
-            auto& collectable = static_cast<Collectable&>(*collisionPair.second);
-
-            collectable.apply(player);
-            collectable.destroy();
-        }
-        // Projectile collides with tile
-        else if (matchesCategories(collisionPair, Category::Projectile, Category::Tile))
-        {
-            auto& projectile = static_cast<Projectile&>(*collisionPair.first);
-            auto& tile = static_cast<Tile&>(*collisionPair.second);
-
-            // Damage tile if it is destroyable
-            if (tile.getCategory() & Category::DestroyableTile)
-            {
-                tile.damage(projectile.getDamage());
-            }
-            projectile.destroy();
-        }
-        // Projectile collides with walls
-        else if (matchesCategories(collisionPair, Category::Projectile, Category::Scene))
-        {
-            auto& projectile = static_cast<Projectile&>(*collisionPair.first);
-            projectile.destroy();
-        }
-
+        collisionPair.first = static_cast<SceneNode*>(bodyAUserData);
+        collisionPair.second =  static_cast<SceneNode*>(bodyBUserData);
+        beginContactB2B(collisionPair);
     }
 
-    void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-    //if fixtureA is the character's foot sensor
-    // Foot sensor is the only fixture with user data
-    if (fixtureUserData)
+    // A is body and B is fixture
+    if (bodyAUserData && fixtureBUserData)
     {
-        static_cast<Character*>(fixtureUserData)->startFootContact();
+        collisionPair.first = static_cast<SceneNode*>(bodyAUserData);
+        collisionPair.second =  static_cast<SceneNode*>(fixtureBUserData);
+        beginContactB2F(collisionPair);
     }
 
-    fixtureUserData = contact->GetFixtureB()->GetUserData();
-    //if fixtureB is the character's foot sensor
-    if (fixtureUserData)
+    // B is body and A is fixture
+    if (bodyBUserData && fixtureAUserData)
     {
-        static_cast<Character*>(fixtureUserData)->startFootContact();
+        collisionPair.first = static_cast<SceneNode*>(bodyBUserData);
+        collisionPair.second =  static_cast<SceneNode*>(fixtureAUserData);
+        beginContactB2F(collisionPair);
+    }
+
+    // Both are fixtures
+    if (fixtureAUserData && fixtureBUserData)
+    {
+        collisionPair.first =  static_cast<SceneNode*>(fixtureAUserData);
+        collisionPair.second =  static_cast<SceneNode*>(fixtureBUserData);
+        beginContactF2F(collisionPair);
     }
 
 }
 
 void AFP::ContactListener::EndContact(b2Contact* contact)
 {
-    // Updates jump sensor when ending contact
-    void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-    if (fixtureUserData)
+    void* bodyAUserData = contact->GetFixtureA()->GetBody()->GetUserData();
+    void* bodyBUserData = contact->GetFixtureB()->GetBody()->GetUserData();
+    void* fixtureAUserData = contact->GetFixtureA()->GetUserData();
+    void* fixtureBUserData = contact->GetFixtureB()->GetUserData();
+
+    SceneNode::Pair collisionPair;
+
+    // Both are bodies
+    if (bodyAUserData)
     {
-        static_cast<Character*>(fixtureUserData)->endFootContact();
+        collisionPair.first = static_cast<SceneNode*>(bodyAUserData);
+        collisionPair.second =  static_cast<SceneNode*>(bodyBUserData);
+        endContactB2B(collisionPair);
     }
 
-    fixtureUserData = contact->GetFixtureB()->GetUserData();
-    if (fixtureUserData)
+    // A is body and B is fixture
+    if (bodyAUserData && fixtureBUserData)
     {
-        static_cast<Character*>(fixtureUserData)->endFootContact();
+        collisionPair.first = static_cast<SceneNode*>(bodyAUserData);
+        collisionPair.second =  static_cast<SceneNode*>(fixtureBUserData);
+        endContactB2F(collisionPair);
     }
+
+
+    // B is body and A is fixture
+    if (bodyBUserData && fixtureAUserData)
+    {
+        collisionPair.first = static_cast<SceneNode*>(bodyBUserData);
+        collisionPair.second =  static_cast<SceneNode*>(fixtureAUserData);
+        endContactB2F(collisionPair);
+    }
+
+    // Both are fixtures
+    if (fixtureAUserData && fixtureBUserData)
+    {
+        collisionPair.first =  static_cast<SceneNode*>(fixtureAUserData);
+        collisionPair.second =  static_cast<SceneNode*>(fixtureBUserData);
+        endContactF2F(collisionPair);
+    }
+
+}
+
+/// Handle Body to Body contacts
+void AFP::ContactListener::beginContactB2B(SceneNode::Pair& collisionPair)
+{
+    // Check collision pairs
+    // Allied bullet collides with enemy or enemy bullet collides with allied character
+    if(matchesCategories(collisionPair, Category::Character, Category::Projectile))
+    {
+        // Cast to correct classes
+        auto& character = static_cast<Character&>(*collisionPair.first);
+        auto& projectile = static_cast<Projectile&>(*collisionPair.second);
+
+        character.damage(projectile.getDamage());
+        projectile.destroy();
+    }
+    // Player collides with a collectable
+    else if (matchesCategories(collisionPair, Category::PlayerCharacter, Category::Collectable))
+    {
+        // Cast into correct classes
+        auto& player = static_cast<Character&>(*collisionPair.first);
+        auto& collectable = static_cast<Collectable&>(*collisionPair.second);
+
+        collectable.apply(player);
+        collectable.destroy();
+    }
+    // Projectile collides with tile
+    else if (matchesCategories(collisionPair, Category::Projectile, Category::Tile))
+    {
+        auto& projectile = static_cast<Projectile&>(*collisionPair.first);
+        auto& tile = static_cast<Tile&>(*collisionPair.second);
+
+        // Damage tile if it is destroyable
+        if (tile.getCategory() & Category::DestroyableTile)
+        {
+            tile.damage(projectile.getDamage());
+        }
+        projectile.destroy();
+    }
+    // Projectile collides with walls
+    else if (matchesCategories(collisionPair, Category::Projectile, Category::Scene))
+    {
+        auto& projectile = static_cast<Projectile&>(*collisionPair.first);
+        projectile.destroy();
+    }
+}
+
+/// Handle Body to Fixture contacts
+void AFP::ContactListener::beginContactB2F(SceneNode::Pair& collisionPair)
+{
+    // Footsensor collides with scene
+    if (matchesCategories(collisionPair, Category::Character, Category::Scene))
+    {
+        auto& player = static_cast<Character&>(*collisionPair.first);
+        player.startFootContact();
+    }
+}
+
+/// Handle Fixture to Fixture contacts
+void AFP::ContactListener::beginContactF2F(SceneNode::Pair& collisionPair)
+{
+    // Nothing here yet
+}
+
+/// Handle ending Body to Body contacts
+void AFP::ContactListener::endContactB2B(SceneNode::Pair& collisionPair)
+{
+    // Nothing here yet
+}
+
+/// Handle ending Body to Fixture contacts
+void AFP::ContactListener::endContactB2F(SceneNode::Pair& collisionPair)
+{
+    // Footsensor collides with scene
+    if (matchesCategories(collisionPair, Category::Character, Category::Scene))
+    {
+        auto& player = static_cast<Character&>(*collisionPair.first);
+        player.endFootContact();
+    }
+}
+
+/// Handle ending Fixture to Fixture contacts
+void AFP::ContactListener::endContactF2F(SceneNode::Pair& collisionPair)
+{
+    // Nothing here yet
 }
 
 /// Match given categories
