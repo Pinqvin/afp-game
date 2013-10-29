@@ -10,6 +10,7 @@
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Entity/Collectable.hpp>
 #include <AFP/Entity/Tile.hpp>
+#include <AFP/Entity/Sensor.hpp>
 
 namespace AFP
 {
@@ -30,33 +31,15 @@ namespace AFP
 
         /// Begin contact
         ///
-        /// Handles Body to Body contacts
-        void beginContactB2B(SceneNode::Pair& collisionPair);
-
-        /// Begin contact
-        ///
-        /// Handles Body to Fixture contacts
-        void beginContactB2F(SceneNode::Pair& collisionPair);
-
-        /// Begin contact
-        ///
-        /// Handles Fixture to Fixture contacts
-        void beginContactF2F(SceneNode::Pair& collisionPair);
+        /// Handles contacts
+        void beginContact(SceneNode::Pair& collisionPair);
 
         /// End contact
         ///
-        /// Handles Body to Body contacts
-        void endContactB2B(SceneNode::Pair& collisionPair);
+        /// Handles contacts
+        void endContact(SceneNode::Pair& collisionPair);
 
-        /// End contact
-        ///
-        /// Handles Body to Fixture contacts
-        void endContactB2F(SceneNode::Pair& collisionPair);
-
-        /// End contact
-        ///
-        /// Handles Fixture to Fixture contacts
-        void endContactF2F(SceneNode::Pair& collisionPair);
+        bool createPair(b2Contact* contact, SceneNode::Pair& collisionPair);
 
         /// Check if categories match
         ///

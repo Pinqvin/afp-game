@@ -73,21 +73,10 @@ namespace AFP
             float sizeX, float sizeY, float density,
             float friction);
 
-        /// Create foot sensor
+        /// Attach sensor
         ///
-        /// Creates a foot sensor on feet
-        void createFootSensor(float sizeX, float sizeY);
-
-        /// Create surround sensor
-        ///
-        /// Creates a foot sensor on feet
-        void createSurroundSensor(float radius);
-
-        /// Create vision sensor
-        ///
-        /// Creates a vision sensor for the entity. 
-        ///Takes radius in meters and the angle in degrees as parameters
-        void createVisionSensor(float radius, float angle);
+        /// Attaches a sensor to this entity
+        b2Fixture* attachSensor(const b2FixtureDef* sensor);
 
         /// Damage entity
         ///

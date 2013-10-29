@@ -74,10 +74,5 @@ namespace AFP
         /// Projectile moves towards this.
         b2Vec2 mTarget;
 
-        /// Is projectile friendly
-        ///
-        /// Set to true if projectile is friendly.
-        bool mFriendly;
-
     };
 }

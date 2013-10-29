@@ -5,6 +5,7 @@
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Entity/DataTables.hpp>
 #include <AFP/Sound/SoundNode.hpp>
+#include <AFP/Entity/Sensor.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -63,19 +64,28 @@ unsigned int AFP::Character::getCategory() const
 /// Create a body based on character type
 void AFP::Character::createCharacter(b2World* world, float posX, float posY)
 {
-    switch (mType)
+
+    createBody(world, posX, posY, 1.0f, 2.0f, 20.0f, 0.7f);
+
+    if (mType == Player)
     {
-    case AFP::Character::Player:
-        createBody(world, posX, posY, 1.0f, 2.0f, 20.0f, 0.7f);
-        createFootSensor(1.0f, 2.0f);
-        break;
-    case AFP::Character::Enemy:
-        createBody(world, posX, posY, 1.0f, 2.0f, 1.0f, 0.3f);
-        createVisionSensor(4.f, 45.f);
-        createSurroundSensor(12.f);
-        break;
-    default:
-        break;
+        // Create footsensor
+        std::unique_ptr<Sensor> sensor(new Sensor(this, Sensor::Foot));
+        sensor->createFootSensor(1.0f, 2.0f);
+        this->attachChild(std::move(sensor));
+    }
+
+    if (mType == Enemy)
+    {
+        // Create vision sensor
+        std::unique_ptr<Sensor> sensor(new Sensor(this, Sensor::Vision));
+        sensor->createVisionSensor(15.f, 90.f);
+        this->attachChild(std::move(sensor));
+
+        // Create surround sensor
+        std::unique_ptr<Sensor> sensor2(new Sensor(this, Sensor::Surround));
+        sensor2->createSurroundSensor(30.f);
+        this->attachChild(std::move(sensor2));
     }
 
 }

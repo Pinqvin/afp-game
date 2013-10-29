@@ -140,62 +140,9 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 
 }
 
-void AFP::Entity::createFootSensor(float sizeX, float sizeY)
+b2Fixture* AFP::Entity::attachSensor(const b2FixtureDef* sensor)
 {
-    b2PolygonShape dynamicBox;
-    b2FixtureDef fixtureDef;
-    b2Fixture* footSensorFixture;
-
-    /// Add foot sensor fixture
-    dynamicBox.SetAsBox(sizeX/2.f-0.2f, 0.3f, b2Vec2(0, sizeY/2.f), 0);
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.isSensor = true;
-    footSensorFixture = mBody->CreateFixture(&fixtureDef);
-
-    /// Set pointer to this entity in it's footsensor
-    footSensorFixture->SetUserData(this);
-}
-
-void AFP::Entity::createSurroundSensor(float radius)
-{
-    b2CircleShape circleShape;
-    b2FixtureDef fixtureDef;
-    b2Fixture* sensorFixture;
-
-
-    /// Add sensor fixture
-    circleShape.m_radius = radius;
-    fixtureDef.shape = &circleShape;
-    fixtureDef.isSensor = true;
-    sensorFixture = mBody->CreateFixture(&fixtureDef);
-
-    /// Set pointer to this entity in it's sensor
-    sensorFixture->SetUserData(this);
-}
-
-void AFP::Entity::createVisionSensor(float radius, float angle)
-{
-    b2PolygonShape polygonShape;
-    b2FixtureDef fixtureDef;
-    b2Fixture* sensorFixture;
-    b2Vec2 vertices[8];
-
-    float mAngle = 0;
-
-    vertices[0].Set(0, 0);
-    for (int i = 1; i < 8; i++) {
-        mAngle = i / 6.0 * angle * b2_pi/180.0 + (b2_pi - angle * b2_pi/180.0);
-        vertices[i].Set( radius * cosf(mAngle), radius * sinf(mAngle) );
-  }
-
-    /// Add sensor fixture
-    polygonShape.Set(vertices, 8);
-    fixtureDef.shape = &polygonShape;
-    fixtureDef.isSensor = true;
-    sensorFixture = mBody->CreateFixture(&fixtureDef);
-
-    /// Set pointer to this entity in it's sensor
-    sensorFixture->SetUserData(this);
+    return mBody->CreateFixture(sensor);
 }
 
 /// Decreases hitpoints

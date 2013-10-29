@@ -35,12 +35,8 @@ void AFP::Tile::drawCurrent(sf::RenderTarget& target,
 /// Return category
 unsigned int AFP::Tile::getCategory() const
 {
-    if (mType == Crate)
-    {
-        return Category::DestroyableTile;
-    }
 
-    return Category::StaticTile;
+    return Category::Tile;
 
 }
 

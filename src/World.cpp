@@ -18,7 +18,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds):
     mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f),
     mPlayerCharacter(nullptr), mCommandQueue(), mWorldBox(),
     mGroundBody(), mBoxDebugDraw(window, mWorldBounds), mDebugMode(true),
-    mSounds(sounds)
+    mCameraPosition(), mContactListener(), mSounds(sounds)
 {
 
     createWorld();

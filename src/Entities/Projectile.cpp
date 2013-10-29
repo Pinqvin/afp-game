@@ -45,22 +45,14 @@ void AFP::Projectile::updateCurrent(sf::Time dt, CommandQueue& commands)
 /// Return category
 unsigned int AFP::Projectile::getCategory() const
 {
-    if (mFriendly)
-    {
-        return Category::AlliedProjectile;
-    }
-    else
-    {
-        return Category::EnemyProjectile;
-    }
+
+    return Category::Projectile;
 
 }
 
 /// Creates a projectile
 void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, bool friendly)
 {
-    mFriendly = friendly;
-
     float length = sqrt(pow(target.x,2) + pow(target.y,2));
     float spread = Table[mType].spread;
 
