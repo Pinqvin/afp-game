@@ -69,9 +69,8 @@ void AFP::World::loadTextures()
 
 }
 
-/// Build the scene depicted by the world. Parses the map file to build
-/// the scene properly
-void AFP::World::buildScene()
+/// Add the background layers to the scene graph
+void AFP::World::addBackgroundLayers()
 {
     /// Initialize the different tiling backround layers
     for (int i = 0; i < mMap.GetNumImageLayers(); ++i)
@@ -122,9 +121,8 @@ void AFP::World::buildScene()
             }
 
             /// Set tiled image to the correct height. In tiled the height is
-            /// set as the number of tiles from the bottom
-            int height = layerProperties.GetNumericProperty("height") *
-                mMap.GetTileHeight();
+            /// set as the number of pixels from the bottom
+            int height = layerProperties.GetNumericProperty("height");
 
             backgroundSprite->setPosition(
                     mWorldBounds.left,
@@ -136,14 +134,15 @@ void AFP::World::buildScene()
 
     }
 
+}
 
-
+/// Add the tile layers to the scene graph
+void AFP::World::addTileLayers()
+{
     /// Initialize the different scene layers and the tiles in them
     for (int i = 0; i < mMap.GetNumLayers(); ++i)
     {
         const Tmx::Layer* tileLayer = mMap.GetLayer(i);
-
-        std::cout << tileLayer->GetName() << std::endl;
 
         SceneNode::Ptr layer(new SceneNode());
         mSceneLayers.push_back(layer.get());
@@ -167,20 +166,54 @@ void AFP::World::buildScene()
                 const Tmx::Tileset* tileset =
                     mMap.GetTileset(tileLayer->GetTileTilesetIndex(x, y));
 
-                currentTile -= tileset->GetFirstGid();
-
                 int tileWidth = tileset->GetTileWidth();
                 int tileHeight = tileset->GetTileHeight();
                 int tileSpacing = tileset->GetSpacing();
                 int tileMargin = tileset->GetMargin();
 
+                /// Tile position in the world
                 sf::Vector2f position;
+                position.x = x * tileWidth;
+                position.y = y * tileHeight;
+
+                /// Sprite position in the tilesheet
+                sf::IntRect tileSpritePosition;
+
+                /// Tile sprite's coordinates in the tileset
+                int tileX = currentTile % ((tileset->GetImage()->GetWidth()
+                            - tileMargin) / (tileWidth + tileSpacing));
+                int tileY = currentTile / ((tileset->GetImage()->GetWidth()
+                            - tileMargin) / (tileHeight + tileSpacing));
+
+                tileSpritePosition.left = tileX * (tileWidth + tileSpacing)
+                    + tileMargin;
+                tileSpritePosition.top = tileY * (tileHeight + tileSpacing)
+                    + tileMargin;
+                tileSpritePosition.width = tileWidth;
+                tileSpritePosition.height = tileHeight;
+
+                sf::Texture& texture = mTextures.get(tileset->GetName());
+
+                std::unique_ptr<SpriteNode> tileSprite(
+                        new SpriteNode(texture, tileSpritePosition));
+
+                tileSprite->setPosition(position);
+                mSceneLayers.back()->attachChild(std::move(tileSprite));
 
             }
 
         }
 
     }
+
+}
+
+/// Build the scene depicted by the world. Parses the map file to build
+/// the scene properly
+void AFP::World::buildScene()
+{
+    addBackgroundLayers();
+    addTileLayers();
 
     /// Set the player to the world
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));

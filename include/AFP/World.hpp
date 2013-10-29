@@ -66,6 +66,22 @@ namespace AFP
             /// TextureHolder.
             void buildScene();
 
+            /// @brief Parses and adds the image layers to the scenegraph
+            ///
+            /// Background layers are represented as image layers in the tiled
+            /// editor. They can be either repeated on the whole worldbox
+            /// (property repeat = true) or repeated vertically at a certain
+            /// height (property repeatVertical = true and height = height in
+            /// pixels from the bottom).
+            void addBackgroundLayers();
+
+            /// @brief Parses and adds the tile layers to the scenegraph
+            ///
+            /// The maps can have multiple tile layers with varying tilesets.
+            /// The individual tiles themselves don't have hitboxes, ground
+            /// areas are defined by an object layer
+            void addTileLayers();
+
             /// Create world with gravity
             ///
             /// Build the Box2D world.
