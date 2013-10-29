@@ -4,6 +4,10 @@
 #pragma once
 
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Entity/Character.hpp>
+#include <AFP/Entity/Projectile.hpp>
+#include <AFP/Entity/Collectable.hpp>
+#include <AFP/Entity/Tile.hpp>
 #include <vector>
 
 namespace AFP
@@ -14,6 +18,7 @@ namespace AFP
         int telecharge;
         float speed;
         float jumpStrength;
+        Character::WeaponType weapon;
         Textures::ID texture;
     };
 
@@ -21,6 +26,7 @@ namespace AFP
     {
         int damage;
         float speed;
+        float spread;
         Textures::ID texture;
     };
 
@@ -33,8 +39,15 @@ namespace AFP
 
     struct CollectableData
     {
-        // Add collectible action
+        // TODO: Add collectible action
         Textures::ID texture;
+    };
+
+    struct WeaponData
+    {
+        float firerate;
+        float recoil;
+        Projectile::Type bullets;
     };
 
     // Functions to initialize different data types
@@ -42,5 +55,6 @@ namespace AFP
     std::vector<ProjectileData> initializeProjectileData();
     std::vector<TileData> initializeTileData();
     std::vector<CollectableData> initializeCollectableData();
+    std::vector<WeaponData> initializeWeaponData();
 
 }

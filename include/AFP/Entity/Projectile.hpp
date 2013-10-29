@@ -74,16 +74,6 @@ namespace AFP
         /// Projectile moves towards this.
         b2Vec2 mTarget;
 
-        /// Projectile speed
-        ///
-        /// Speed of the projectile
-        float mSpeed;
-
-        /// Projectile damage
-        ///
-        ///
-        int mDamage;
-
         /// Is projectile friendly
         ///
         /// Set to true if projectile is friendly.

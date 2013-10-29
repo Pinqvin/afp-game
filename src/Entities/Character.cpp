@@ -15,15 +15,16 @@
 namespace
 {
     const std::vector<AFP::CharacterData> Table = AFP::initializeCharacterData();
+    const std::vector<AFP::WeaponData> WeaponTable = AFP::initializeWeaponData();
 }
 
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints)
-    , mType(type), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
+    , mType(type), mWeaponType(Table[type].weapon), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
-    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mFireRate(10.0f)
-    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mSpread()
+    , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero)
+    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil)
 {
     // Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -209,7 +210,7 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
     {
         commands.push(mFireCommand);
         playLocalSound(commands, SoundEffect::Pistol);
-        mFireCountdown += sf::milliseconds(mFireRate);
+        mFireCountdown += sf::milliseconds(WeaponTable[mWeaponType].firerate);
         mIsFiring = false;
 
     }
@@ -226,6 +227,8 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 
     }
 
+    mRecoil *= 0.95f;
+
 }
 
 /// Create bullets
@@ -238,7 +241,24 @@ void AFP::Character::createBullets(SceneNode& node, const TextureHolder& texture
     offset.x *= 16.0f;
     offset.y *= 32.0f;
 
-    createProjectile(node, Projectile::Bullet, offset.x, offset.y, textures);
+    // Different weapons create bullets differently
+    switch (mWeaponType)
+    {
+    case WeaponType::Machinegun:
+    case WeaponType::Pistol:
+        createProjectile(node, WeaponTable[mWeaponType].bullets, offset.x, offset.y, textures);
+        break;
+    case WeaponType::Shotgun:
+        for(int i = 0;i < 10;i++) 
+        {
+            createProjectile(node, WeaponTable[mWeaponType].bullets, offset.x, offset.y, textures);
+        }
+        break;
+    default:
+        break;
+    }
+
+
 
 }
 
@@ -256,7 +276,7 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
     position.y += yOffset;
 
     /// Create projectile in Box2D world
-    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget + mSpread, isFriendly());
+    projectile->createProjectile(getWorld(), position.x, position.y, mFireTarget, isFriendly());
 
     /// Set position
     projectile->setPosition(projectile->getPosition());

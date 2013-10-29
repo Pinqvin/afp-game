@@ -18,8 +18,7 @@ namespace
 
 /// Constructor
 AFP::Projectile::Projectile(Type type, const TextureHolder& textures):
-    Entity(1), mType(type), mSprite(textures.get(Table[type].texture)),
-    mSpeed(Table[type].speed), mDamage(Table[type].damage)
+    Entity(1), mType(type), mSprite(textures.get(Table[type].texture))
 {
     /// Align the origin to the center of the texture
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -61,31 +60,30 @@ unsigned int AFP::Projectile::getCategory() const
 void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, bool friendly)
 {
     mFriendly = friendly;
-    
-    // Make target into a direction vector
+
     float length = sqrt(pow(target.x,2) + pow(target.y,2));
+    float spread = Table[mType].spread;
+
+    // Calculate spread
+    target.x += (float)rand()/((float)RAND_MAX/(length/(spread/2))) - length/spread;
+    target.y += (float)rand()/((float)RAND_MAX/(length/(spread/2))) - length/spread;
+
+    // Make target into a direction vector
     target /= length;
 
     mTarget = b2Vec2(target.x, target.y);
 
     // Apply speed
-    mTarget *= mSpeed;
+    mTarget *= Table[mType].speed;
 
-    switch(mType)
-    {
-    case AFP::Projectile::Bullet:
-        // Create body for bullet and apply velocity
-        createBody(world, posX, posY, 0.1f, 0.1f, 1.0f, 0.0f);
-        setVelocity(mTarget);
-        break;
-    default:
-        break;
-    }
+    // Create body for bullet and apply velocity
+    createBody(world, posX, posY, 0.1f, 0.1f, 1.0f, 0.0f);
+    setVelocity(mTarget);
 
 }
 
 int AFP::Projectile::getDamage()
 {
-    return mDamage;
+    return Table[mType].damage;
 
 }

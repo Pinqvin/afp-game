@@ -29,6 +29,14 @@ namespace AFP
 
         };
 
+        enum WeaponType
+        {
+            Pistol,
+            Machinegun,
+            Shotgun,
+            WeaponTypeCount
+        };
+
         /// Constructor
         ///
         ///
@@ -141,6 +149,11 @@ namespace AFP
         ///
         ///
         Type mType;
+      
+        /// Weapon type
+        ///
+        ///
+        WeaponType mWeaponType;
 
         /// Character sprite
         ///
@@ -184,8 +197,6 @@ namespace AFP
         /// Updated everytime fire command is called.
         sf::Vector2f mFireTarget;
 
-        sf::Vector2f mSpread;
-
         /// Mouse translation
         ///
         /// Used to correct the position from view
@@ -196,11 +207,6 @@ namespace AFP
         ///
         /// Firing cooldown
         sf::Time mFireCountdown;
-
-        ///
-        ///
-        /// Firing rate
-        float mFireRate;
 
         ///
         ///
@@ -219,6 +225,11 @@ namespace AFP
         /// charges
         /// Only entities with charge over zero can teleport
         int mTeleCharge;
+
+        /// Weapon recoil
+        ///
+        /// Used to calculate recoil
+        float mRecoil;
 
     };
 
