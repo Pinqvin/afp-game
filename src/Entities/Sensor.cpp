@@ -62,7 +62,7 @@ void AFP::Sensor::createVisionSensor(float radius, float angle)
     b2Vec2 vertices[8];
 
     float mAngle = 2 * b2_pi / 3;
-    float step = (angle * (b2_pi/180.0)) / 6;
+    float step = (angle * (b2_pi/180.0)) / 6.0;
 
     vertices[0].Set(0, 0);
     for (int i = 0; i < 7; i++) {

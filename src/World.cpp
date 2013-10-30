@@ -52,7 +52,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::Player", "Media/Textures/Rag.png");
     mTextures.load("AFP::Textures::Desert", "Media/Textures/Desert.png");
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
-    mTextures.load("AFP::Textures::Bullet", "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
 
     for (int i = 0; i < mMap.GetNumTilesets(); ++i)

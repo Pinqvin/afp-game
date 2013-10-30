@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <AFP/State/State.hpp>
+#include <AFP/GUI/Container.hpp>
 
 // Forward declaration
 namespace AFP
@@ -39,11 +40,6 @@ namespace AFP
             /// Used to handle the player selecting different menu options
             virtual bool handleEvent(const sf::Event& event);
 
-            /// Update the option text
-            ///
-            /// Updates the option that's selected
-            void updateOptionText();
-
         private:
             /// Describes all the different options available in the menu
             enum OptionNames
@@ -56,11 +52,8 @@ namespace AFP
             /// Background drawn for the menu
             sf::Sprite mBackgroundSprite;
 
-            /// All the options the menu has
-            std::vector<sf::Text> mOptions;
-
-            /// Index of the currently selected option
-            std::size_t mOptionIndex;
+            /// Contains all GUI components
+            GUI::Container mGUIContainer;
 
     };
 

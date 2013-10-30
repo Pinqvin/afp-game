@@ -20,7 +20,11 @@ AFP::Application::Application():
     mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames()
 {
     mFonts.load("AFP::Fonts::Debug", "Media/Sansation.ttf");
-    mTextures.load("Textures::TitleScreen", "Media/Textures/TitleScreen.png");
+
+    mTextures.load("AFP::Textures::TitleScreen", "Media/Textures/TitleScreen.png");
+    mTextures.load("AFP::Textures::ButtonNormal", "Media/Textures/ButtonNormal.png");
+    mTextures.load("AFP::Textures::ButtonSelected", "Media/Textures/ButtonSelected.png");
+    mTextures.load("AFP::Textures::ButtonPressed", "Media/Textures/ButtonPressed.png");
 
     mStatisticsText.setFont(mFonts.get("AFP::Fonts::Debug"));
     mStatisticsText.setPosition(5.f, 5.f);

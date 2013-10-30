@@ -27,7 +27,10 @@ namespace AFP
             TitleScreen,
             GrassTile,
             Bullet,
-            Coin
+            Coin,
+            ButtonNormal,
+            ButtonSelected,
+            ButtonPressed
         };
 
     }
