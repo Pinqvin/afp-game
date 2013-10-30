@@ -17,7 +17,7 @@ unsigned int AFP::Sensor::getCategory() const
 }
 
 /// Update sensor
-void AFP::Sensor::updateCurrent(sf::Time dt, CommandQueue& commands)
+void AFP::Sensor::updateCurrent(sf::Time, CommandQueue&)
 {
 }
 
@@ -28,7 +28,7 @@ void AFP::Sensor::createFootSensor(float sizeX, float sizeY)
     b2FixtureDef fixtureDef;
 
     /// Add foot sensor fixture
-    dynamicBox.SetAsBox(sizeX/2.f-0.2f, 0.3f, b2Vec2(0, sizeY/2.f), 0);
+    dynamicBox.SetAsBox(sizeX / 2.f - 0.2f, 0.3f, b2Vec2(0, sizeY / 2.f), 0);
     fixtureDef.shape = &dynamicBox;
     fixtureDef.isSensor = true;
     mFixture = mParent->attachSensor(&fixtureDef);
@@ -111,3 +111,4 @@ void AFP::Sensor::endContact()
     }
 
 }
+

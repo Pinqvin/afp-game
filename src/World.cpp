@@ -10,15 +10,13 @@
 #include <Box2D/Common/b2Draw.h>
 #include <iostream>
 
-#include <iostream>
-
 /// Constructor
 AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
         std::string mapFile):
     mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
-    mSceneGraph(), mSceneLayers(), mMap(), mWorldBounds(), 
-    mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(), 
-    mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds), 
+    mSceneGraph(), mSceneLayers(), mMap(), mWorldBounds(),
+    mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
+    mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
     mDebugMode(true), mCameraPosition(), mContactListener(), mSounds(sounds)
 {
     mMap.ParseFile(mapFile);
@@ -52,7 +50,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::Player", "Media/Textures/Rag.png");
     mTextures.load("AFP::Textures::Desert", "Media/Textures/Desert.png");
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
-    mTextures.load("AFP::Textures::Bullet", "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
 
     for (int i = 0; i < mMap.GetNumTilesets(); ++i)
@@ -214,12 +212,107 @@ void AFP::World::addTileLayers()
 
 }
 
+/// Add collision objects to the box2D world
+void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
+{
+    for (int i = 0; i < objectGroup->GetNumObjects(); ++i)
+    {
+        const Tmx::Object* collisionObject = objectGroup->GetObject(i);
+
+        /// Cast the object to all the possible types and check for the non
+        /// null pointer
+        const Tmx::Ellipse* ellipseCollision = collisionObject->GetEllipse();
+        const Tmx::Polygon* polygonCollision = collisionObject->GetPolygon();
+        const Tmx::Polyline* polylineCollision = collisionObject->GetPolyline();
+
+        b2FixtureDef fixtureDef;
+
+        if (ellipseCollision != NULL) {
+            /// TODO: Polygon approximation for ellipses? Not sure if necessary
+            /// though.
+            b2CircleShape circle;
+            circle.m_radius = (ellipseCollision->GetRadiusX() +
+                        ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
+            circle.m_p = b2Vec2(ellipseCollision->GetCenterX() / PTM_RATIO,
+                        ellipseCollision->GetCenterY() / PTM_RATIO);
+            fixtureDef.shape = &circle;
+            fixtureDef.friction = 0.35f;
+            mGroundBody->CreateFixture(&fixtureDef);
+
+        }
+        else if (polygonCollision != NULL)
+        {
+            b2PolygonShape polygonShape;
+            int polyCount = polygonCollision->GetNumPoints();
+            b2Vec2* vertices = new b2Vec2[polyCount];
+
+            for (int k = 0; k < polyCount; ++k)
+            {
+                const Tmx::Point point = polygonCollision->GetPoint(k);
+
+                vertices[k].x = (collisionObject->GetX() + point.x) / PTM_RATIO;
+                vertices[k].y = (collisionObject->GetY() + point.y) / PTM_RATIO;
+
+            }
+
+            polygonShape.Set(vertices, polyCount);
+            delete vertices;
+            fixtureDef.shape = &polygonShape;
+            fixtureDef.friction = 0.35f;
+            mGroundBody->CreateFixture(&fixtureDef);
+
+        }
+        else if (polylineCollision != NULL)
+        {
+            /// TODO: Implement polyline (probably with b2EdgeShapes).
+
+        }
+        else
+        {
+            /// If it was none of the above, it's a box eg. the default object
+            /// type/shape
+            b2PolygonShape polygonShape;
+            int width = collisionObject->GetWidth() / PTM_RATIO;
+            int height = collisionObject->GetHeight() / PTM_RATIO;
+            int x = collisionObject->GetX() / PTM_RATIO;
+            int y = collisionObject->GetY() / PTM_RATIO;
+
+            polygonShape.SetAsBox(width / 2.f,
+                    height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
+            fixtureDef.shape = &polygonShape;
+            fixtureDef.friction = 0.35f;
+            mGroundBody->CreateFixture(&fixtureDef);
+
+        }
+
+    }
+
+}
+
+/// Parse and add object layer data
+void AFP::World::addObjectLayers()
+{
+    for (int i = 0; i < mMap.GetNumObjectGroups(); ++i)
+    {
+        const Tmx::ObjectGroup* objectGroup = mMap.GetObjectGroup(i);
+
+        if (objectGroup->GetName() == "Collisions")
+        {
+            addCollisionObjects(objectGroup);
+
+        }
+
+    }
+
+}
+
 /// Build the scene depicted by the world. Parses the map file to build
 /// the scene properly
 void AFP::World::buildScene()
 {
     addBackgroundLayers();
     addTileLayers();
+    addObjectLayers();
 
     int topLayer = mSceneLayers.size() - 1;
 
@@ -286,20 +379,20 @@ void AFP::World::createWorld()
     // Creates walls around area
     // Ground
     fixtureDef.friction = 0.35f;
-    groundBox.Set(b2Vec2(0, mWorldBounds.height / 16.f),
-        b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f));
+    groundBox.Set(b2Vec2(0, mWorldBounds.height / PTM_RATIO),
+        b2Vec2(mWorldBounds.width / PTM_RATIO, mWorldBounds.height / PTM_RATIO));
     mGroundBody->CreateFixture(&fixtureDef);
 
     // Rest of the walls
     fixtureDef.friction = 0.0f;
-    groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / 16.f, 0));
+    groundBox.Set(b2Vec2(0, 0), b2Vec2(mWorldBounds.width / PTM_RATIO, 0));
     mGroundBody->CreateFixture(&fixtureDef);
 
-    groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / 16.f));
+    groundBox.Set(b2Vec2(0, 0), b2Vec2(0, mWorldBounds.height / PTM_RATIO));
     mGroundBody->CreateFixture(&fixtureDef);
 
-    groundBox.Set(b2Vec2(mWorldBounds.width / 16.f, mWorldBounds.height / 16.f),
-        b2Vec2(mWorldBounds.width / 16.f, 0));
+    groundBox.Set(b2Vec2(mWorldBounds.width / PTM_RATIO, mWorldBounds.height / PTM_RATIO),
+        b2Vec2(mWorldBounds.width / PTM_RATIO, 0));
     mGroundBody->CreateFixture(&fixtureDef);
 
     /// Setup debug info

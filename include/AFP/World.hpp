@@ -87,6 +87,17 @@ namespace AFP
             /// areas are defined by an object layer
             void addTileLayers();
 
+            /// @brief Parses and adds the object layers to the Box2D world
+            ///
+            /// Object layers can be used for collision layers, triggers, spawn
+            /// points etc.
+            void addObjectLayers();
+
+            /// @brief Parse and add all the collision objects in the group
+            ///
+            /// @param objectGroup Holds all the collision objects
+            void addCollisionObjects(const Tmx::ObjectGroup* objectGroup);
+
             /// Create world with gravity
             ///
             /// Build the Box2D world.

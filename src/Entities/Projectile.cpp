@@ -51,7 +51,7 @@ unsigned int AFP::Projectile::getCategory() const
 }
 
 /// Creates a projectile
-void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, bool friendly)
+void AFP::Projectile::createProjectile(b2World* world, float posX, float posY, sf::Vector2f target, bool)
 {
     float length = sqrt(pow(target.x,2) + pow(target.y,2));
     float spread = Table[mType].spread;
