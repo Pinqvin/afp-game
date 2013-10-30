@@ -2045,14 +2045,35 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="Physics" width="45" height="45">
-  <properties>
-   <property name="boundaries" value="true"/>
-  </properties>
+ <objectgroup name="Collisions" width="45" height="45">
   <object name="wall" x="640" y="11" height="610"/>
   <object name="floor" x="12" y="619" width="623" height="19"/>
   <object name="floor" x="97" y="550" width="254" height="24"/>
   <object name="floor" x="97" y="293" width="254" height="27"/>
+  <object x="404" y="1019" width="133" height="83"/>
+  <object x="755" y="948" width="138" height="112">
+   <ellipse/>
+  </object>
+  <object x="289" y="802" width="447" height="29"/>
+  <object x="32" y="1312" width="160" height="32"/>
+  <object x="224" y="1376" width="160" height="32"/>
+  <object x="352" y="1344" width="128" height="32"/>
+  <object x="0" y="1184" width="128" height="32"/>
+  <object x="608" y="1088" width="160" height="160"/>
+  <object x="704" y="640" width="128" height="32"/>
+  <object x="800" y="672" width="32" height="128"/>
+  <object x="832" y="768" width="64" height="32"/>
+  <object x="96" y="512" width="256"/>
+  <object x="350" y="591" width="203" height="10"/>
+  <object x="819" y="1012" width="351" height="351">
+   <ellipse/>
+  </object>
+  <object x="263" y="1093">
+   <polygon points="0,0 58,30 -7,48"/>
+  </object>
+  <object x="88" y="1042">
+   <polyline points="0,0 105,-57 213,11 335,-69 500,-69"/>
+  </object>
  </objectgroup>
  <objectgroup name="Objects" width="45" height="45">
   <object name="Player" x="114" y="491" width="16" height="27">

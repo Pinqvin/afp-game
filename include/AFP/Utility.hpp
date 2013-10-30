@@ -19,7 +19,7 @@ namespace AFP
     void centerOrigin(sf::Text& text);
 
     /// Pixel to meter ratio
-    const float PTM_RATIO = 16;
+    const float PTM_RATIO = 16.f;
 
     /// Time per frame. Fixed to 60fps
     const float UPDATE_PER_FRAME = 1.f / 60.f;
