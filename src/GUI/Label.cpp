@@ -7,8 +7,9 @@
 
 // Constructor
 AFP::GUI::Label::Label(const std::string& text, const FontHolder& fonts):
-    mText(text, fonts.get("Fonts::Debug"), 16)
+    mText(text, fonts.get("AFP::Fonts::Debug"), 16)
 {
+    centerOrigin(mText);
 }
 
 /// Is selectable
@@ -26,6 +27,13 @@ void AFP::GUI::Label::setText(const std::string& text)
 /// Handle event
 void AFP::GUI::Label::handleEvent(const sf::Event&)
 {
+}
+
+/// Returns a empty rectangle
+sf::FloatRect AFP::GUI::Label::getBoundingRect() const
+{
+    return sf::FloatRect();
+
 }
 
 /// Draw label

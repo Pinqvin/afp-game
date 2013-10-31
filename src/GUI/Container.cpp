@@ -7,7 +7,7 @@
 
 /// Constructor
 AFP::GUI::Container::Container(void):
-    mChildren(), mSelectedChild(-1)
+    mChildren(), mSelectedChild(-1), mMousePosition()
 {
 }
 
@@ -20,6 +20,29 @@ void AFP::GUI::Container::pack(Component::Ptr component)
     {
         select(mChildren.size() - 1);
     }
+}
+
+/// Set mouse position
+void AFP::GUI::Container::setMousePosition(sf::Vector2f position)
+{
+    mMousePosition = position;
+}
+
+/// Set mouse position
+bool AFP::GUI::Container::selectByMousePosition()
+{
+    // Loop through all components
+    for(std::size_t i = 0; i < mChildren.size();i++)
+    {
+        // If mouse is inside a components bounding rectangle, try to select it
+        if (mChildren[i]->getBoundingRect().contains(mMousePosition))
+        {
+            select(i);
+            return true;
+        } 
+    }
+
+    return false;
 }
 
 /// Container is not selectable so return false
@@ -52,6 +75,26 @@ void AFP::GUI::Container::handleEvent(const sf::Event& event)
                 mChildren[mSelectedChild]->activate();
         }
     }
+    // Update mouse selection when mouse moves
+    else if (event.type == sf::Event::MouseMoved)
+    {
+        selectByMousePosition();
+    }
+    else if (event.type == sf::Event::MouseButtonPressed)
+    {
+        // Check if there is a component in mouse position
+        if (hasSelection() && selectByMousePosition())
+        {
+            mChildren[mSelectedChild]->activate();
+        }
+    }
+
+}
+
+sf::FloatRect AFP::GUI::Container::getBoundingRect() const
+{
+    return sf::FloatRect();
+
 }
 
 /// Calls draw for all components

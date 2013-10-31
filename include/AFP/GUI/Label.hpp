@@ -39,6 +39,11 @@ namespace AFP
             ///
             virtual void handleEvent(const sf::Event& event);
 
+            /// Get bounding rectangle
+            ///
+            /// Returns a empty rectangle
+            virtual sf::FloatRect getBoundingRect() const;
+
         private:
             /// Draw
             ///

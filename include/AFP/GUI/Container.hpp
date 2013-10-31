@@ -28,6 +28,18 @@ namespace AFP
             /// Adds a component to the container
             void pack(Component::Ptr component);
 
+            /// Set mouse position
+            ///
+            /// Set mMousePosition to position
+            void setMousePosition(sf::Vector2f position);
+
+            /// Select by mouse position
+            ///
+            /// Try to select a component in mouse position
+            /// Return true when mouse is in a component
+            /// otherwise return false
+            bool selectByMousePosition();
+
             /// Is selectable
             ///
             /// Container is not selectable so return false
@@ -37,6 +49,11 @@ namespace AFP
             ///
             /// Handles keyboard events
             virtual void handleEvent(const sf::Event& event);
+
+            /// Get bounding rectangle
+            ///
+            /// Returns the bounding rectangle of the component
+            virtual sf::FloatRect getBoundingRect() const;
 
         private:
             /// Draw
@@ -76,6 +93,10 @@ namespace AFP
             /// Only one child is selected at a time
             int mSelectedChild;
 
+            /// Mouse position
+            ///
+            /// Stores mouse position
+            sf::Vector2f mMousePosition;
         };
 
     }

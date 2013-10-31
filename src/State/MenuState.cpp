@@ -5,18 +5,22 @@
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Sound/MusicPlayer.hpp>
 #include <AFP/GUI/Button.hpp>
+#include <AFP/GUI/Label.hpp>
 
 ///  Constructor sets the different menu options
 AFP::MenuState::MenuState(StateStack& stack, Context context):
     State(stack, context), mBackgroundSprite(), mGUIContainer()
 {
+    auto titleText = std::make_shared<GUI::Label>("TELEPORT HERO ACTION SHOOTER GAME", *context.fonts);
+    titleText->setPosition(427,100);
+
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    playButton->setPosition(100,250);
+    playButton->setPosition(427,250);
     playButton->setText("Play");
     playButton->setCallback([this] ()
     {
         requestStackPop();
-        requestStackPush(States::Game);
+        requestStackPush(States::Load);
     });
 
     // Settings not yet implemented so this part is left out
@@ -26,18 +30,19 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     settingsButton->setText("Settings");
     settingsButton->setCallback([this] ()
     {
-        requestStackPush(States::Settings);
+    requestStackPush(States::Settings);
     });
     */
 
     auto exitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    exitButton->setPosition(100, 350);
+    exitButton->setPosition(427, 350);
     exitButton->setText("Exit");
     exitButton->setCallback([this] ()
     {
         requestStackPop();
     });
 
+    mGUIContainer.pack(titleText);
     mGUIContainer.pack(playButton);
     // mGUIContainer.pack(settingsButton);
     mGUIContainer.pack(exitButton);
@@ -76,6 +81,12 @@ bool AFP::MenuState::update(sf::Time)
 /// Handle state changes and selected option changes
 bool AFP::MenuState::handleEvent(const sf::Event& event)
 {
+    // Set new mouse position if mouse moved
+    if (event.type == sf::Event::MouseMoved)
+    {
+        mGUIContainer.setMousePosition(sf::Vector2f(sf::Mouse::getPosition(*getContext().window)));
+    }
+
     mGUIContainer.handleEvent(event);
     return false;
 

@@ -15,8 +15,10 @@ AFP::GUI::Button::Button(const FontHolder& fonts, const TextureHolder& textures)
 {
     mSprite.setTexture(mNormalTexture);
 
-    sf::FloatRect bounds = mSprite.getLocalBounds();
-    mText.setPosition(bounds.width / 2.f, bounds.height / 2.f);
+    // Center sprite and text
+    centerOrigin(mSprite);
+    centerOrigin(mText);
+
 }
 
 /// Set callback
@@ -115,4 +117,20 @@ void AFP::GUI::Button::draw(sf::RenderTarget& target
     states.transform *= getTransform();
     target.draw(mSprite, states);
     target.draw(mText, states);
+}
+
+/// Return button bounding rectangle
+sf::FloatRect AFP::GUI::Button::getBoundingRect() const
+{
+    // Get rectangle size and position
+    sf::Vector2f size(mSprite.getLocalBounds().width, 
+                      mSprite.getLocalBounds().height);
+    sf::Vector2f position(getPosition());
+
+    // Set position to the up left corner of the button
+    position -= size / 2.f;
+
+    // Create new rectangle in button position and return it
+    return sf::FloatRect(position, size);
+
 }

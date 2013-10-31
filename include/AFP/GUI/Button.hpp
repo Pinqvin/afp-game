@@ -78,6 +78,11 @@ namespace AFP
             ///
             virtual void handleEvent(const sf::Event& event);
 
+            /// Get bounding rectangle
+            ///
+            /// Return bounding rectancle of the button
+            virtual sf::FloatRect getBoundingRect() const;
+
         private:
             /// Draw
             ///
