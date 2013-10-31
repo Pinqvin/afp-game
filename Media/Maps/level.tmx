@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="80" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="16_blocks" tilewidth="16" tileheight="16" spacing="1">
+  <image source="Pictures/Tile_16.png" width="119" height="102"/>
+ </tileset>
+ <tileset firstgid="43" name="32_blocks" tilewidth="32" tileheight="32" spacing="1">
+  <image source="Pictures/Tile_32.png" width="321" height="264"/>
+ </tileset>
+ <imagelayer name="Sky_background" width="200" height="80">
+  <image source="Pictures/Night_sky_background.png"/>
+  <properties>
+   <property name="height" value="1"/>
+   <property name="repeatVertical" value="true"/>
+  </properties>
+ </imagelayer>
+ <imagelayer name="City_backgroundi" width="200" height="80">
+  <image source="Pictures/Night_city_background.png"/>
+  <properties>
+   <property name="height" value="150"/>
+   <property name="repeatVertical" value="true"/>
+  </properties>
+ </imagelayer>
+ <layer name="Ground_farther" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3FGKgzAQAFBvt5/rev/D7NeChFiTrHESfQ9k2kLjkJCZWsFlAQAAAAAAAAAAAAAAAADgCbaD+BOQCwDzWKMTAGAqf9cZa/IeAHLSvpFGfQSAnKO+kUYAyNE3AACAp/hKYu/xe58PoJa61Cb9X+zqeXQfBxiZGtWu99xZG2BkalS7XnNXOq61ASLNUqNGzLO2zp89L6V2vFHWBninWWrUiHle1T++G8cbZW0gij0RY7YaNWKe+gfEsidijFKb9ufbluNn5R7FNN/a72/JsWZi7jw1Uf+APuyJGJ9q0r5u3pHHVXW6V/xvfrX9I6V/jM8z1e5lT8QqrZulR+53e2kszecJsYbrj7GtFa8/fWZdy5m7MUTX0bfGGvYKMIPouvqWCDM4u28Ie9F1tTWe3U/XFwD6iu4Ds0cA7nV1fdY/AN5B/wCghf4BAAAAAAAAAAAAAADs/QIwn7Ml
+  </data>
+ </layer>
+ <layer name="Ground_between" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt2EsKhDAQQMEcz+0cQef+dxgExejgLwrRpGrTIC56Yz8wBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACeqMm9AACv9Mm9AAAAwEnf3AsA8AjtMLvFXBqf6wcAvbV+xLML+kGd2v1XoHpb/YinflAT/eAOpd9N/YB/+sEVpd/NI/+v4gnA3N4dLbUfAFyjHwCk0A9I5/uAiX4AkEI/AAAAAAAAAAAAAAAAAAAAAHiTH0hTF5Y=
+  </data>
+ </layer>
+ <layer name="Ground_back" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3DsKwCAMAFAPVbrZ3v9WXSp0aISK1H7eWwRByJRAQkwJAAAAAAAAAAAAAAAAAIA/WUcHAMCjzKMDAAAAAAAAAAAAAAAAAABeL+/n0vi+7DvahwfgaAru1Q0AanJwr24AAMB9rvxzGM0WWmcOZ6I+EwDn7s6bPXN+T6XPpI5AXdSTBQAAAAAAAAAAAAAAAAAAAAAAAAAAAADgezaIuASR
+  </data>
+ </layer>
+ <layer name="Ground" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3Mtu2zAQBdB8Ugs02bVd9/9/qDAaoQ5hiiL1mJF0DhDcRWxLkcG5sSz77Q0AAAAAAADy+fGZ709Z/pS/f86PvXcQEnpv3wQu71V/9KT+ALgn/QHAiLn+aJ3Hmvu9XuEOWuexnOfiyta+/vC6BOB8WrN/yQzv7Y9vn/mrkQDkNXft1MPa/nh1fsr1WvDf0vNT5e1q6wO2MnJuacl7Fr2P+TC97vj5md8X3q+kP4iWYVbrj5yWztzMc2zJ39DzP395m577Tr3xu9jH3h45w3HnWnpn8qv1wjns9T7umeZYzzFY2gE9P68eo3Wcnve5d196tgO9Rs8tjTzGmm3ssb27OLo3jppXtb9rbrt7HouR1yxz+731vuoPuI+1cyCqN9bOraW9MHJt1BHHZLQ/sj0PD1tcf7ZWbR+Auuh5kzWnmZWlH8+StVm/1XHc+/H1BywXPW+ypv4YS/0B9xE9b7Km/hhL/QH3ET1vsqb+GMue67x6svV5eP0Bx4ueN1lTf4xlqz+mz5vUvi+ltzcm+gOOFz1vsqb+GMu110ot/f6to54XoC563mRN/TGWR33+Q39AvOh5kzWz9Efr+3Gfc9rXP0V+zNynN2vnmfbuj6jnAaiLntNZc5qD5fn6o7dffl/VnFZ/bKl2PLbeVnR/A3XRczprlnOw9b7v1tnTG5Mj+2PS2u/o+a8/YD/R6zNrZv0ep7mOiOiPFv3BVZTrqsw7il6f2TNbj+iPY5PrG3mtzz/R61N+zaWfv3vVEbVzbHuuj7P3g/6AcdHrU37NNf0RQX/AfUWvTxmTa/vm6r2hP6Aten1KmTmBuuj1KWXmBOqi16eUmROoi16fUmZOoC56fUqZOYG66PUpZeYE6qLXp5SZE6iLXp9SZk6gLnp9Spk5gbq/0MsY5A==
+  </data>
+ </layer>
+ <layer name="Scenery" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt2zEKgDAMBdCcwyOq959FaKGW2FGlvrd8mqlTKCGNAAAAAAB4zlpya3LvzlFqAAAAAAAAAAAAAL3l7QvAB2Q7ufZwAcbO3qlfMjPvZLiqfT9uMvvTVusAAAAAzM08lb/Kdg1GaV4KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALQOiJkOHA==
+  </data>
+ </layer>
+ <layer name="Grass" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3O1umzAUANBsa9O1+7c9wHj/p1xQF9VjhmBwsbHPkaxWTVMukPrjYvtyAQDO6lo6AKjM79IBAACQ5MutfP1bniI/f4q9CRr1/VZeb+Vtw9cfBeIF4BiPcsDyYfBuKB3ACi+lA2jQtI50jUHfoAbTfJdn+rCc95LXAqBW4xhTX26Zcfg7YwAeGUoHUIAxANQpbLPCeVnXB6/Tphr7ciXy2+ZrUZvxf3NuXi30ak1dPVcnz/3+Gev1adu9Jv8Qvuc5YywtUe/Cv/bUubUIz6H2WDlerM5fyoe0tLatxjxALvdza+l+HWVPXiS1fRiyR59Hy+2GZzX7tDgXNxz/qCvZotU6M1Zfnun87vGPJRb3o9d7Fo4Fvl22z/kp2dfec+ye24Tx3Gs77zF/W/KehMceY8nRjyzVbuw97tZ24czt5Nz9Lq2GMU0shiVL83JqfxYRi31tziWl/Rwu9V+LmsTuQeozwiXXydfY5+B58lrqPduSfypZj+aaR5TaLiwdt/Q1qVE4zln7GZq+Z+ma5sibAgAAAABt+VU6AAAgu/uzdWtv4cPZ51UDbRpKBwCwgT2J4X/GGwCfp8W9Mc68XhPWCNecxvY7s/6SXuVY16fdIMVcfQy9S83j/NxxrPseQC3vlUq63ubytLAXOMeQL4nb0w7RrqW9lMJ+x9I+WD3kaWL7SnnW3a6c+9Afmad5nZTPpm8GcA7W+9KzuXFMak4t9neMBzir1PHOtBw9zpHnozcvke97yL3BXc68HAAAAAAAAAAAAAAAAADA2fwBXtUS+w==
+  </data>
+ </layer>
+ <layer name="Metal" width="200" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3VlugzAUBdDsoOEn/ev+l9lEKiogDBgMPPA5EsogKjmP3HiAiscDAADu4/Xevjrb69zmQCjNe3v+PX9O7QiV+h48Av/kA9LkA9LkA9LkA9KW5qNdC7YGTE1y+o/PGnCzY1vWGp7HcT6nvFprnJOPyGOw9vxNM3hNOcPaRvytLO0u+Ri2LXJbr66m2m7JR6Q5iXwcp6babu0/ooxj5OM4UWu7xxyp/aw/GfvOvXeGtflwjWZf6jvWrU2UYz6m9Bwp57PeMR+tqGtzZxj7bnXHCVGO+ZRSbZSPdfvf2dxxvkKt5KNPPso5Kx9LxnZLlWrjknnH1L45f78n+SjnzP5jbmy3lOPZN6xHbm6j5DyCM/NRaowiH33dekz101PbsA+v/ZqK1HvycT1j9WgSz1tL+u0ar6mYG0fv2dfKxz7WHLOtaxOUJx9xyEc88hGHfMQjH3HIRzxjdV4zdrYeuZ18xKPOcchHPH7349h67QAAAAAAAABwPTX8TwcA+9OfAABAPMbpAABwfznjfnMEAAAAIMdnLaF7zwH3zIS+q90HEo4kH5AmH5AmH5AmH5B21H0gAQAAAAAAAAAAAAAAAACAWH4BcCoUxQ==
+  </data>
+ </layer>
+ <objectgroup name="Collisions" width="200" height="80">
+  <object x="0" y="464" width="96" height="32"/>
+  <object x="96" y="496" width="192" height="32"/>
+  <object x="288" y="464" width="32" height="32"/>
+  <object x="320" y="432" width="32" height="32"/>
+  <object x="352" y="400" width="288" height="32"/>
+  <object x="640" y="368" width="128" height="32"/>
+  <object x="736" y="400" width="32" height="64"/>
+  <object x="768" y="464" width="32" height="32"/>
+  <object x="800" y="496" width="320" height="32"/>
+  <object x="464" y="272" width="128" height="16"/>
+  <object x="560" y="192" width="112" height="16"/>
+  <object x="960" y="320" width="128" height="16"/>
+  <object x="1216" y="256" width="112" height="16"/>
+ </objectgroup>
+ <objectgroup name="Objects" width="200" height="80">
+  <object gid="55" x="1328" y="880"/>
+  <object gid="55" x="1360" y="880"/>
+  <object gid="55" x="1472" y="880"/>
+  <object gid="55" x="1360" y="848"/>
+  <object gid="55" x="2048" y="976"/>
+  <object gid="55" x="2592" y="784"/>
+  <object gid="55" x="2512" y="352"/>
+  <object gid="55" x="2384" y="176"/>
+  <object gid="55" x="2000" y="464"/>
+  <object gid="55" x="1904" y="112"/>
+  <object gid="55" x="1920" y="80"/>
+  <object gid="55" x="1936" y="112"/>
+  <object gid="55" x="1344" y="496"/>
+  <object gid="55" x="832" y="496"/>
+  <object gid="55" x="1024" y="320"/>
+  <object gid="46" x="608" y="192"/>
+  <object gid="55" x="32" y="464"/>
+  <object gid="29" x="128" y="496"/>
+  <object gid="29" x="144" y="496"/>
+  <object gid="29" x="496" y="272"/>
+  <object gid="29" x="512" y="272"/>
+  <object gid="29" x="544" y="400"/>
+  <object gid="29" x="560" y="400"/>
+  <object gid="29" x="592" y="400"/>
+  <object gid="29" x="16" y="464"/>
+  <object gid="29" x="816" y="496"/>
+  <object gid="29" x="896" y="496"/>
+  <object gid="29" x="1008" y="320"/>
+  <object gid="29" x="1296" y="256"/>
+  <object gid="29" x="1264" y="256"/>
+  <object gid="29" x="1584" y="48"/>
+  <object gid="29" x="1632" y="272"/>
+  <object gid="29" x="1712" y="336"/>
+  <object gid="29" x="1728" y="336"/>
+  <object gid="29" x="1744" y="336"/>
+  <object gid="29" x="1760" y="336"/>
+  <object gid="29" x="1760" y="320"/>
+  <object gid="29" x="1744" y="320"/>
+  <object gid="29" x="1728" y="320"/>
+  <object gid="29" x="1712" y="320"/>
+  <object gid="29" x="1968" y="432"/>
+  <object gid="29" x="2080" y="432"/>
+  <object gid="29" x="2064" y="464"/>
+  <object gid="29" x="1968" y="112"/>
+  <object gid="29" x="2112" y="208"/>
+  <object gid="29" x="2368" y="176"/>
+  <object gid="29" x="2480" y="352"/>
+  <object gid="29" x="2464" y="352"/>
+  <object gid="29" x="2688" y="784"/>
+  <object gid="29" x="2672" y="784"/>
+  <object gid="29" x="1904" y="912"/>
+  <object gid="29" x="1920" y="896"/>
+  <object gid="29" x="1904" y="896"/>
+  <object gid="29" x="1920" y="912"/>
+  <object gid="29" x="1920" y="944"/>
+  <object gid="29" x="1920" y="928"/>
+  <object gid="29" x="1904" y="928"/>
+  <object gid="29" x="1904" y="944"/>
+  <object gid="29" x="1888" y="944"/>
+  <object gid="29" x="1888" y="928"/>
+  <object gid="29" x="1888" y="912"/>
+  <object gid="29" x="1888" y="896"/>
+  <object gid="29" x="1872" y="912"/>
+  <object gid="29" x="1872" y="928"/>
+  <object gid="29" x="1872" y="944"/>
+  <object gid="29" x="1872" y="896"/>
+  <object gid="29" x="1856" y="944"/>
+  <object gid="29" x="2128" y="832"/>
+  <object gid="29" x="2128" y="832"/>
+  <object gid="29" x="2112" y="832"/>
+  <object gid="29" x="1312" y="880"/>
+  <object gid="29" x="1424" y="880"/>
+  <object gid="29" x="1568" y="880"/>
+  <object gid="46" x="2240" y="976"/>
+  <object gid="46" x="2144" y="832"/>
+  <object gid="46" x="2720" y="352"/>
+  <object gid="46" x="2608" y="256"/>
+  <object gid="46" x="1504" y="336"/>
+  <object gid="46" x="1232" y="256"/>
+ </objectgroup>
+ <objectgroup name="Spawn" width="200" height="80"/>
+</map>

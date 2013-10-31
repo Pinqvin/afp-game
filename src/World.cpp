@@ -17,7 +17,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
     mSceneGraph(), mSceneLayers(), mMap(), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
-    mDebugMode(true), mCameraPosition(), mContactListener(), mSounds(sounds)
+    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds)
 {
     mMap.ParseFile(mapFile);
 
@@ -170,8 +170,8 @@ void AFP::World::addTileLayers()
                 const Tmx::Tileset* tileset =
                     mMap.GetTileset(tileLayer->GetTileTilesetIndex(x, y));
 
-                int tileWidth = tileset->GetTileWidth();
-                int tileHeight = tileset->GetTileHeight();
+                int tileWidth = mMap.GetTileWidth();
+                int tileHeight = mMap.GetTileHeight();
                 int tileSpacing = tileset->GetSpacing();
                 int tileMargin = tileset->GetMargin();
 
@@ -179,6 +179,9 @@ void AFP::World::addTileLayers()
                 sf::Vector2f position;
                 position.x = x * tileWidth;
                 position.y = y * tileHeight;
+
+                tileWidth = tileset->GetTileWidth();
+                tileHeight = tileset->GetTileHeight();
 
                 /// Sprite position in the tilesheet
                 sf::IntRect tileSpritePosition;

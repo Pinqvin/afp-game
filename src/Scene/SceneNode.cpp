@@ -122,7 +122,7 @@ void AFP::SceneNode::onCommand(const Command& command, sf::Time dt)
     }
 
     /// Relay the same command to all children
-    for(Ptr& child : mChildren)
+    for (Ptr& child : mChildren)
     {
         child->onCommand(command, dt);
 
@@ -142,7 +142,7 @@ void AFP::SceneNode::removeWrecks()
     // Remove all bodies that are marked for removal
     for(Ptr& child : mChildren)
     {
-        if(child->isMarkedForRemoval()) 
+        if (child->isMarkedForRemoval())
         {
             child->destroyBody();
         }
@@ -172,3 +172,4 @@ void AFP::SceneNode::destroyBody()
 {
     // Do nothing by default
 }
+
