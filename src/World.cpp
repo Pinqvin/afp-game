@@ -229,7 +229,6 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
 
         if (ellipseCollision != NULL) {
             /// TODO: Polygon approximation for ellipses? Not sure if necessary
-            /// though.
             b2CircleShape circle;
             circle.m_radius = (ellipseCollision->GetRadiusX() +
                         ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
@@ -242,6 +241,9 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
         }
         else if (polygonCollision != NULL)
         {
+            /// Maximum vertex count supported by Box2D is 8 (by default). If
+            /// larger or concave polygon shapes are used, the program will
+            /// crash
             b2PolygonShape polygonShape;
             int polyCount = polygonCollision->GetNumPoints();
             b2Vec2* vertices = new b2Vec2[polyCount];
@@ -264,7 +266,23 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
         }
         else if (polylineCollision != NULL)
         {
-            /// TODO: Implement polyline (probably with b2EdgeShapes).
+            b2EdgeShape line;
+            int pointCount = polylineCollision->GetNumPoints();
+            int x = collisionObject->GetX();
+            int y = collisionObject->GetY();
+
+            for (int i = 0; i < pointCount - 1; ++i)
+            {
+                Tmx::Point currentPoint = polylineCollision->GetPoint(i);
+                Tmx::Point nextPoint = polylineCollision->GetPoint(i + 1);
+
+                line.Set(b2Vec2((currentPoint.x + x) / PTM_RATIO, (currentPoint.y + y) / PTM_RATIO),
+                        b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
+                fixtureDef.shape = &line;
+                fixtureDef.friction = 0.35f;
+                mGroundBody->CreateFixture(&fixtureDef);
+
+            }
 
         }
         else

@@ -113,7 +113,7 @@ void AFP::Sensor::endContact()
 }
 
 /// End sensor contact
-void AFP::Sensor::endContact(Character& character)
+void AFP::Sensor::endContact(Character&)
 {
     if (mType == Vision)
     {

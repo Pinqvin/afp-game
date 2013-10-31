@@ -2074,6 +2074,9 @@
   <object x="88" y="1042">
    <polyline points="0,0 105,-57 213,11 335,-69 500,-69"/>
   </object>
+  <object x="403" y="1183">
+   <polyline points="0,0 99,-22"/>
+  </object>
  </objectgroup>
  <objectgroup name="Objects" width="45" height="45">
   <object name="Player" x="114" y="491" width="16" height="27">
