@@ -134,6 +134,13 @@ namespace AFP
             ///
             SceneNode mSceneGraph;
 
+            /// Sprite graph
+            ///
+            /// Sprite graph holds tiles and background
+            /// No update function is called for spritegraph
+            /// only draw
+            SceneNode mSpriteGraph;
+
             /// Differentiate scene nodes by their layer
             ///
             ///

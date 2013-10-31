@@ -14,7 +14,7 @@
 AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
         std::string mapFile):
     mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
-    mSceneGraph(), mSceneLayers(), mMap(), mWorldBounds(),
+    mSceneGraph(), mSpriteGraph(), mSceneLayers(), mMap(), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
     mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds)
@@ -82,7 +82,8 @@ void AFP::World::addBackgroundLayers()
         SceneNode::Ptr layer(new SceneNode(Category::None));
         mSceneLayers.push_back(layer.get());
 
-        mSceneGraph.attachChild(std::move(layer));
+        /// Add background layers to spritegraph
+        mSpriteGraph.attachChild(std::move(layer));
 
         const Tmx::ImageLayer* imageLayer = mMap.GetImageLayer(i);
         const Tmx::PropertySet layerProperties = imageLayer->GetProperties();
@@ -151,7 +152,8 @@ void AFP::World::addTileLayers()
         SceneNode::Ptr layer(new SceneNode(Category::Scene));
         mSceneLayers.push_back(layer.get());
 
-        mSceneGraph.attachChild(std::move(layer));
+        /// Tiles are added to spritegraph
+        mSpriteGraph.attachChild(std::move(layer));
 
         /// Go through the tiles
         for (int y = 0; y < tileLayer->GetHeight(); ++y)
@@ -335,6 +337,16 @@ void AFP::World::buildScene()
     addTileLayers();
     addObjectLayers();
 
+    /// Create a layer for entities
+    Category::Type category = Category::Scene;
+
+	SceneNode::Ptr layer(new SceneNode(category));
+    mSceneLayers.push_back(layer.get());
+
+    /// Attach it to scenegraph
+	mSceneGraph.attachChild(std::move(layer));
+
+    /// Scene layer is the top layer
     int topLayer = mSceneLayers.size() - 1;
 
     // Point user data to foreground
@@ -428,6 +440,7 @@ void AFP::World::createWorld()
 void AFP::World::draw()
 {
     mWindow.setView(mWorldView);
+    mWindow.draw(mSpriteGraph);
     mWindow.draw(mSceneGraph);
 
     if (mDebugMode)
