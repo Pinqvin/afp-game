@@ -83,6 +83,16 @@ void AFP::ContactListener::EndContact(b2Contact* contact)
 
         sensor.endContact();
     }
+
+    // Sensor ends contact with player
+    else if (matchesCategories(collisionPair, Category::Sensor, Category::PlayerCharacter))
+    {
+        auto& sensor = static_cast<Sensor&>(*collisionPair.first);
+        auto& player = static_cast<Character&>(*collisionPair.second);
+
+        sensor.endContact(player);
+
+    }
 }
 
 /// Create a collision pair from given parameters

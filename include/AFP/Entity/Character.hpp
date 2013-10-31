@@ -104,6 +104,16 @@ namespace AFP
         ///
         void recharge(int points);
 
+        /// Set new target
+        ///
+        ///
+        void newTarget(Character& target);
+
+        /// Remove target
+        ///
+        ///
+        void noTarget();
+
     private:
         /// Draw character sprite
         ///
@@ -235,6 +245,11 @@ namespace AFP
         ///
         /// Used to calculate recoil
         float mRecoil;
+
+        /// Target
+        ///
+        /// Target to shoot at
+        Character* mTarget;
 
     };
 

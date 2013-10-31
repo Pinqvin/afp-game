@@ -61,6 +61,11 @@ namespace AFP
         /// End contact with an entity
         void endContact();
 
+        /// End contact
+        ///
+        /// End contact with a character
+        void endContact(Character& character);
+
     private:
         /// Update
         ///

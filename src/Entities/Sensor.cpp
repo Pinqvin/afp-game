@@ -97,7 +97,7 @@ void AFP::Sensor::beginContact(Character& character)
     if (mType == Vision)
     {
         auto& enemy = static_cast<Character&>(*mParent);
-        enemy.fire(character.getPosition());
+        enemy.newTarget(character);
     }
 }
 
@@ -108,6 +108,17 @@ void AFP::Sensor::endContact()
     {
         auto& character = static_cast<Character&>(*mParent);
         character.endFootContact();
+    }
+
+}
+
+/// End sensor contact
+void AFP::Sensor::endContact(Character& character)
+{
+    if (mType == Vision)
+    {
+        auto& enemy = static_cast<Character&>(*mParent);
+        enemy.noTarget();
     }
 
 }

@@ -24,7 +24,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mType(type), mWeaponType(Table[type].weapon), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
-    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil)
+    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
 {
     centerOrigin(mSprite);
 
@@ -210,6 +210,11 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
 
     Entity::updateCurrent(dt, commands);
 
+    if(mTarget != nullptr)
+    {
+        fire(mTarget->getPosition());
+    }
+
 }
 
 /// Check if firing
@@ -312,5 +317,15 @@ void AFP::Character::teleportCharacter(SceneNode&,
 bool AFP::Character::isFriendly() const
 {
     return mType == Player;
+}
+
+void AFP::Character::newTarget(Character& target)
+{
+    mTarget = &target;
+}
+
+void AFP::Character::noTarget()
+{
+    mTarget = nullptr;
 }
 
