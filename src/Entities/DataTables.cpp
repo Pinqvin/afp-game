@@ -84,3 +84,13 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
 
     return data;
 }
+
+std::vector<AFP::ParticleData> AFP::initializeParticleData()
+{
+    std::vector<AFP::ParticleData> data(AFP::Particle::ParticleCount);
+
+    data[AFP::Particle::Smoke].color = sf::Color(255, 255, 50);
+    data[AFP::Particle::Smoke].lifetime = sf::seconds(0.6f);
+
+    return data;
+}

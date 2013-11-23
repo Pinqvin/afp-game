@@ -8,6 +8,7 @@
 #include <AFP/Entity/Projectile.hpp>
 #include <AFP/Entity/Collectable.hpp>
 #include <AFP/Entity/Tile.hpp>
+#include <AFP/Particles/Particle.hpp>
 #include <vector>
 
 namespace AFP
@@ -50,11 +51,18 @@ namespace AFP
         Projectile::Type bullets;
     };
 
+    struct ParticleData
+    {
+        sf::Color color;
+        sf::Time lifetime;
+    };
+
     // Functions to initialize different data types
     std::vector<CharacterData> initializeCharacterData();
     std::vector<ProjectileData> initializeProjectileData();
     std::vector<TileData> initializeTileData();
     std::vector<CollectableData> initializeCollectableData();
     std::vector<WeaponData> initializeWeaponData();
+    std::vector<ParticleData> initializeParticleData();
 
 }

@@ -30,7 +30,8 @@ namespace AFP
             Coin,
             ButtonNormal,
             ButtonSelected,
-            ButtonPressed
+            ButtonPressed,
+            Particle
         };
 
     }

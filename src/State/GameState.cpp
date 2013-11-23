@@ -5,7 +5,7 @@
 
 /// Constructor
 AFP::GameState::GameState(StateStack& stack, State::Context context):
-    State(stack, context), mWorld(*context.window, *context.sound, "Media/Maps/level.tmx"),
+    State(stack, context), mWorld(*context.window, *context.sound, "Media/Maps/level2.tmx"),
     mPlayer(*context.player)
 {
 

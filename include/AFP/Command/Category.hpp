@@ -24,6 +24,7 @@ namespace AFP
             Tile = 1 << 6,
             SoundEffect = 1 << 7,
             Sensor = 1 << 8,
+            ParticleSystem = 1 << 9,
 
             Character = PlayerCharacter | AlliedCharacter | EnemyCharacter,
 
