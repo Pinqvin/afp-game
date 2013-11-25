@@ -2,13 +2,15 @@
 
 #include <AFP/State/GameState.hpp>
 #include <AFP/Input/Player.hpp>
+#include <AFP/Sound/MusicPlayer.hpp>
 
 /// Constructor
-AFP::GameState::GameState(StateStack& stack, State::Context context):
+AFP::GameState::GameState(StateStack& stack, Context context):
     State(stack, context), mWorld(*context.window, *context.sound, "Media/Maps/level2.tmx"),
     mPlayer(*context.player)
 {
-
+    context.music->setVolume(40.f);
+    context.music->play(Music::MainTheme);
 }
 
 /// Destructor

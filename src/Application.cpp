@@ -21,10 +21,10 @@ AFP::Application::Application():
 {
     mFonts.load("AFP::Fonts::Debug", "Media/Sansation.ttf");
 
-    mTextures.load("AFP::Textures::TitleScreen", "Media/Textures/TitleScreen.png");
-    mTextures.load("AFP::Textures::ButtonNormal", "Media/Textures/ButtonNormal.png");
-    mTextures.load("AFP::Textures::ButtonSelected", "Media/Textures/ButtonSelected.png");
-    mTextures.load("AFP::Textures::ButtonPressed", "Media/Textures/ButtonPressed.png");
+    mTextures.load("AFP::Textures::TitleScreen", "Media/Menu/Menu_Background.png");
+    mTextures.load("AFP::Textures::ButtonNormal", "Media/Menu/Menu_Block_Blue.png");
+    mTextures.load("AFP::Textures::ButtonSelected", "Media/Menu/Menu_Block_Yellow.png");
+    mTextures.load("AFP::Textures::ButtonPressed", "Media/Menu/Menu_Block_Yellow.png");
 
     mStatisticsText.setFont(mFonts.get("AFP::Fonts::Debug"));
     mStatisticsText.setPosition(5.f, 5.f);

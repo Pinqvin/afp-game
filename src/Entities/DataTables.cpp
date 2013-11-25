@@ -6,19 +6,65 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
 {
     std::vector<AFP::CharacterData> data(AFP::Character::TypeCount);
 
+    /// Player data
     data[AFP::Character::Player].hitpoints = 100;
     data[AFP::Character::Player].telecharge = 100;
     data[AFP::Character::Player].speed = 10.0f;
     data[AFP::Character::Player].jumpStrength = -40.0f;
-    data[AFP::Character::Player].weapon = Character::Shotgun;
-    data[AFP::Character::Player].texture = "AFP::Textures::Player";
+    data[AFP::Character::Player].weapon = Character::Pistol;
 
+    /// Initialize animation data
+    data[AFP::Character::Player].animation.resize(AFP::Character::StateCount);
+
+    data[AFP::Character::Player].animation[AFP::Character::Stopped].texture = "AFP::Textures::PlayerStopped";
+    data[AFP::Character::Player].animation[AFP::Character::Stopped].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Player].animation[AFP::Character::Stopped].frameCount = 6;
+    data[AFP::Character::Player].animation[AFP::Character::Stopped].duration = sf::seconds(1);
+
+    data[AFP::Character::Player].animation[AFP::Character::Running].texture = "AFP::Textures::PlayerRunning";
+    data[AFP::Character::Player].animation[AFP::Character::Running].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Player].animation[AFP::Character::Running].frameCount = 8;
+    data[AFP::Character::Player].animation[AFP::Character::Running].duration = sf::seconds(1);
+
+    data[AFP::Character::Player].animation[AFP::Character::Jumping].texture = "AFP::Textures::PlayerJumping";
+    data[AFP::Character::Player].animation[AFP::Character::Jumping].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Player].animation[AFP::Character::Jumping].frameCount = 1;
+    data[AFP::Character::Player].animation[AFP::Character::Jumping].duration = sf::seconds(1);
+
+    data[AFP::Character::Player].animation[AFP::Character::Falling].texture = "AFP::Textures::PlayerFalling";
+    data[AFP::Character::Player].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Player].animation[AFP::Character::Falling].frameCount = 1;
+    data[AFP::Character::Player].animation[AFP::Character::Falling].duration = sf::seconds(1);
+
+    /// Enemy data
     data[AFP::Character::Enemy].hitpoints = 100;
     data[AFP::Character::Enemy].telecharge = 100;
     data[AFP::Character::Enemy].speed = 10.0f;
     data[AFP::Character::Enemy].jumpStrength = -10.0f;
-    data[AFP::Character::Enemy].weapon = Character::Pistol;
-    data[AFP::Character::Enemy].texture = "AFP::Textures::Enemy";
+    data[AFP::Character::Enemy].weapon = Character::Machinegun;
+
+    /// Initialize animation data
+    data[AFP::Character::Enemy].animation.resize(AFP::Character::StateCount);
+
+    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].texture = "AFP::Textures::Enemy";
+    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].frameCount = 1;
+    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].duration = sf::seconds(1);
+
+    data[AFP::Character::Enemy].animation[AFP::Character::Running].texture = "AFP::Textures::Enemy";
+    data[AFP::Character::Enemy].animation[AFP::Character::Running].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Enemy].animation[AFP::Character::Running].frameCount = 1;
+    data[AFP::Character::Enemy].animation[AFP::Character::Running].duration = sf::seconds(1);
+
+    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].texture = "AFP::Textures::Enemy";
+    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].frameCount = 1;
+    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].duration = sf::seconds(1);
+
+    data[AFP::Character::Enemy].animation[AFP::Character::Falling].texture = "AFP::Textures::Enemy";
+    data[AFP::Character::Enemy].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Enemy].animation[AFP::Character::Falling].frameCount = 1;
+    data[AFP::Character::Enemy].animation[AFP::Character::Falling].duration = sf::seconds(1);
 
     return data;
 }

@@ -10,6 +10,7 @@
 #include <AFP/Command/CommandQueue.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Sound/SoundPlayer.hpp>
+#include <AFP/Animation/Animation.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -35,6 +36,15 @@ namespace AFP
             Machinegun,
             Shotgun,
             WeaponTypeCount
+        };
+
+        enum CharacterState
+        {
+            Stopped,
+            Running,
+            Jumping,
+            Falling,
+            StateCount
         };
 
         /// Constructor
@@ -250,6 +260,33 @@ namespace AFP
         ///
         /// Target to shoot at
         Character* mTarget;
+        
+        /// Stopped animation
+        ///
+        /// Animation to be used when the character is stopped
+        Animation mStopped;
+
+        /// Running animation
+        ///
+        /// Animation to be used when the character is moving
+        Animation mRunning;
+
+        /// Jumping animation
+        ///
+        /// Animation to be used when the character is jumping
+        Animation mJumping;
+
+        /// Falling animation
+        ///
+        /// Animation to be used when the character is falling
+        Animation mFalling;
+
+        std::vector<Animation> mAnimations;
+
+        /// Character state
+        ///
+        ///
+        CharacterState mState;
 
     };
 

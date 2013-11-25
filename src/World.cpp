@@ -41,6 +41,8 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
 
     mWorldView.setCenter(mSpawnPosition);
 
+    
+
 }
 
 /// Load all the textures and tilesets required for the world.
@@ -52,6 +54,10 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
+    mTextures.load("AFP::Textures::PlayerStopped", "Media/Textures/Rag_Stopped.png");
+    mTextures.load("AFP::Textures::PlayerRunning", "Media/Textures/Rag_Running.png");
+    mTextures.load("AFP::Textures::PlayerJumping", "Media/Textures/Rag_Jumping.png");
+    mTextures.load("AFP::Textures::PlayerFalling", "Media/Textures/Rag_Falling.png");
 
     for (int i = 0; i < mMap.GetNumTilesets(); ++i)
     {
@@ -385,7 +391,7 @@ void AFP::World::buildScene()
     /// Create a test enemy
     std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
 
-    enemy->createCharacter(mWorldBox, 500.0f, 500.0f);
+    enemy->createCharacter(mWorldBox, 500.0f, 200.0f);
     enemy->setPosition(enemy->getPosition());
 
     mSceneLayers[topLayer]->attachChild(std::move(enemy));

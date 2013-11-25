@@ -31,7 +31,11 @@ namespace AFP
             ButtonNormal,
             ButtonSelected,
             ButtonPressed,
-            Particle
+            Particle,
+            PlayerStopped,
+            PlayerRunning,
+            PlayerJumping,
+            PlayerFalling,
         };
 
     }

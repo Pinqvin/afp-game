@@ -13,6 +13,14 @@
 
 namespace AFP
 {
+    struct AnimationData
+    {
+        std::string texture;
+        sf::Vector2i frameSize;
+        int frameCount;
+        sf::Time duration;
+    };
+
     struct CharacterData
     {
         int hitpoints;
@@ -20,7 +28,7 @@ namespace AFP
         float speed;
         float jumpStrength;
         Character::WeaponType weapon;
-        std::string texture;
+        std::vector<AnimationData> animation;
     };
 
     struct ProjectileData

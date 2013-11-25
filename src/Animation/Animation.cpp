@@ -1,7 +1,10 @@
+/// Implementation for Animation class
 #include <AFP/Animation/Animation.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
+
+#include <iostream>
 
 /// Constructor
 AFP::Animation::Animation()

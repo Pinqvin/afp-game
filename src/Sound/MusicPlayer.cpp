@@ -8,6 +8,7 @@ AFP::MusicPlayer::MusicPlayer(void):
 {
     /// Set filenames
     mFilenames[Music::MenuTheme] = "Media/Music/MenuTheme.ogg";
+    mFilenames[Music::MainTheme] = "Media/Music/TeleportHeroActionMusic.ogg";
 }
 
 /// Start playing

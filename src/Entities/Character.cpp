@@ -21,12 +21,26 @@ namespace
 /// Constructor
 AFP::Character::Character(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints)
-    , mType(type), mWeaponType(Table[type].weapon), mSprite(textures.get(Table[type].texture)), mJumpStrength(Table[type].jumpStrength)
+    , mType(type), mWeaponType(Table[type].weapon), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
     , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
+    , mAnimations(), mState(Stopped)
 {
-    centerOrigin(mSprite);
+    /// Initialize animations
+    mAnimations.resize(StateCount);
+
+    /// Create new Animation object for every character state and assing values from data table to them
+    for (size_t i = 0;i < mAnimations.size();++i)
+    {
+        mAnimations[i] = Animation(textures.get(Table[type].animation[i].texture));
+        mAnimations[i].setFrameSize(Table[type].animation[i].frameSize);
+        mAnimations[i].setNumFrames(Table[type].animation[i].frameCount);
+        mAnimations[i].setDuration(Table[type].animation[i].duration);
+        mAnimations[i].setRepeating(true);
+
+        centerOrigin(mAnimations[i]);
+    }
 
     // Set command category as scene so the command is called only once.
     mFireCommand.category = Category::Scene;
@@ -194,7 +208,8 @@ void AFP::Character::recharge(int points)
 void AFP::Character::drawCurrent(sf::RenderTarget& target,
                                  sf::RenderStates states) const
 {
-    target.draw(mSprite, states);
+    /// Draw this state
+    target.draw(mAnimations[mState], states);
 
 }
 
@@ -207,6 +222,24 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     b2Vec2 velocity = getVelocity();
     velocity.x *= 0.90f;
     setVelocity(velocity);
+    
+    /// Change character state
+    if (getVelocity().x != 0.f && getVelocity().y == 0.f)
+    {
+        mState = Running;
+    } else if  (getVelocity().y < 0)
+    {
+        mState = Jumping;
+    } else if (getVelocity().y > 0)
+    {
+        mState = Falling;
+    } else 
+    {
+        mState = Stopped;
+    }
+
+    /// Update state
+    mAnimations[mState].update(dt);
 
     Entity::updateCurrent(dt, commands);
 

@@ -9,13 +9,16 @@
 
 ///  Constructor sets the different menu options
 AFP::MenuState::MenuState(StateStack& stack, Context context):
-    State(stack, context), mBackgroundSprite(), mGUIContainer()
+    State(stack, context), mBackgroundSprite(context.textures->get("AFP::Textures::TitleScreen")), mGUIContainer()
 {
     auto titleText = std::make_shared<GUI::Label>("TELEPORT HERO ACTION SHOOTER GAME", *context.fonts);
-    titleText->setPosition(427,100);
+    titleText->setPosition(600,100);
+
+    auto copyrightText = std::make_shared<GUI::Label>("COPYRIGHT 2013 ANAL FISSURE PRODUCTIONS PRODUCTIONS (C)", *context.fonts);
+    copyrightText->setPosition(600,450);
 
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    playButton->setPosition(427,250);
+    playButton->setPosition(600,200);
     playButton->setText("Play");
     playButton->setCallback([this] ()
     {
@@ -24,18 +27,18 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     });
 
     // Settings not yet implemented so this part is left out
-    /*
+    
     auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    settingsButton->setPosition(100, 300);
+    settingsButton->setPosition(600, 270);
     settingsButton->setText("Settings");
     settingsButton->setCallback([this] ()
     {
-    requestStackPush(States::Settings);
+    requestStackPush(States::Load);
     });
-    */
+    
 
     auto exitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    exitButton->setPosition(427, 350);
+    exitButton->setPosition(600, 340);
     exitButton->setText("Exit");
     exitButton->setCallback([this] ()
     {
@@ -43,10 +46,12 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     });
 
     mGUIContainer.pack(titleText);
+    mGUIContainer.pack(copyrightText);
     mGUIContainer.pack(playButton);
-    // mGUIContainer.pack(settingsButton);
+    mGUIContainer.pack(settingsButton);
     mGUIContainer.pack(exitButton);
 
+    context.music->setVolume(60.f);
     context.music->play(Music::MenuTheme);
 
 }

@@ -15,6 +15,7 @@ namespace AFP
         enum ID
         {
             MenuTheme,
+            MainTheme
         };
     }
 

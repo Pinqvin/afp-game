@@ -12,8 +12,12 @@ namespace sf
 
 namespace AFP
 {
+    class Animation;
+
     /// Centers a sprite to its origin
     void centerOrigin(sf::Sprite& sprite);
+
+    void centerOrigin(Animation& animation);
 
     /// Centers a text to its origin
     void centerOrigin(sf::Text& text);
