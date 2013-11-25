@@ -180,6 +180,7 @@ sf::Mouse::Button AFP::Player::getAssignedButton(Action action) const
 void AFP::Player::setMousePosition(sf::Vector2f position)
 {
     mMousePosition = position;
+
 }
 
 /// Initialize actions
@@ -240,7 +241,16 @@ void AFP::Player::handleEvent(const sf::Event& event,
             commands.push(mActionBinding[found->second]);
 
         }
+    } else if (event.type == sf::Event::MouseMoved)
+    {
+        Command command;
+        command.category = Category::PlayerCharacter;
+        command.action = derivedAction<Character>([=] (Character& c, sf::Time) {
+        c.setMousePosition(mMousePosition); });
+        commands.push(command);
+
     }
+
 
 }
 

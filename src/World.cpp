@@ -271,7 +271,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             polygonShape.Set(vertices, polyCount);
             delete vertices;
             fixtureDef.shape = &polygonShape;
-            fixtureDef.friction = 0.35f;
+            fixtureDef.friction = 0.2f;
             mGroundBody->CreateFixture(&fixtureDef);
 
         }
@@ -290,7 +290,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
                 line.Set(b2Vec2((currentPoint.x + x) / PTM_RATIO, (currentPoint.y + y) / PTM_RATIO),
                         b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
                 fixtureDef.shape = &line;
-                fixtureDef.friction = 0.35f;
+                fixtureDef.friction = 0.2f;
                 mGroundBody->CreateFixture(&fixtureDef);
 
             }
@@ -309,7 +309,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             polygonShape.SetAsBox(width / 2.f,
                     height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
             fixtureDef.shape = &polygonShape;
-            fixtureDef.friction = 0.35f;
+            fixtureDef.friction = 0.05f;
             mGroundBody->CreateFixture(&fixtureDef);
 
         }

@@ -94,6 +94,11 @@ namespace AFP
         /// view coordinates to world coordinates
         void setMouseTranslation(sf::Vector2f translation);
 
+        /// Mouse position
+        ///
+        /// Mouse position is used when rotating character
+        void setMousePosition(sf::Vector2f position);
+
         /// Character can jump
         ///
         /// set mCanJump to true
@@ -222,6 +227,11 @@ namespace AFP
         /// Used to correct the position from view
         /// to world
         sf::Vector2f mMouseTranslation;
+
+        /// Mouse position
+        ///
+        ///
+        sf::Vector2f mMousePosition;
 
         ///  
         ///

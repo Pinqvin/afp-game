@@ -146,6 +146,7 @@ void AFP::Animation::update(sf::Time dt)
     }
 
     mSprite.setTextureRect(textureRect);
+
 }
 
 /// Draws the animation

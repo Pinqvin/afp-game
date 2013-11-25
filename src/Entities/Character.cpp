@@ -183,6 +183,11 @@ void AFP::Character::setMouseTranslation(sf::Vector2f translation)
     mMouseTranslation = translation;
 }
 
+void AFP::Character::setMousePosition(sf::Vector2f position)
+{
+    mMousePosition = position;
+}
+
 /// Start foot contact
 void AFP::Character::startFootContact()
 {
@@ -224,7 +229,7 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     setVelocity(velocity);
     
     /// Change character state
-    if (getVelocity().x != 0.f && getVelocity().y == 0.f)
+    if ((getVelocity().x > 0.5f || getVelocity().x < -0.5f) && getVelocity().y == 0.f)
     {
         mState = Running;
     } else if  (getVelocity().y < 0)
@@ -236,6 +241,14 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     } else 
     {
         mState = Stopped;
+    }
+
+    if (mMousePosition.x + mMouseTranslation.x < getWorldPosition().x)
+    {
+        mAnimations[mState].setScale(-1.0f,1.0f);
+    } else
+    {
+        mAnimations[mState].setScale(1.0f,1.0f);
     }
 
     /// Update state
