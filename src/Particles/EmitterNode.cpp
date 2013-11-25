@@ -10,7 +10,6 @@ AFP::EmitterNode::EmitterNode(Particle::Type type)
 {
 }
 
-///
 void AFP::EmitterNode::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
     if (mParticleSystem)
@@ -34,7 +33,6 @@ void AFP::EmitterNode::updateCurrent(sf::Time dt, CommandQueue& commands)
     }
 }
 
-///
 void AFP::EmitterNode::emitParticles(sf::Time dt)
 {
     const float emissionRate = 30.f;

@@ -85,6 +85,7 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
     return data;
 }
 
+/// Initialize particle data
 std::vector<AFP::ParticleData> AFP::initializeParticleData()
 {
     std::vector<AFP::ParticleData> data(AFP::Particle::ParticleCount);

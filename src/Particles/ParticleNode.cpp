@@ -19,7 +19,6 @@ mParticles(), mTexture(textures.get("Textures::Particle")), mType(type), mVertex
 {
 }
 
-///
 void AFP::ParticleNode::addParticle(sf::Vector2f position)
 {
     Particle particle;
@@ -30,19 +29,16 @@ void AFP::ParticleNode::addParticle(sf::Vector2f position)
     mParticles.push_back(particle);
 }
 
-///
 AFP::Particle::Type AFP::ParticleNode::getParticleType() const
 {
     return mType;
 }
 
-///
 unsigned int AFP::ParticleNode::getCategory() const
 {
     return Category::ParticleSystem;
 }
 
-///
 void AFP::ParticleNode::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
     // Remove expired particles at beginning
@@ -56,7 +52,6 @@ void AFP::ParticleNode::updateCurrent(sf::Time dt, CommandQueue& commands)
     mNeedsVertexUpdate = true;
 }
 
-///
 void AFP::ParticleNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
     if (mNeedsVertexUpdate)
@@ -72,7 +67,6 @@ void AFP::ParticleNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates s
     target.draw(mVertexArray, states);
 }
 
-///
 void AFP::ParticleNode::addVertex(float worldX, float worldY, float texCoordX,
                                   float texCoordY, const sf::Color& color) const
 {
@@ -84,7 +78,6 @@ void AFP::ParticleNode::addVertex(float worldX, float worldY, float texCoordX,
     mVertexArray.append(vertex);
 }
 
-///
 void AFP::ParticleNode::computeVertices() const
 {
     sf::Vector2f size(mTexture.getSize());

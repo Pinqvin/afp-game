@@ -10,7 +10,6 @@ AFP::PostEffect::~PostEffect()
 {
 }
 
-///
 void AFP::PostEffect::applyShader(const sf::Shader& shader, sf::RenderTarget& output)
 {
     sf::Vector2f outputSize = static_cast<sf::Vector2f>(output.getSize());
@@ -28,7 +27,6 @@ void AFP::PostEffect::applyShader(const sf::Shader& shader, sf::RenderTarget& ou
     output.draw(vertices, states);
 }
 
-///
 bool AFP::PostEffect::isSupported()
 {
     return sf::Shader::isAvailable();
