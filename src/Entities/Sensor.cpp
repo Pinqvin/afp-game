@@ -28,7 +28,7 @@ void AFP::Sensor::createFootSensor(float sizeX, float sizeY)
     b2FixtureDef fixtureDef;
 
     /// Add foot sensor fixture
-    dynamicBox.SetAsBox(sizeX / 2.f - 0.2f, 0.3f, b2Vec2(0, sizeY / 2.f), 0);
+    dynamicBox.SetAsBox(sizeX / 2.f - 0.1f, 0.3f, b2Vec2(0, sizeY / 2.f), 0);
     fixtureDef.shape = &dynamicBox;
     fixtureDef.isSensor = true;
     mFixture = mParent->attachSensor(&fixtureDef);
@@ -54,6 +54,22 @@ void AFP::Sensor::createSurroundSensor(float radius)
 
 }
 
+/// Create jump sensor
+void AFP::Sensor::createJumpSensor(float sizeX, float sizeY)
+{
+    b2PolygonShape dynamicBox;
+    b2FixtureDef fixtureDef;
+
+    /// Add jump sensor fixture
+    dynamicBox.SetAsBox(sizeX * 1.f, 0.3f, b2Vec2(-1.f, sizeY * 0.1f), b2_pi/7);
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.isSensor = true;
+    mFixture = mParent->attachSensor(&fixtureDef);
+
+    /// Set pointer to this sensor
+    mFixture->SetUserData(this);
+}
+
 /// Create vision sensor
 void AFP::Sensor::createVisionSensor(float radius, float angle)
 {
@@ -69,6 +85,7 @@ void AFP::Sensor::createVisionSensor(float radius, float angle)
         vertices[i+1].Set( radius * cosf(mAngle), radius * sinf(mAngle) );
         mAngle += step;
     }
+
 
     /// Add sensor fixture
     polygonShape.Set(vertices, 8);
@@ -88,6 +105,11 @@ void AFP::Sensor::beginContact()
     {
         auto& character = static_cast<Character&>(*mParent);
         character.startFootContact();
+    }
+    else if (mType == Jump)
+    {
+        auto& enemy = static_cast<Character&>(*mParent);
+        enemy.startJumpContact();
     }
 }
 
@@ -109,13 +131,23 @@ void AFP::Sensor::endContact()
         auto& character = static_cast<Character&>(*mParent);
         character.endFootContact();
     }
+    else if (mType == Jump)
+    {
+        auto& character = static_cast<Character&>(*mParent);
+        character.endJumpContact();
+    }
 
 }
 
 /// End sensor contact
 void AFP::Sensor::endContact(Character&)
 {
-    if (mType == Vision)
+    if(mType == Vision)
+    {
+        auto& enemy = static_cast<Character&>(*mParent);
+        enemy.targetOutOfVision();
+    }
+    if (mType == Surround)
     {
         auto& enemy = static_cast<Character&>(*mParent);
         enemy.noTarget();

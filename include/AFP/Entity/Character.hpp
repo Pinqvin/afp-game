@@ -109,6 +109,16 @@ namespace AFP
         /// set mCanJump to false
         void endFootContact();
 
+        /// Enemy must jump
+        ///
+        /// 
+        void startJumpContact();
+
+        /// Enemy doesn't have to jump
+        ///
+        /// 
+        void endJumpContact();
+
         /// Return true if marked for removal
         ///
         ///
@@ -123,6 +133,11 @@ namespace AFP
         ///
         ///
         void newTarget(Character& target);
+
+        /// 
+        ///
+        /// sets boolean mTargetInVision to false
+        void targetOutOfVision();
 
         /// Remove target
         ///
@@ -248,6 +263,11 @@ namespace AFP
         /// Is the character on the ground?
         int mFootContacts;
 
+        ///
+        ///
+        /// Does the enemy have to jump?
+        int mJumpContacts;
+
         /// Is marked for removal
         ///
         /// Set to true when character can be removed from the game.
@@ -270,6 +290,11 @@ namespace AFP
         ///
         /// Target to shoot at
         Character* mTarget;
+
+        /// Target in vision
+        ///
+        /// Returns true if mTarget is in the vision sensor
+        bool mTargetInVision;
         
         /// Stopped animation
         ///
