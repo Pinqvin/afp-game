@@ -17,7 +17,8 @@ namespace AFP
         {
             Foot,
             Surround,
-            Vision
+            Vision,
+            Jump
         };
 
         /// Constructor
@@ -45,6 +46,11 @@ namespace AFP
         ///
         /// Creates a foot sensor on feet
         void createSurroundSensor(float radius);
+
+        /// Create foot sensor
+        ///
+        /// Creates a foot sensor on feet
+        void createJumpSensor(float sizeX, float sizeY);
 
         /// Begin contact
         ///

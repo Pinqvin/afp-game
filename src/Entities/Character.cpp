@@ -24,8 +24,8 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mType(type), mWeaponType(Table[type].weapon), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
-    , mFootContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
-    , mAnimations(), mState(Stopped)
+    , mFootContacts(0), mJumpContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
+    , mAnimations(), mState(Stopped), mTargetInVision(false)
 {
     /// Initialize animations
     mAnimations.resize(StateCount);
@@ -95,8 +95,18 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
 
         // Create surround sensor
         std::unique_ptr<Sensor> sensor2(new Sensor(this, Sensor::Surround));
-        sensor2->createSurroundSensor(30.f);
+        sensor2->createSurroundSensor(15.f);
         this->attachChild(std::move(sensor2));
+
+        // Create footsensor
+        std::unique_ptr<Sensor> sensor3(new Sensor(this, Sensor::Foot));
+        sensor3->createFootSensor(1.0f, 2.0f);
+        this->attachChild(std::move(sensor3));
+
+        // Create jump sensor
+        std::unique_ptr<Sensor> sensor4(new Sensor(this, Sensor::Jump));
+        sensor4->createJumpSensor(1.f, 2.f);
+        this->attachChild(std::move(sensor4));
     }
 
 }
@@ -202,6 +212,21 @@ void AFP::Character::endFootContact()
 
 }
 
+/// Start foot contact
+void AFP::Character::startJumpContact()
+{
+    mJumpContacts++;
+
+}
+
+/// End foot contact
+void AFP::Character::endJumpContact()
+{
+    mJumpContacts--;
+
+}
+
+
 /// Recharge telecharge
 void AFP::Character::recharge(int points)
 {
@@ -243,12 +268,14 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
         mState = Stopped;
     }
 
-    if (mMousePosition.x + mMouseTranslation.x < getWorldPosition().x)
-    {
-        mAnimations[mState].setScale(-1.0f,1.0f);
-    } else
-    {
-        mAnimations[mState].setScale(1.0f,1.0f);
+    if(getCategory() == Category::PlayerCharacter){
+        if (mMousePosition.x + mMouseTranslation.x < getWorldPosition().x)
+        {
+            mAnimations[mState].setScale(-1.0f,1.0f);
+        } else
+        {
+            mAnimations[mState].setScale(1.0f,1.0f);
+        }
     }
 
     /// Update state
@@ -256,9 +283,33 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
 
     Entity::updateCurrent(dt, commands);
 
-    if(mTarget != nullptr)
-    {
-        fire(mTarget->getPosition());
+    ///Enemy AI update
+    if(getCategory() == Category::EnemyCharacter){
+
+        if(mTarget != nullptr){
+
+            // If you gotta jump
+            if (mJumpContacts > 0)
+            {
+                /// You gotta jump
+                jump();
+            }
+
+            if (mTarget->getPosition().x > getWorldPosition().x)
+            {
+                moveHorizontal(10.f);
+                mAnimations[mState].setScale(-1.0f,1.0f);
+            } else
+            {
+                moveHorizontal(-10.f);
+                mAnimations[mState].setScale(1.0f,1.0f);
+            }
+
+            if(mTargetInVision)
+            {
+                fire(mTarget->getPosition());
+            }
+        }
     }
 
 }
@@ -368,6 +419,12 @@ bool AFP::Character::isFriendly() const
 void AFP::Character::newTarget(Character& target)
 {
     mTarget = &target;
+    mTargetInVision = true;
+}
+
+void AFP::Character::targetOutOfVision()
+{
+    mTargetInVision = false;
 }
 
 void AFP::Character::noTarget()

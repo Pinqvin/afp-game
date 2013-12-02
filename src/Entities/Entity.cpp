@@ -138,7 +138,10 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 
     mBody->CreateFixture(&fixtureDef);
 
+
 }
+
+
 
 b2Fixture* AFP::Entity::attachSensor(const b2FixtureDef* sensor)
 {

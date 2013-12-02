@@ -17,7 +17,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
     mSceneGraph(), mSpriteGraph(), mSceneLayers(), mMap(), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
-    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds)
+    mDebugMode(true), mCameraPosition(), mContactListener(), mSounds(sounds)
 {
     mMap.ParseFile(mapFile);
 

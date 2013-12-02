@@ -73,6 +73,7 @@ namespace AFP
             float sizeX, float sizeY, float density,
             float friction);
 
+
         /// Attach sensor
         ///
         /// Attaches a sensor to this entity
