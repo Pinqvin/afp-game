@@ -33,7 +33,7 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     settingsButton->setText("Settings");
     settingsButton->setCallback([this] ()
     {
-    requestStackPush(States::Load);
+        requestStackPush(States::Settings);
     });
     
 

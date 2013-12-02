@@ -139,5 +139,8 @@ std::vector<AFP::ParticleData> AFP::initializeParticleData()
     data[AFP::Particle::Smoke].color = sf::Color(255, 255, 50);
     data[AFP::Particle::Smoke].lifetime = sf::seconds(0.6f);
 
+    data[AFP::Particle::Blood].color = sf::Color(255,0,0);
+    data[AFP::Particle::Blood].lifetime = sf::seconds(0.6f);
+
     return data;
 }

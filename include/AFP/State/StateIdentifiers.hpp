@@ -18,6 +18,7 @@ namespace AFP
             Load,
             Game,
             Pause,
+            Settings,
 
         };
 

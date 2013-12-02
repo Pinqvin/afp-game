@@ -11,6 +11,7 @@ namespace AFP
         enum Type
         {
             Smoke,
+            Blood,
             ParticleCount
         };
 

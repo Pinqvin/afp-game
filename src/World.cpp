@@ -4,6 +4,7 @@
 #include <AFP/Scene/SpriteNode.hpp>
 #include <AFP/Utility.hpp>
 #include <AFP/Sound/SoundNode.hpp>
+#include <AFP/Particles/ParticleNode.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -54,6 +55,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
+    mTextures.load("AFP::Textures::Particle", "Media/Textures/Particle.png");
     mTextures.load("AFP::Textures::PlayerStopped", "Media/Textures/Rag_Stopped.png");
     mTextures.load("AFP::Textures::PlayerRunning", "Media/Textures/Rag_Running.png");
     mTextures.load("AFP::Textures::PlayerJumping", "Media/Textures/Rag_Jumping.png");
@@ -361,6 +363,10 @@ void AFP::World::buildScene()
     // Add sound effect node
     std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
     mSceneGraph.attachChild(std::move(soundNode));
+
+	// Add particle node to the scene
+	std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
+    mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
 
     /// Set the player to the world
     std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));

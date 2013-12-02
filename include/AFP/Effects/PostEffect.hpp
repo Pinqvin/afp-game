@@ -20,24 +20,24 @@ namespace AFP
         /// Destructor
         ///
         /// 
-        virtual					~PostEffect();
+        virtual ~PostEffect();
         
         /// Apply post effect
         ///
         ///
-        virtual void			apply(const sf::RenderTexture& input, sf::RenderTarget& output) = 0;
+        virtual void apply(const sf::RenderTexture& input, sf::RenderTarget& output) = 0;
         
         /// Is supported
         ///
         /// Checks if GPU supports post effects
-        static bool				isSupported();
+        static bool	isSupported();
 
 
     protected:        
         /// Apply shader
         ///
         /// 
-        static void				applyShader(const sf::Shader& shader, sf::RenderTarget& output);
+        static void	applyShader(const sf::Shader& shader, sf::RenderTarget& output);
     };
 
 }

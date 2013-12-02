@@ -15,7 +15,7 @@ namespace
 /// Constructor
 AFP::ParticleNode::ParticleNode(Particle::Type type, 
                                 const TextureHolder& textures):
-mParticles(), mTexture(textures.get("Textures::Particle")), mType(type), mVertexArray(), mNeedsVertexUpdate()
+mParticles(), mTexture(textures.get("AFP::Textures::Particle")), mType(type), mVertexArray(sf::Quads), mNeedsVertexUpdate()
 {
 }
 

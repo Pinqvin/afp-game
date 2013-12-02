@@ -7,6 +7,7 @@
 #include <AFP/Entity/DataTables.hpp>
 #include <AFP/Sound/SoundNode.hpp>
 #include <AFP/Entity/Sensor.hpp>
+#include <AFP/Particles/EmitterNode.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -41,6 +42,11 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
 
         centerOrigin(mAnimations[i]);
     }
+
+    // Add blood emitter
+    std::unique_ptr<EmitterNode> blood(new EmitterNode(Particle::Blood));
+    blood->setPosition(0.f, 0.f);
+    attachChild(std::move(blood));
 
     // Set command category as scene so the command is called only once.
     mFireCommand.category = Category::Scene;
@@ -227,7 +233,7 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     b2Vec2 velocity = getVelocity();
     velocity.x *= 0.90f;
     setVelocity(velocity);
-    
+
     /// Change character state
     if ((getVelocity().x > 0.5f || getVelocity().x < -0.5f) && getVelocity().y == 0.f)
     {

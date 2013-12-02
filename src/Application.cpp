@@ -7,6 +7,7 @@
 #include <AFP/State/LoadingState.hpp>
 #include <AFP/State/GameState.hpp>
 #include <AFP/State/PauseState.hpp>
+#include <AFP/State/SettingsState.hpp>
 #include <AFP/Utility.hpp>
 
 /// Handle the updates in steps fixed to 60fps
@@ -46,6 +47,7 @@ void AFP::Application::registerStates()
     mStateStack.registerState<LoadingState>(States::Load);
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<PauseState>(States::Pause);
+    mStateStack.registerState<SettingsState>(States::Settings);
 
 }
 
