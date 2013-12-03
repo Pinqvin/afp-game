@@ -141,11 +141,43 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
 
 }
 
+void AFP::Entity::createHead(b2World* world)
+{
+    b2BodyDef bodyDef;
+    b2CircleShape circleShape;
+    b2FixtureDef fixtureDef;
 
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.fixedRotation = false;
+    bodyDef.position.Set(mBody->GetPosition().x, mBody->GetPosition().y);
+    mHead = world->CreateBody(&bodyDef);
 
-b2Fixture* AFP::Entity::attachSensor(const b2FixtureDef* sensor)
+    circleShape.m_radius = 0.5f;
+
+    fixtureDef.shape = &circleShape;
+
+    mHead->CreateFixture(&fixtureDef);
+
+    b2RevoluteJointDef jointDef;
+    jointDef.bodyA = mBody;
+    jointDef.bodyB = mHead;
+
+    jointDef.collideConnected = false;
+
+    mJoint = (b2RevoluteJoint*)world->CreateJoint(&jointDef);
+
+    // Rotate head
+    mHead->SetAngularVelocity(1.0f);
+}
+
+b2Fixture* AFP::Entity::attachSensorToBody(const b2FixtureDef* sensor)
 {
     return mBody->CreateFixture(sensor);
+}
+
+b2Fixture* AFP::Entity::attachSensorToHead(const b2FixtureDef* sensor)
+{
+    return mHead->CreateFixture(sensor);
 }
 
 /// Decreases hitpoints

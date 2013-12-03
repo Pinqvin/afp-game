@@ -73,11 +73,20 @@ namespace AFP
             float sizeX, float sizeY, float density,
             float friction);
 
+        /// Create head for the entity
+        ///
+        ///
+        void createHead(b2World* world);
 
         /// Attach sensor
         ///
-        /// Attaches a sensor to this entity
-        b2Fixture* attachSensor(const b2FixtureDef* sensor);
+        /// Attaches a sensor to body of this entity
+        b2Fixture* attachSensorToBody(const b2FixtureDef* sensor);
+        
+        /// Attach sensor
+        ///
+        /// Attaches a sensor to head of this entity
+        b2Fixture* attachSensorToHead(const b2FixtureDef* sensor);
 
         /// Damage entity
         ///
@@ -116,6 +125,16 @@ namespace AFP
         ///
         ///
         b2Body* mBody;
+
+        /// Head
+        ///
+        ///
+        b2Body* mHead;
+
+        /// Joint that connects head to the body
+        ///
+        ///
+        b2RevoluteJoint* mJoint;
 
         /// Hitpoints
         ///

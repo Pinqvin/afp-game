@@ -31,7 +31,7 @@ void AFP::Sensor::createFootSensor(float sizeX, float sizeY)
     dynamicBox.SetAsBox(sizeX / 2.f - 0.1f, 0.3f, b2Vec2(0, sizeY / 2.f), 0);
     fixtureDef.shape = &dynamicBox;
     fixtureDef.isSensor = true;
-    mFixture = mParent->attachSensor(&fixtureDef);
+    mFixture = mParent->attachSensorToBody(&fixtureDef);
 
     /// Set pointer to this sensor
     mFixture->SetUserData(this);
@@ -47,7 +47,7 @@ void AFP::Sensor::createSurroundSensor(float radius)
     circleShape.m_radius = radius;
     fixtureDef.shape = &circleShape;
     fixtureDef.isSensor = true;
-    mFixture = mParent->attachSensor(&fixtureDef);
+    mFixture = mParent->attachSensorToHead(&fixtureDef);
 
     /// Set pointer to this sensor
     mFixture->SetUserData(this);
@@ -64,7 +64,7 @@ void AFP::Sensor::createJumpSensor(float sizeX, float sizeY)
     dynamicBox.SetAsBox(sizeX * 1.f, 0.3f, b2Vec2(-1.f, sizeY * 0.1f), b2_pi/7);
     fixtureDef.shape = &dynamicBox;
     fixtureDef.isSensor = true;
-    mFixture = mParent->attachSensor(&fixtureDef);
+    mFixture = mParent->attachSensorToBody(&fixtureDef);
 
     /// Set pointer to this sensor
     mFixture->SetUserData(this);
@@ -91,7 +91,7 @@ void AFP::Sensor::createVisionSensor(float radius, float angle)
     polygonShape.Set(vertices, 8);
     fixtureDef.shape = &polygonShape;
     fixtureDef.isSensor = true;
-    mFixture = mParent->attachSensor(&fixtureDef);
+    mFixture = mParent->attachSensorToHead(&fixtureDef);
 
     /// Set pointer to this sensor
     mFixture->SetUserData(this);

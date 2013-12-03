@@ -94,6 +94,8 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
 
     if (mType == Enemy)
     {
+        createHead(world);
+
         // Create vision sensor
         std::unique_ptr<Sensor> sensor(new Sensor(this, Sensor::Vision));
         sensor->createVisionSensor(15.f, 90.f);
