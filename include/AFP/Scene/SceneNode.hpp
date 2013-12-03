@@ -92,7 +92,7 @@ namespace AFP
         virtual bool isMarkedForRemoval() const;
 
         /// Is entity destroyed
-        /// 
+        ///
         /// Returns false by default, entities return
         /// values based on hitpoints
         virtual bool isDestroyed() const;

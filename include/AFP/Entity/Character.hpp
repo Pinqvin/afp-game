@@ -112,18 +112,13 @@ namespace AFP
 
         /// Enemy must jump
         ///
-        /// 
+        ///
         void startJumpContact();
 
         /// Enemy doesn't have to jump
         ///
-        /// 
+        ///
         void endJumpContact();
-
-        /// Return true if marked for removal
-        ///
-        ///
-        bool isMarkedForRemoval();
 
         /// Recharge teleport
         ///
@@ -135,7 +130,7 @@ namespace AFP
         ///
         void newTarget(Character& target);
 
-        /// 
+        ///
         ///
         /// sets boolean mTargetInVision to false
         void targetOutOfVision();
@@ -175,8 +170,8 @@ namespace AFP
         /// Create projectile
         ///
         /// Creates a projectile and links it to this node
-        void createProjectile(SceneNode& node, 
-            Projectile::Type type, float xOffset, 
+        void createProjectile(SceneNode& node,
+            Projectile::Type type, float xOffset,
             float yOffset, const TextureHolder& textures);
 
         /// Teleport character
@@ -195,7 +190,7 @@ namespace AFP
         ///
         ///
         Type mType;
-      
+
         /// Weapon type
         ///
         ///
@@ -238,7 +233,7 @@ namespace AFP
         b2Vec2 mTeleportTarget;
 
         /// Firing angle
-        /// 
+        ///
         /// Bullets are shot in this direction.
         /// Updated everytime fire command is called.
         sf::Vector2f mFireTarget;
@@ -254,7 +249,7 @@ namespace AFP
         ///
         sf::Vector2f mMousePosition;
 
-        ///  
+        ///
         ///
         /// Firing cooldown
         sf::Time mFireCountdown;
@@ -301,7 +296,7 @@ namespace AFP
         ///
         /// Returns true if mTarget is in the vision sensor
         bool mTargetInVision;
-        
+
         /// Stopped animation
         ///
         /// Animation to be used when the character is stopped
@@ -322,6 +317,9 @@ namespace AFP
         /// Animation to be used when the character is falling
         Animation mFalling;
 
+        /// Character animations
+        ///
+        ///
         std::vector<Animation> mAnimations;
 
         /// Character state

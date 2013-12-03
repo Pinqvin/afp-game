@@ -140,6 +140,12 @@ std::string AFP::toString(sf::Keyboard::Key key)
 		AFP_KEYTOSTRING_CASE(F14)
 		AFP_KEYTOSTRING_CASE(F15)
 		AFP_KEYTOSTRING_CASE(Pause)
+        case sf::Keyboard::Key::KeyCount:
+            break;
+
+        default:
+            break;
+
 	}
 
 	return "";
@@ -156,6 +162,12 @@ std::string AFP::toString(sf::Mouse::Button button)
 		AFP_BUTTONTOSTRING_CASE(Right)
 		AFP_BUTTONTOSTRING_CASE(XButton1)
 		AFP_BUTTONTOSTRING_CASE(XButton2)
+        case sf::Mouse::Button::ButtonCount:
+            break;
+
+        default:
+            break;
+
 	}
 
 	return "";

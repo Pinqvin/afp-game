@@ -79,11 +79,6 @@ namespace AFP
             /// Events are propagated further to world and the scenegraph
             Player mPlayer;
 
-            /// Level data container
-            ///
-            /// Holds all level data.
-            State::Level mLevel;
-
             /// Music player
             ///
             /// Music player handles music
@@ -93,6 +88,11 @@ namespace AFP
             ///
             /// Sound player plays sounds
             SoundPlayer mSoundPlayer;
+
+            /// Level data container
+            ///
+            /// Holds all level data.
+            State::Level mLevel;
 
             /// State stack holds all the different states
             ///

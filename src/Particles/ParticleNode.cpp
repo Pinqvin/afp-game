@@ -13,7 +13,7 @@ namespace
 }
 
 /// Constructor
-AFP::ParticleNode::ParticleNode(Particle::Type type, 
+AFP::ParticleNode::ParticleNode(Particle::Type type,
                                 const TextureHolder& textures):
 mParticles(), mTexture(textures.get("AFP::Textures::Particle")), mType(type), mVertexArray(sf::Quads), mNeedsVertexUpdate()
 {
@@ -39,15 +39,19 @@ unsigned int AFP::ParticleNode::getCategory() const
     return Category::ParticleSystem;
 }
 
-void AFP::ParticleNode::updateCurrent(sf::Time dt, CommandQueue& commands)
+void AFP::ParticleNode::updateCurrent(sf::Time dt, CommandQueue&)
 {
     // Remove expired particles at beginning
-    while (!mParticles.empty() && mParticles.front().lifetime <= sf::Time::Zero)
+    while (!mParticles.empty() && mParticles.front().lifetime <= sf::Time::Zero) {
         mParticles.pop_front();
 
+    }
+
     // Decrease lifetime of existing particles
-    for(Particle& particle : mParticles)
+    for(Particle& particle : mParticles) {
         particle.lifetime -= dt;
+
+    }
 
     mNeedsVertexUpdate = true;
 }
@@ -93,9 +97,9 @@ void AFP::ParticleNode::computeVertices() const
         float ratio = particle.lifetime.asSeconds() / Table[mType].lifetime.asSeconds();
         color.a = static_cast<sf::Uint8>(255 * std::max(ratio, 0.f));
 
-        addVertex(pos.x - half.x, pos.y - half.y, 0.f,    0.f,    color);
-        addVertex(pos.x + half.x, pos.y - half.y, size.x, 0.f,    color);
+        addVertex(pos.x - half.x, pos.y - half.y, 0.f, 0.f, color);
+        addVertex(pos.x + half.x, pos.y - half.y, size.x, 0.f, color);
         addVertex(pos.x + half.x, pos.y + half.y, size.x, size.y, color);
-        addVertex(pos.x - half.x, pos.y + half.y, 0.f,    size.y, color);
+        addVertex(pos.x - half.x, pos.y + half.y, 0.f, size.y, color);
     }
 }

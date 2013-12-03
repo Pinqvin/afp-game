@@ -26,7 +26,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
     , mFootContacts(0), mJumpContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
-    , mAnimations(), mState(Stopped), mTargetInVision(false)
+    , mTargetInVision(false), mAnimations(), mState(Stopped)
 {
     /// Initialize animations
     mAnimations.resize(StateCount);
@@ -271,7 +271,7 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     } else if (getVelocity().y > 0)
     {
         mState = Falling;
-    } else 
+    } else
     {
         mState = Stopped;
     }
@@ -447,3 +447,4 @@ int AFP::Character::getTeleCharge()
 {
     return mTeleCharge;
 }
+

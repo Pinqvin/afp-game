@@ -24,62 +24,62 @@ namespace AFP
         ///
         /// Inserts a new particle to the system
         void addParticle(sf::Vector2f position);
-        
+
         /// Get particle type
         ///
         /// Returns particle type
         Particle::Type getParticleType() const;
-        
+
         /// Get category
         ///
         /// Returns ParticleSystem category
         virtual unsigned int getCategory() const;
 
-    private:    
+    private:
         /// Update
         ///
         /// Removes all particles of which the lifetime has expired.
         /// Decreases lifetime of all particles.
         virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
-        
+
         /// Draw
         ///
-        /// 
+        ///
         virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-        
+
         /// Add vertex
         ///
-        /// 
+        ///
         void addVertex(float worldX, float worldY, float texCoordX,
             float texCoordY, const sf::Color& color) const;
-        
+
         /// Compute vertices
         ///
         /// Rebuilds the vertex array.
         void computeVertices() const;
 
-    private:      
+    private:
         /// Particles
         ///
         ///
         std::deque<Particle> mParticles;
-        
+
         /// Texture
         ///
         /// Particle texture
         const sf::Texture& mTexture;
-        
-        /// Type 
+
+        /// Type
         ///
         /// Particle type
         Particle::Type mType;
-        
+
         /// Vertex array
         ///
         /// Stores vertices
         mutable sf::VertexArray mVertexArray;
-        
-        /// 
+
+        ///
         ///
         /// Vertices are updated only if the need to be
         mutable bool mNeedsVertexUpdate;

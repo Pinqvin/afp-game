@@ -82,7 +82,7 @@ namespace AFP
         ///
         /// Attaches a sensor to body of this entity
         b2Fixture* attachSensorToBody(const b2FixtureDef* sensor);
-        
+
         /// Attach sensor
         ///
         /// Attaches a sensor to head of this entity
