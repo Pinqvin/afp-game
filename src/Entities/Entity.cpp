@@ -5,7 +5,7 @@
 
 /// Constructor
 AFP::Entity::Entity(int hitpoints):
-    mBody(), mHitpoints(hitpoints)
+    mBody(nullptr), mHead(nullptr), mJoint(nullptr), mHitpoints(hitpoints)
 {
 }
 
@@ -215,6 +215,13 @@ bool AFP::Entity::isDestroyed() const
 void AFP::Entity::destroyBody()
 {
     mBody->SetUserData(nullptr);
+
+    if(mHead != nullptr)
+    {
+        mHead->GetWorld()->DestroyJoint(mJoint);
+        mHead->GetWorld()->DestroyBody(mHead);
+    }
+
     mBody->GetWorld()->DestroyBody(mBody);
 }
 
