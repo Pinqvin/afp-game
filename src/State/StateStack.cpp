@@ -135,7 +135,8 @@ bool AFP::StateStack::isEmpty() const
 /// Change level
 void AFP::StateStack::setLevel(std::string level)
 {
-    mContext.level = new State::Level(level);
+    /// Set new level values
+    mContext.level->filename = level;
 }
 
 /// Constructor for a pending change

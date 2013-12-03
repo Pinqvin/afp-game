@@ -25,7 +25,8 @@ namespace AFP
         enum Type
         {
             Player,
-            Enemy,
+            Telepolice,
+            Droid,
             TypeCount
 
         };

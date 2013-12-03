@@ -22,8 +22,8 @@ namespace AFP
         enum ID
         {
             Player,
-            Enemy,
-            Desert,
+            Telepolice,
+            Droid,
             TitleScreen,
             GrassTile,
             Bullet,

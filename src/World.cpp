@@ -49,9 +49,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
 /// Load all the textures and tilesets required for the world.
 void AFP::World::loadTextures()
 {
-    mTextures.load("AFP::Textures::Enemy", "Media/Textures/telepolice_stopped.png");
-    mTextures.load("AFP::Textures::Player", "Media/Textures/Rag.png");
-    mTextures.load("AFP::Textures::Desert", "Media/Textures/Desert.png");
+    mTextures.load("AFP::Textures::Telepolice", "Media/Textures/telepolice_stopped.png");
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
@@ -397,7 +395,7 @@ void AFP::World::buildScene()
     mSceneLayers[topLayer]->attachChild(std::move(testCoin));
 
     /// Create a test enemy
-    std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
+    std::unique_ptr<Character> enemy(new Character(Character::Telepolice, mTextures));
 
     enemy->createCharacter(mWorldBox, 500.0f, 200.0f);
     enemy->setPosition(enemy->getPosition());

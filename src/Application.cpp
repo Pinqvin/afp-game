@@ -17,8 +17,8 @@ const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(AFP::UPDATE_PER_FR
 /// Constructor
 AFP::Application::Application():
     mWindow(sf::VideoMode(854, 480), "States", sf::Style::Close),
-    mTextures(), mFonts(), mPlayer(),
-    mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mMusicPlayer, mSoundPlayer, State::Level("Media/Maps/level1.tmx"))),
+    mTextures(), mFonts(), mPlayer(), mLevel("Media/Maps/level1.tmx"),
+    mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mMusicPlayer, mSoundPlayer, mLevel)),
     mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames()
 {
     mFonts.load("AFP::Fonts::Debug", "Media/Sansation.ttf");

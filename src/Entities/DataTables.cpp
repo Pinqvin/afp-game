@@ -36,35 +36,35 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Player].animation[AFP::Character::Falling].frameCount = 1;
     data[AFP::Character::Player].animation[AFP::Character::Falling].duration = sf::seconds(1);
 
-    /// Enemy data
-    data[AFP::Character::Enemy].hitpoints = 100;
-    data[AFP::Character::Enemy].telecharge = 100;
-    data[AFP::Character::Enemy].speed = 10.0f;
-    data[AFP::Character::Enemy].jumpStrength = -10.0f;
-    data[AFP::Character::Enemy].weapon = Character::Pistol;
+    /// Telepolice data
+    data[AFP::Character::Telepolice].hitpoints = 100;
+    data[AFP::Character::Telepolice].telecharge = 100;
+    data[AFP::Character::Telepolice].speed = 10.0f;
+    data[AFP::Character::Telepolice].jumpStrength = -10.0f;
+    data[AFP::Character::Telepolice].weapon = Character::Pistol;
 
     /// Initialize animation data
-    data[AFP::Character::Enemy].animation.resize(AFP::Character::StateCount);
+    data[AFP::Character::Telepolice].animation.resize(AFP::Character::StateCount);
 
-    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].texture = "AFP::Textures::Enemy";
-    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].frameCount = 1;
-    data[AFP::Character::Enemy].animation[AFP::Character::Stopped].duration = sf::seconds(1);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].frameCount = 6;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].duration = sf::seconds(1);
 
-    data[AFP::Character::Enemy].animation[AFP::Character::Running].texture = "AFP::Textures::Enemy";
-    data[AFP::Character::Enemy].animation[AFP::Character::Running].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Enemy].animation[AFP::Character::Running].frameCount = 1;
-    data[AFP::Character::Enemy].animation[AFP::Character::Running].duration = sf::seconds(1);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Running].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Running].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Running].frameCount = 1;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Running].duration = sf::seconds(1);
 
-    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].texture = "AFP::Textures::Enemy";
-    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].frameCount = 1;
-    data[AFP::Character::Enemy].animation[AFP::Character::Jumping].duration = sf::seconds(1);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].frameCount = 1;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].duration = sf::seconds(1);
 
-    data[AFP::Character::Enemy].animation[AFP::Character::Falling].texture = "AFP::Textures::Enemy";
-    data[AFP::Character::Enemy].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Enemy].animation[AFP::Character::Falling].frameCount = 1;
-    data[AFP::Character::Enemy].animation[AFP::Character::Falling].duration = sf::seconds(1);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Falling].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Falling].frameCount = 1;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Falling].duration = sf::seconds(1);
 
     return data;
 }

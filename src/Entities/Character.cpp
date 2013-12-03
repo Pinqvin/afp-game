@@ -92,7 +92,7 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
         this->attachChild(std::move(sensor));
     }
 
-    if (mType == Enemy)
+    if (getCategory() == Category::EnemyCharacter)
     {
         createHead(world);
 
