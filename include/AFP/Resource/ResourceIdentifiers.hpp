@@ -36,6 +36,8 @@ namespace AFP
             PlayerRunning,
             PlayerJumping,
             PlayerFalling,
+            HpBar,
+            TeleBar,
         };
 
     }

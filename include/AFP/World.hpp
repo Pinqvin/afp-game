@@ -14,6 +14,7 @@
 #include <AFP/Debug/BoxDebugDraw.hpp>
 #include <AFP/ContactListener.hpp>
 #include <AFP/Sound/SoundPlayer.hpp>
+#include <AFP/GUI/GameUI.hpp>
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -202,6 +203,12 @@ namespace AFP
             ///
             /// Sound player reference
             SoundPlayer& mSounds;
+
+            /// Game UI
+            ///
+            /// Used for displaying various types of information
+            /// on the screen.
+            GameUI mGameUI;
 
     };
 

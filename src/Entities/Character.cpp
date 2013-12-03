@@ -442,3 +442,7 @@ void AFP::Character::noTarget()
     mTarget = nullptr;
 }
 
+int AFP::Character::getTeleCharge()
+{
+    return mTeleCharge;
+}

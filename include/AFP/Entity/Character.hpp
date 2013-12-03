@@ -144,6 +144,11 @@ namespace AFP
         ///
         void noTarget();
 
+        /// Get teleport charge amount
+        ///
+        ///
+        int getTeleCharge();
+
     private:
         /// Draw character sprite
         ///

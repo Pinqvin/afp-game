@@ -19,126 +19,126 @@ namespace AFP
         /// Constructor
         ///
         ///
-        explicit 				Animation(const sf::Texture& texture);
+        explicit Animation(const sf::Texture& texture);
         
         /// Set texture
         ///
         /// Sets animation texture
-        void 					setTexture(const sf::Texture& texture);
+        void setTexture(const sf::Texture& texture);
         
         /// Get texture
         ///
         /// Returns animation texture
-        const sf::Texture* 		getTexture() const;
+        const sf::Texture* getTexture() const;
         
         /// Set frame size
         ///
         /// Sets frame size
-        void 					setFrameSize(sf::Vector2i mFrameSize);
+        void setFrameSize(sf::Vector2i mFrameSize);
         
         /// Get frame size
         ///
         /// Returns frame size
-        sf::Vector2i		 	getFrameSize() const;
+        sf::Vector2i getFrameSize() const;
         
         /// Set number of frames
         ///
         /// Sets number of frames
-        void 					setNumFrames(std::size_t numFrames);
+        void setNumFrames(std::size_t numFrames);
         
         /// Get number of frames
         ///
         /// Returns number of frames
-        std::size_t 			getNumFrames() const;
+        std::size_t getNumFrames() const;
         
         /// Set duration
         ///
         /// Sets duration
-        void 					setDuration(sf::Time duration);
+        void setDuration(sf::Time duration);
         
         /// Get duration
         ///
         /// Returns duration
-        sf::Time 				getDuration() const;
+        sf::Time getDuration() const;
 
         /// Set Repeating
         ///
         /// Sets animation to be repeating
-        void 					setRepeating(bool flag);
+        void setRepeating(bool flag);
         
         /// Is repeating
         ///
         /// Returns true if animation is repeating
-        bool 					isRepeating() const;
+        bool isRepeating() const;
         
         /// Restart
         ///
         /// Restarts animation
-        void 					restart();
+        void restart();
         
         /// Is finished
         ///
         /// Returns true if animation is finished
-        bool 					isFinished() const;
+        bool isFinished() const;
         
         /// Get local bounds
         ///
         /// 
-        sf::FloatRect 			getLocalBounds() const;
+        sf::FloatRect getLocalBounds() const;
         
         /// Get global bounds
         ///
         ///
-        sf::FloatRect 			getGlobalBounds() const;
+        sf::FloatRect getGlobalBounds() const;
         
         /// Update
         ///
         /// Updates the animation
-        void 					update(sf::Time dt);
+        void update(sf::Time dt);
 
 
     private: 
         /// Draw
         ///
         /// Draws the animation
-        void 					draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 
     private:   
         /// Sprite
         ///
         ///
-        sf::Sprite 				mSprite;
+        sf::Sprite mSprite;
         
         /// Frame size
         ///
         ///
-        sf::Vector2i 			mFrameSize;
+        sf::Vector2i mFrameSize;
         
         /// Number of frames
         ///
         ///
-        std::size_t 			mNumFrames;
+        std::size_t mNumFrames;
         
         /// Current frame
         ///
         ///
-        std::size_t 			mCurrentFrame;
+        std::size_t mCurrentFrame;
         
         /// Duration
         ///
         ///
-        sf::Time 				mDuration;
+        sf::Time mDuration;
         
         /// Elapsed time
         ///
         ///
-        sf::Time 				mElapsedTime;
+        sf::Time mElapsedTime;
         
         /// Repeat
         ///
         ///
-        bool 					mRepeat;
+        bool mRepeat;
 
     };
 
