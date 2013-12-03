@@ -15,10 +15,10 @@ AFP::LoadingState::LoadingState(StateStack& stack, State::Context context):
     mLoadingText.setFont(font);
     mLoadingText.setString("Loading...");
     centerOrigin(mLoadingText);
-    mLoadingText.setPosition(window.getSize().x / 2u, window.getSize().y / 2u + 50);
+    mLoadingText.setPosition(window.getSize().x / 2.f, window.getSize().y / 2.f + 50);
 
     mProgressBarBackground.setFillColor(sf::Color::White);
-    mProgressBarBackground.setSize(sf::Vector2f(window.getSize().x - 20, 10));
+    mProgressBarBackground.setSize(sf::Vector2f(window.getSize().x - 20.f, 10.f));
     mProgressBarBackground.setPosition(10, mLoadingText.getPosition().y + 40);
 
     mProgressBar.setFillColor(sf::Color(100, 100, 100, 100));

@@ -236,6 +236,6 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
 }
 
 /// Flip character
-void AFP::Entity::flip(int angle){
+void AFP::Entity::flip(float angle){
     mHead->SetTransform(mHead->GetPosition(), angle);
 }

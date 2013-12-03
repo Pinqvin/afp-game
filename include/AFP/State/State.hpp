@@ -31,6 +31,15 @@ namespace AFP
             ///
             typedef std::unique_ptr<State> Ptr;
 
+            /// Level data
+            ///
+            /// Holds level data, used in context
+            struct Level
+            {
+                Level(std::string filename);
+                std::string filename;
+            };
+
             /// Context
             ///
             ///
@@ -44,7 +53,8 @@ namespace AFP
                         FontHolder& fonts,
                         Player& player,
                         MusicPlayer& music,
-                        SoundPlayer& sound);
+                        SoundPlayer& sound,
+                        Level& level);
 
                 /// Window to render to
                 sf::RenderWindow* window;
@@ -63,6 +73,9 @@ namespace AFP
 
                 /// Sound player
                 SoundPlayer* sound;
+
+                /// Current level
+                Level* level;
 
             };
 

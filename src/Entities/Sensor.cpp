@@ -77,8 +77,8 @@ void AFP::Sensor::createVisionSensor(float radius, float angle)
     b2FixtureDef fixtureDef;
     b2Vec2 vertices[8];
 
-    float mAngle = 2 * b2_pi / 3;
-    float step = (angle * (b2_pi/180.0)) / 6;
+    float mAngle = 2.0f * b2_pi / 3.0f;
+    float step = (angle * (b2_pi/180.0f)) / 6.0f;
 
     vertices[0].Set(0, 0);
     for (int i = 0; i < 7; i++) {

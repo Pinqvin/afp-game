@@ -119,7 +119,7 @@ void AFP::World::addBackgroundLayers()
         {
             /// Tile texture vertically
             sf::Texture& texture = mTextures.get(imageLayer->GetName());
-            sf::IntRect textureRect(0, 0, mWorldBounds.width,
+            sf::IntRect textureRect(0.f, 0.f, mWorldBounds.width,
                     texture.getSize().y);
             texture.setRepeated(true);
 
@@ -303,10 +303,10 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             /// If it was none of the above, it's a box eg. the default object
             /// type/shape
             b2PolygonShape polygonShape;
-            int width = collisionObject->GetWidth() / PTM_RATIO;
-            int height = collisionObject->GetHeight() / PTM_RATIO;
-            int x = collisionObject->GetX() / PTM_RATIO;
-            int y = collisionObject->GetY() / PTM_RATIO;
+            float width = collisionObject->GetWidth() / PTM_RATIO;
+            float height = collisionObject->GetHeight() / PTM_RATIO;
+            float x = collisionObject->GetX() / PTM_RATIO;
+            float y = collisionObject->GetY() / PTM_RATIO;
 
             polygonShape.SetAsBox(width / 2.f,
                     height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);

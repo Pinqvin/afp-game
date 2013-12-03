@@ -23,7 +23,7 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     playButton->setCallback([this] ()
     {
         requestStackPop();
-        requestStackPush(States::Load);
+        requestStackPush(States::LevelSelect);
     });
 
     // Settings not yet implemented so this part is left out

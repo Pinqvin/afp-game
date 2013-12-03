@@ -19,7 +19,7 @@ namespace AFP
             Game,
             Pause,
             Settings,
-
+            LevelSelect,
         };
 
     }

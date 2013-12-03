@@ -4,9 +4,11 @@
 #include <AFP/Input/Player.hpp>
 #include <AFP/Sound/MusicPlayer.hpp>
 
+#include <iostream>
+
 /// Constructor
 AFP::GameState::GameState(StateStack& stack, Context context):
-    State(stack, context), mWorld(*context.window, *context.sound, "Media/Maps/level2.tmx"),
+    State(stack, context), mWorld(*context.window, *context.sound, context.level->filename),
     mPlayer(*context.player)
 {
     context.music->setVolume(40.f);

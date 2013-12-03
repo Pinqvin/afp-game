@@ -3,15 +3,21 @@
 #include <AFP/State/State.hpp>
 #include <AFP/State/StateStack.hpp>
 
+#include <iostream>
+
+AFP::State::Level::Level(std::string level):
+    filename(level)
+{
+}
+
 /// Constructor for context
 AFP::State::Context::Context(sf::RenderWindow& window, TextureHolder& textures,
-        FontHolder& fonts, Player& player, MusicPlayer& music, SoundPlayer& sound):
+        FontHolder& fonts, Player& player, MusicPlayer& music, SoundPlayer& sound, Level& level):
     window(&window), textures(&textures), fonts(&fonts), player(&player),
-    music(&music), sound(&sound)
+    music(&music), sound(&sound), level(&level)
 {
 
 }
-
 
 /// State constructor
 AFP::State::State(StateStack& stack, Context context):

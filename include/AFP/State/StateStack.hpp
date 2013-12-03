@@ -73,6 +73,11 @@ namespace AFP
             /// Returns true if stack is empty, false otherwise
             bool isEmpty() const;
 
+            /// Set level
+            ///
+            /// Set new level information to context.
+            void setLevel(std::string level);
+
         private:
             /// Create a new state
             ///

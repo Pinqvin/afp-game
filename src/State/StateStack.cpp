@@ -132,6 +132,12 @@ bool AFP::StateStack::isEmpty() const
 
 }
 
+/// Change level
+void AFP::StateStack::setLevel(std::string level)
+{
+    mContext.level = new State::Level(level);
+}
+
 /// Constructor for a pending change
 AFP::StateStack::PendingChange::PendingChange(Action action, States::ID stateID):
     action(action), stateID(stateID)

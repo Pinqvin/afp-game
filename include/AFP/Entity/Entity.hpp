@@ -116,7 +116,7 @@ namespace AFP
         /// flip
         ///
         /// flips the entity's head over
-        void flip(int angle);
+        void flip(float angle);
 
     protected:
         /// Update the movement

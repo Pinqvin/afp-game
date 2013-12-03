@@ -8,6 +8,7 @@
 #include <AFP/State/GameState.hpp>
 #include <AFP/State/PauseState.hpp>
 #include <AFP/State/SettingsState.hpp>
+#include <AFP/State/LevelSelectState.hpp>
 #include <AFP/Utility.hpp>
 
 /// Handle the updates in steps fixed to 60fps
@@ -17,7 +18,7 @@ const sf::Time AFP::Application::TIME_PER_FRAME = sf::seconds(AFP::UPDATE_PER_FR
 AFP::Application::Application():
     mWindow(sf::VideoMode(854, 480), "States", sf::Style::Close),
     mTextures(), mFonts(), mPlayer(),
-    mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mMusicPlayer, mSoundPlayer)),
+    mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mMusicPlayer, mSoundPlayer, State::Level("Media/Maps/level1.tmx"))),
     mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames()
 {
     mFonts.load("AFP::Fonts::Debug", "Media/Sansation.ttf");
@@ -48,6 +49,7 @@ void AFP::Application::registerStates()
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<PauseState>(States::Pause);
     mStateStack.registerState<SettingsState>(States::Settings);
+    mStateStack.registerState<LevelSelectState>(States::LevelSelect);
 
 }
 
