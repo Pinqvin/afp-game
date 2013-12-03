@@ -113,6 +113,11 @@ namespace AFP
         /// Destroy Box2D body.
         void destroyBody();
 
+        /// flip
+        ///
+        /// flips the entity's head over
+        void flip(int angle);
+
     protected:
         /// Update the movement
         ///

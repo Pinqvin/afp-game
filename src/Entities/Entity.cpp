@@ -167,7 +167,7 @@ void AFP::Entity::createHead(b2World* world)
     mJoint = (b2RevoluteJoint*)world->CreateJoint(&jointDef);
 
     // Rotate head
-    mHead->SetAngularVelocity(1.0f);
+    //mHead->SetAngularVelocity(1.0f);
 }
 
 b2Fixture* AFP::Entity::attachSensorToBody(const b2FixtureDef* sensor)
@@ -233,4 +233,9 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
     position -= getParentPosition();
     setPosition(position);
 
+}
+
+/// Flip character
+void AFP::Entity::flip(int angle){
+    mHead->SetTransform(mHead->GetPosition(), angle);
 }

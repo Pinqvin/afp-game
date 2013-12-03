@@ -296,7 +296,7 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
 
         if(mTarget != nullptr){
 
-            // If you gotta jump
+            /// If you gotta jump
             if (mJumpContacts > 0)
             {
                 /// You gotta jump
@@ -307,10 +307,12 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
             {
                 moveHorizontal(10.f);
                 mAnimations[mState].setScale(-1.0f,1.0f);
+                flip(b2_pi);
             } else
             {
                 moveHorizontal(-10.f);
                 mAnimations[mState].setScale(1.0f,1.0f);
+                flip(0);
             }
 
             if(mTargetInVision)

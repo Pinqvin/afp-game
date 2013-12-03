@@ -64,7 +64,7 @@ void AFP::Sensor::createJumpSensor(float sizeX, float sizeY)
     dynamicBox.SetAsBox(sizeX * 1.f, 0.3f, b2Vec2(-1.f, sizeY * 0.1f), b2_pi/7);
     fixtureDef.shape = &dynamicBox;
     fixtureDef.isSensor = true;
-    mFixture = mParent->attachSensorToBody(&fixtureDef);
+    mFixture = mParent->attachSensorToHead(&fixtureDef);
 
     /// Set pointer to this sensor
     mFixture->SetUserData(this);
