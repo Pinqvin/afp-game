@@ -60,8 +60,8 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::PlayerRunning", "Media/Textures/Rag_Running.png");
     mTextures.load("AFP::Textures::PlayerJumping", "Media/Textures/Rag_Jumping.png");
     mTextures.load("AFP::Textures::PlayerFalling", "Media/Textures/Rag_Falling.png");
-    mTextures.load("AFP::Textures::HpBar", "Media/Textures/hp_bar_empty.png");
-    mTextures.load("AFP::Textures::TeleBar", "Media/Textures/teleport_bar_empty.png");
+    mTextures.load("AFP::Textures::HpBar", "Media/Textures/hp_bar.png");
+    mTextures.load("AFP::Textures::TeleBar", "Media/Textures/tele_bar.png");
 
     for (int i = 0; i < mMap.GetNumTilesets(); ++i)
     {

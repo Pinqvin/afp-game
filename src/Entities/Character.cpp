@@ -341,11 +341,12 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
         mIsFiring = false;
     }
 
-    if (mIsTeleporting && mTeleportCountdown <= sf::Time::Zero)
+    if (mIsTeleporting && mTeleportCountdown <= sf::Time::Zero && mTeleCharge > 0)
     {
         commands.push(mTeleportCommand);
         mTeleportCountdown += sf::milliseconds(500);
         mIsTeleporting = false;
+        mTeleCharge -= 10;
 
     }
     else if (mTeleportCountdown > sf::Time::Zero)
