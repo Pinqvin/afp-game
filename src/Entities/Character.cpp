@@ -364,7 +364,7 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
     if (mIsFiring && mFireCountdown <= sf::Time::Zero)
     {
         commands.push(mFireCommand);
-        playLocalSound(commands, SoundEffect::Pistol);
+        playLocalSound(commands, WeaponTable[mWeaponType].sound);
         mFireCountdown += sf::milliseconds(WeaponTable[mWeaponType].firerate);
         mIsFiring = false;
 

@@ -18,6 +18,7 @@ namespace AFP
         enum ID
         {
             Pistol,
+            Shotgun
         };
     }
 

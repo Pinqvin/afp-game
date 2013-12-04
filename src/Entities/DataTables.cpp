@@ -11,7 +11,7 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Player].telecharge = 100;
     data[AFP::Character::Player].speed = 10.0f;
     data[AFP::Character::Player].jumpStrength = -40.0f;
-    data[AFP::Character::Player].weapon = Character::Pistol;
+    data[AFP::Character::Player].weapon = Character::Shotgun;
 
     /// Initialize animation data
     data[AFP::Character::Player].animation.resize(AFP::Character::StateCount);
@@ -139,7 +139,7 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
     data[AFP::Character::Shotgun].firerate = 1000;
     data[AFP::Character::Shotgun].recoil = 1.0f;
     data[AFP::Character::Shotgun].bullets = AFP::Projectile::Shot;
-    data[AFP::Character::Shotgun].sound = AFP::SoundEffect::Pistol;
+    data[AFP::Character::Shotgun].sound = AFP::SoundEffect::Shotgun;
 
     return data;
 }
