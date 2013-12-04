@@ -60,6 +60,12 @@ namespace AFP
             /// of the world
             CommandQueue& getCommandQueue();
 
+            /// Return player status
+            ///
+            /// Returns true when player is destroyed and
+            /// is marked for removal.
+            bool isPlayerAlive();
+
         private:
             /// Loads all the textures required for the world
             ///

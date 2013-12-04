@@ -57,6 +57,7 @@ namespace AFP
         int firerate;
         float recoil;
         Projectile::Type bullets;
+        SoundEffect::ID sound;
     };
 
     struct ParticleData

@@ -34,6 +34,12 @@ bool AFP::GameState::update(sf::Time dt)
 {
     mWorld.update(dt);
 
+    /// Move to GameOver screen if player is dead
+    if (!mWorld.isPlayerAlive())
+    {
+        requestStackPush(States::GameOver);
+    }
+
     CommandQueue& commands = mWorld.getCommandQueue();
     mPlayer.handleRealtimeInput(commands);
 

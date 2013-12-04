@@ -51,7 +51,7 @@ float AFP::Entity::getMass() const
 /// Convert position to pixels
 sf::Vector2f AFP::Entity::getPosition() const
 {
-    if ( mBody == NULL ) {
+    if ( mBody == nullptr ) {
         return sf::Vector2f(0.f, 0.f);
     }
 
@@ -220,9 +220,12 @@ void AFP::Entity::destroyBody()
     {
         mHead->GetWorld()->DestroyJoint(mJoint);
         mHead->GetWorld()->DestroyBody(mHead);
+        mHead = nullptr;
     }
 
     mBody->GetWorld()->DestroyBody(mBody);
+    mBody = nullptr;
+
 }
 
 /// Update entity

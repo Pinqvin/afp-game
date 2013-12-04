@@ -45,6 +45,7 @@ namespace AFP
             Running,
             Jumping,
             Falling,
+            Dying,
             StateCount
         };
 
@@ -57,6 +58,12 @@ namespace AFP
         ///
         /// Returns the character category based on the type
         virtual unsigned int getCategory() const;
+
+        /// Is character ready to be removed
+        ///
+        /// Returns true when character is destroyed and
+        /// death animation has finished.
+        virtual bool isMarkedForRemoval() const;
 
         /// Create character in Box2D world
         ///
@@ -268,11 +275,6 @@ namespace AFP
         ///
         /// Does the enemy have to jump?
         int mJumpContacts;
-
-        /// Is marked for removal
-        ///
-        /// Set to true when character can be removed from the game.
-        bool mIsMarkedForRemoval;
 
         /// Teleport charge
         ///

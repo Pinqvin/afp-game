@@ -139,6 +139,7 @@ sf::Vector2f AFP::SceneNode::getParentPosition()
 /// Remove all destroyed entities
 void AFP::SceneNode::removeWrecks()
 {
+    
     // Remove all bodies that are marked for removal
     for(Ptr& child : mChildren)
     {
@@ -147,7 +148,7 @@ void AFP::SceneNode::removeWrecks()
             child->destroyBody();
         }
     }
-
+    
     // Remove all children marked for removal
     auto wreckfieldBegin = std::remove_if(mChildren.begin(), mChildren.end(), std::mem_fn(&SceneNode::isMarkedForRemoval));
     mChildren.erase(wreckfieldBegin, mChildren.end());

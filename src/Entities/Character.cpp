@@ -25,7 +25,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mType(type), mWeaponType(Table[type].weapon), mJumpStrength(Table[type].jumpStrength)
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
-    , mFootContacts(0), mJumpContacts(0), mIsMarkedForRemoval(false), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
+    , mFootContacts(0), mJumpContacts(0), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
     , mTargetInVision(false), mAnimations(), mState(Stopped)
 {
     /// Initialize animations
@@ -43,10 +43,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
         centerOrigin(mAnimations[i]);
     }
 
-    // Add blood emitter
-    std::unique_ptr<EmitterNode> blood(new EmitterNode(Particle::Blood));
-    blood->setPosition(0.f, 0.f);
-    attachChild(std::move(blood));
+    mAnimations[Dying].setRepeating(false);
 
     // Set command category as scene so the command is called only once.
     mFireCommand.category = Category::Scene;
@@ -76,6 +73,12 @@ unsigned int AFP::Character::getCategory() const
         return Category::EnemyCharacter;
     }
 
+}
+
+/// Checks if character is ready to be removed
+bool AFP::Character::isMarkedForRemoval() const
+{
+    return isDestroyed() && mAnimations[Dying].isFinished();
 }
 
 /// Create a body based on character type
@@ -123,6 +126,12 @@ void AFP::Character::createCharacter(b2World* world, float posX, float posY)
 /// Move-command
 void AFP::Character::moveHorizontal(float vx)
 {
+    /// Ignore dying characters
+    if (mState == Dying)
+    {
+        return;
+    }
+
     b2Vec2 velocity = getVelocity();
 
     /// Acceleration
@@ -141,6 +150,12 @@ void AFP::Character::moveHorizontal(float vx)
 /// Jump-command
 void AFP::Character::jump()
 {
+    /// Ignore dying characters
+    if (mState == Dying)
+    {
+        return;
+    }
+
     if (mFootContacts > 0)
     {
         float force = mJumpStrength * getMass();
@@ -152,6 +167,12 @@ void AFP::Character::jump()
 /// Fire-command
 void AFP::Character::fire(sf::Vector2f target)
 {
+    /// Ignore dying characters
+    if (mState == Dying)
+    {
+        return;
+    }
+
     mIsFiring = true;
 
     // Apply mouse translation
@@ -185,6 +206,12 @@ void AFP::Character::playLocalSound(CommandQueue& commands, SoundEffect::ID effe
 /// Teleport-command
 void AFP::Character::teleport(sf::Vector2f target)
 {
+    /// Ignore dying characters
+    if (mState == Dying)
+    {
+        return;
+    }
+
     mIsTeleporting = true;
 
     // Apply mouse translation
@@ -262,18 +289,25 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     setVelocity(velocity);
 
     /// Change character state
-    if ((getVelocity().x > 0.5f || getVelocity().x < -0.5f) && getVelocity().y == 0.f)
+    if (isDestroyed())
     {
-        mState = Running;
-    } else if  (getVelocity().y < 0)
+        mState = Dying;
+    } 
+    else 
     {
-        mState = Jumping;
-    } else if (getVelocity().y > 0)
-    {
-        mState = Falling;
-    } else
-    {
-        mState = Stopped;
+        if ((getVelocity().x > 0.5f || getVelocity().x < -0.5f) && getVelocity().y == 0.f)
+        {
+            mState = Running;
+        } else if  (getVelocity().y < 0)
+        {
+            mState = Jumping;
+        } else if (getVelocity().y > 0)
+        {
+            mState = Falling;
+        } else
+        {
+            mState = Stopped;
+        }
     }
 
     if(getCategory() == Category::PlayerCharacter){

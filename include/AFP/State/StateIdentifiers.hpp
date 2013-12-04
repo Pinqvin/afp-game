@@ -20,6 +20,7 @@ namespace AFP
             Pause,
             Settings,
             LevelSelect,
+            GameOver,
         };
 
     }

@@ -18,7 +18,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
     mSceneGraph(), mSpriteGraph(), mSceneLayers(), mMap(), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
-    mDebugMode(true), mCameraPosition(), mContactListener(), mSounds(sounds), mGameUI()
+    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds), mGameUI()
 {
     mMap.ParseFile(mapFile);
 
@@ -58,6 +58,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::PlayerRunning", "Media/Textures/Rag_Running.png");
     mTextures.load("AFP::Textures::PlayerJumping", "Media/Textures/Rag_Jumping.png");
     mTextures.load("AFP::Textures::PlayerFalling", "Media/Textures/Rag_Falling.png");
+    mTextures.load("AFP::Textures::PlayerDying", "Media/Textures/Rag_Dying.png");
     mTextures.load("AFP::Textures::HpBar", "Media/Textures/hp_bar.png");
     mTextures.load("AFP::Textures::TeleBar", "Media/Textures/tele_bar.png");
 
@@ -509,6 +510,12 @@ AFP::CommandQueue& AFP::World::getCommandQueue()
 {
     return mCommandQueue;
 
+}
+
+/// Return true when player is marked for removal
+bool AFP::World::isPlayerAlive()
+{
+    return !mPlayerCharacter->isMarkedForRemoval();
 }
 
 void AFP::World::moveCamera()

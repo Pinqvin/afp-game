@@ -9,6 +9,7 @@
 #include <AFP/State/PauseState.hpp>
 #include <AFP/State/SettingsState.hpp>
 #include <AFP/State/LevelSelectState.hpp>
+#include <AFP/State/GameOverState.hpp>
 #include <AFP/Utility.hpp>
 
 /// Handle the updates in steps fixed to 60fps
@@ -50,6 +51,7 @@ void AFP::Application::registerStates()
     mStateStack.registerState<PauseState>(States::Pause);
     mStateStack.registerState<SettingsState>(States::Settings);
     mStateStack.registerState<LevelSelectState>(States::LevelSelect);
+    mStateStack.registerState<GameOverState>(States::GameOver);
 
 }
 

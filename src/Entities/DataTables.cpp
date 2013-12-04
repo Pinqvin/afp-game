@@ -11,7 +11,7 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Player].telecharge = 100;
     data[AFP::Character::Player].speed = 10.0f;
     data[AFP::Character::Player].jumpStrength = -40.0f;
-    data[AFP::Character::Player].weapon = Character::Shotgun;
+    data[AFP::Character::Player].weapon = Character::Pistol;
 
     /// Initialize animation data
     data[AFP::Character::Player].animation.resize(AFP::Character::StateCount);
@@ -35,6 +35,11 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Player].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
     data[AFP::Character::Player].animation[AFP::Character::Falling].frameCount = 1;
     data[AFP::Character::Player].animation[AFP::Character::Falling].duration = sf::seconds(1);
+
+    data[AFP::Character::Player].animation[AFP::Character::Dying].texture = "AFP::Textures::PlayerDying";
+    data[AFP::Character::Player].animation[AFP::Character::Dying].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Player].animation[AFP::Character::Dying].frameCount = 6;
+    data[AFP::Character::Player].animation[AFP::Character::Dying].duration = sf::seconds(0.5);
 
     /// Telepolice data
     data[AFP::Character::Telepolice].hitpoints = 100;
@@ -65,6 +70,11 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Telepolice].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
     data[AFP::Character::Telepolice].animation[AFP::Character::Falling].frameCount = 1;
     data[AFP::Character::Telepolice].animation[AFP::Character::Falling].duration = sf::seconds(1);
+
+    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].frameCount = 1;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].duration = sf::seconds(1);
 
     return data;
 }
@@ -119,14 +129,17 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
     data[AFP::Character::Pistol].firerate = 300;
     data[AFP::Character::Pistol].recoil = 0.0f;
     data[AFP::Character::Pistol].bullets = AFP::Projectile::Bullet;
+    data[AFP::Character::Pistol].sound = AFP::SoundEffect::Pistol;
 
     data[AFP::Character::Machinegun].firerate = 50;
     data[AFP::Character::Machinegun].recoil = 1.2f;
     data[AFP::Character::Machinegun].bullets = AFP::Projectile::Bullet;
+    data[AFP::Character::Machinegun].sound = AFP::SoundEffect::Pistol;
 
     data[AFP::Character::Shotgun].firerate = 1000;
     data[AFP::Character::Shotgun].recoil = 1.0f;
     data[AFP::Character::Shotgun].bullets = AFP::Projectile::Shot;
+    data[AFP::Character::Shotgun].sound = AFP::SoundEffect::Pistol;
 
     return data;
 }
