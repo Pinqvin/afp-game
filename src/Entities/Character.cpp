@@ -495,7 +495,7 @@ void AFP::Character::damage(int points)
 {
     assert(points > 0);
 
-    mHitpoints -= points;
+    Entity::damage(points);
 
     if(getCategory() == Category::EnemyCharacter)
     {
