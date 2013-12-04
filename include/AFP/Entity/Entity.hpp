@@ -118,12 +118,6 @@ namespace AFP
         /// flips the entity's head over
         void flip(float angle);
 
-        /// Hitpoints
-        ///
-        /// Hitpoints of the entity. Entity is destroyed when
-        /// hitpoints reach zero.
-        int mHitpoints;
-
         /// Search for enemy
         ///
         /// Flip the look-sensor around to find enemy
@@ -156,7 +150,12 @@ namespace AFP
         ///
         ///
         b2RevoluteJoint* mJoint;
-
+     
+        /// Hitpoints
+        ///
+        /// Hitpoints of the entity. Entity is destroyed when
+        /// hitpoints reach zero.
+        int mHitpoints;
 
     };
 
