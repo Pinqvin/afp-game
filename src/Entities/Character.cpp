@@ -263,9 +263,24 @@ void AFP::Character::endJumpContact()
 
 
 /// Recharge telecharge
-void AFP::Character::recharge(int points)
+bool AFP::Character::recharge(int points)
 {
-    mTeleCharge += points;
+    // Already full, no effect
+    if (mTeleCharge == 100)
+    {
+        return false;
+    }
+
+    if(mTeleCharge + points > 100)
+    {
+        mTeleCharge = 100;
+    }
+    else
+    {
+        mTeleCharge += points;
+    }
+
+    return true;
 
 }
 

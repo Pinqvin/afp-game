@@ -16,18 +16,26 @@ namespace
 
 /// Constructor
 AFP::Collectable::Collectable(Type type, const TextureHolder& textures):
-    Entity(1), mType(type), mSprite(textures.get(Table[type].texture))
+    Entity(1), mType(type), mAnimation(textures.get(Table[type].texture))
 {
-    /// Align the origin to the center of the texture
-    sf::FloatRect bounds = mSprite.getLocalBounds();
-    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    switch (mType)
+    {
+    case AFP::Collectable::Coin:
+        mAnimation.setFrameSize(sf::Vector2i(16,16));
+        mAnimation.setNumFrames(14);
+        mAnimation.setDuration(sf::seconds(1));
+        mAnimation.setRepeating(true);
+        break;
+    case AFP::Collectable::Orb:
+        mAnimation.setFrameSize(sf::Vector2i(16,16));
+        mAnimation.setNumFrames(7);
+        mAnimation.setDuration(sf::seconds(1));
+        mAnimation.setRepeating(true);
+    default:
+        break;
+    }
 
-}
-
-void AFP::Collectable::drawCurrent(sf::RenderTarget& target,
-						   sf::RenderStates states) const
-{
-	target.draw(mSprite, states);
+    centerOrigin(mAnimation);
 
 }
 
@@ -41,27 +49,32 @@ unsigned int AFP::Collectable::getCategory() const
 /// Creates a collectable item
 void AFP::Collectable::createCollectable(b2World* world, float posX, float posY)
 {
-    switch (mType)
-    {
-    case AFP::Collectable::Coin:
-        createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 0.3f);
-        break;
-    default:
-        break;
-    }
+    createBody(world, posX, posY, 1.0f, 1.0f, 1.0f, 0.3f);
 
 }
 
 /// Apply collectable
-void AFP::Collectable::apply(Character& player)
+bool AFP::Collectable::apply(Character& player)
 {
     switch (mType)
     {
     case Coin:
-        player.heal(10);
+        return player.heal(25);
     case Orb:
-        player.recharge(10);
+        return player.recharge(25);
     default:
         break;
     }
+}
+
+void AFP::Collectable::drawCurrent(sf::RenderTarget& target,
+                                   sf::RenderStates states) const
+{
+    target.draw(mAnimation, states);
+
+}
+
+void AFP::Collectable::updateCurrent(sf::Time dt, CommandQueue&)
+{
+    mAnimation.update(dt);
 }

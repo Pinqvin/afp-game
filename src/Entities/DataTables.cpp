@@ -138,9 +138,25 @@ std::vector<AFP::TileData> AFP::initializeTileData()
 {
     std::vector<AFP::TileData> data(AFP::Tile::TypeCount);
 
-    data[AFP::Tile::Grass].hitpoints = 1;
-    data[AFP::Tile::Grass].destroyable = false;
-    data[AFP::Tile::Grass].texture = "AFP::Textures::GrassTile";
+    data[AFP::Tile::Box16].hitpoints = 10;
+    data[AFP::Tile::Box16].collectable = AFP::Collectable::TypeCount;
+    data[AFP::Tile::Box16].destroyanim = "AFP::Textures::Box16Destroy";
+    data[AFP::Tile::Box16].texture = "AFP::Textures::Box16";
+
+    data[AFP::Tile::Box16Coin].hitpoints = 15;
+    data[AFP::Tile::Box16Coin].collectable = AFP::Collectable::Coin;
+    data[AFP::Tile::Box16Coin].destroyanim = "AFP::Textures::Box16CoinDestroy";
+    data[AFP::Tile::Box16Coin].texture = "AFP::Textures::Box16Coin";
+
+    data[AFP::Tile::Box16Orb].hitpoints = 15;
+    data[AFP::Tile::Box16Orb].collectable = AFP::Collectable::Orb;
+    data[AFP::Tile::Box16Orb].destroyanim = "AFP::Textures::Box16OrbDestroy";
+    data[AFP::Tile::Box16Orb].texture = "AFP::Textures::Box16Orb";
+
+    data[AFP::Tile::Box32].hitpoints = 30;
+    data[AFP::Tile::Box32].collectable = AFP::Collectable::TypeCount;
+    data[AFP::Tile::Box32].destroyanim = "AFP::Textures::Box32Destroy";
+    data[AFP::Tile::Box32].texture = "AFP::Textures::Box32";
 
     return data;
 
@@ -152,6 +168,8 @@ std::vector<AFP::CollectableData> AFP::initializeCollectableData()
     std::vector<AFP::CollectableData> data(AFP::Collectable::TypeCount);
 
     data[AFP::Collectable::Coin].texture = "AFP::Textures::Coin";
+
+    data[AFP::Collectable::Orb].texture = "AFP::Textures::Orb";
 
     return data;
 }

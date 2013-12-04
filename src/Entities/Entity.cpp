@@ -190,11 +190,26 @@ void AFP::Entity::damage(int points)
 }
 
 /// Increases hitpoints
-void AFP::Entity::heal(int points)
+bool AFP::Entity::heal(int points)
 {
     assert(points > 0);
 
-    mHitpoints += points;
+    // Healing not applied
+    if (mHitpoints == 100)
+    {
+        return false;
+    }
+
+    if(mHitpoints + points > 100)
+    {
+        mHitpoints = 100;
+    }
+    else
+    {
+        mHitpoints += points;
+    }
+
+    return true;
 }
 
 /// Destroy entity

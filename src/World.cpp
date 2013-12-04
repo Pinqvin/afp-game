@@ -13,8 +13,8 @@
 
 /// Constructor
 AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
-        std::string mapFile):
-    mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
+                  std::string mapFile):
+mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
     mSceneGraph(), mSpriteGraph(), mSceneLayers(), mMap(), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
@@ -25,7 +25,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
     if (mMap.HasError())
     {
         throw std::runtime_error("World::World (constructor): Map is faulty. "
-                "Error: " + mMap.GetErrorText());
+            "Error: " + mMap.GetErrorText());
 
     }
 
@@ -42,7 +42,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
 
     mWorldView.setCenter(mSpawnPosition);
 
-    
+
 
 }
 
@@ -54,9 +54,17 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::TelepoliceDying", "Media/Textures/telepolice_dying.png");
     mTextures.load("AFP::Textures::Droid", "Media/Textures/droid.png");
     mTextures.load("AFP::Textures::Explosion", "Media/Textures/explosion.png");
-    mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::Box16", "Media/Textures/Box_16.png");
+    mTextures.load("AFP::Textures::Box16Destroy", "Media/Textures/Box_16_explode.png");
+    mTextures.load("AFP::Textures::Box16Coin", "Media/Textures/Box_16_coin.png");
+    mTextures.load("AFP::Textures::Box16CoinDestroy", "Media/Textures/Box_16_coin_explode.png");
+    mTextures.load("AFP::Textures::Box16Orb", "Media/Textures/Box_16_orb.png");
+    mTextures.load("AFP::Textures::Box16OrbDestroy", "Media/Textures/Box_16_orb_explode.png");
+    mTextures.load("AFP::Textures::Box32", "Media/Textures/Box_32.png");
+    mTextures.load("AFP::Textures::Box32Destroy", "Media/Textures/Box_32_explode.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
-    mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
+    mTextures.load("AFP::Textures::Coin", "Media/Textures/coin.png");
+    mTextures.load("AFP::Textures::Orb", "Media/Textures/orb.png");
     mTextures.load("AFP::Textures::Particle", "Media/Textures/Particle.png");
     mTextures.load("AFP::Textures::PlayerStopped", "Media/Textures/Rag_Stopped.png");
     mTextures.load("AFP::Textures::PlayerRunning", "Media/Textures/Rag_Running.png");
@@ -71,7 +79,7 @@ void AFP::World::loadTextures()
         const Tmx::Tileset* tileSet = mMap.GetTileset(i);
 
         mTextures.load(tileSet->GetName(),
-                "Media/Maps/" + tileSet->GetImage()->GetSource());
+            "Media/Maps/" + tileSet->GetImage()->GetSource());
 
     }
 
@@ -80,7 +88,7 @@ void AFP::World::loadTextures()
         const Tmx::ImageLayer* imageLayer = mMap.GetImageLayer(i);
 
         mTextures.load(imageLayer->GetName(),
-                "Media/Maps/" + imageLayer->GetImage()->GetSource());
+            "Media/Maps/" + imageLayer->GetImage()->GetSource());
 
     }
 
@@ -102,7 +110,7 @@ void AFP::World::addBackgroundLayers()
         const Tmx::PropertySet layerProperties = imageLayer->GetProperties();
 
         if (layerProperties.HasProperty("repeat") &&
-                layerProperties.GetLiteralProperty("repeat") == "true")
+            layerProperties.GetLiteralProperty("repeat") == "true")
         {
             /// Set backround texture to be tiled
             sf::Texture& texture = mTextures.get(imageLayer->GetName());
@@ -111,30 +119,30 @@ void AFP::World::addBackgroundLayers()
 
             /// Make the texture as big as the world bounds
             std::unique_ptr<SpriteNode> backgroundSprite(
-                    new SpriteNode(texture, textureRect));
+                new SpriteNode(texture, textureRect));
 
             backgroundSprite->setPosition(
-                    mWorldBounds.left,
-                    mWorldBounds.top);
+                mWorldBounds.left,
+                mWorldBounds.top);
             mSceneLayers.back()->attachChild(std::move(backgroundSprite));
 
         }
         else if (layerProperties.HasProperty("repeatVertical") &&
-                layerProperties.GetLiteralProperty("repeatVertical") == "true")
+            layerProperties.GetLiteralProperty("repeatVertical") == "true")
         {
             /// Tile texture vertically
             sf::Texture& texture = mTextures.get(imageLayer->GetName());
             sf::IntRect textureRect(0.f, 0.f, mWorldBounds.width,
-                    texture.getSize().y);
+                texture.getSize().y);
             texture.setRepeated(true);
 
             std::unique_ptr<SpriteNode> backgroundSprite(
-                    new SpriteNode(texture, textureRect));
+                new SpriteNode(texture, textureRect));
 
             if (!layerProperties.HasProperty("height"))
             {
                 throw std::runtime_error("World::buildScene(): Missing property"
-                        " height from vertical image layer!");
+                    " height from vertical image layer!");
 
             }
 
@@ -143,9 +151,9 @@ void AFP::World::addBackgroundLayers()
             int height = layerProperties.GetNumericProperty("height");
 
             backgroundSprite->setPosition(
-                    mWorldBounds.left,
-                    mMap.GetHeight() * mMap.GetTileHeight() - height -
-                    texture.getSize().y);
+                mWorldBounds.left,
+                mMap.GetHeight() * mMap.GetTileHeight() - height -
+                texture.getSize().y);
             mSceneLayers.back()->attachChild(std::move(backgroundSprite));
 
         }
@@ -203,9 +211,9 @@ void AFP::World::addTileLayers()
 
                 /// Tile sprite's coordinates in the tileset
                 int tileX = currentTile % ((tileset->GetImage()->GetWidth()
-                            - tileMargin) / (tileWidth + tileSpacing));
+                    - tileMargin) / (tileWidth + tileSpacing));
                 int tileY = currentTile / ((tileset->GetImage()->GetWidth()
-                            - tileMargin) / (tileHeight + tileSpacing));
+                    - tileMargin) / (tileHeight + tileSpacing));
 
                 tileSpritePosition.left = tileX * (tileWidth + tileSpacing)
                     + tileMargin;
@@ -217,7 +225,7 @@ void AFP::World::addTileLayers()
                 sf::Texture& texture = mTextures.get(tileset->GetName());
 
                 std::unique_ptr<SpriteNode> tileSprite(
-                        new SpriteNode(texture, tileSpritePosition));
+                    new SpriteNode(texture, tileSpritePosition));
 
                 tileSprite->setPosition(position);
                 mSceneLayers.back()->attachChild(std::move(tileSprite));
@@ -249,9 +257,9 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             /// TODO: Polygon approximation for ellipses? Not sure if necessary
             b2CircleShape circle;
             circle.m_radius = (ellipseCollision->GetRadiusX() +
-                        ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
+                ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
             circle.m_p = b2Vec2(ellipseCollision->GetCenterX() / PTM_RATIO,
-                        ellipseCollision->GetCenterY() / PTM_RATIO);
+                ellipseCollision->GetCenterY() / PTM_RATIO);
             fixtureDef.shape = &circle;
             fixtureDef.friction = 0.35f;
             mGroundBody->CreateFixture(&fixtureDef);
@@ -295,7 +303,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
                 Tmx::Point nextPoint = polylineCollision->GetPoint(i + 1);
 
                 line.Set(b2Vec2((currentPoint.x + x) / PTM_RATIO, (currentPoint.y + y) / PTM_RATIO),
-                        b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
+                    b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
                 fixtureDef.shape = &line;
                 fixtureDef.friction = 0.2f;
                 mGroundBody->CreateFixture(&fixtureDef);
@@ -314,7 +322,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             float y = collisionObject->GetY() / PTM_RATIO;
 
             polygonShape.SetAsBox(width / 2.f,
-                    height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
+                height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
             fixtureDef.shape = &polygonShape;
             fixtureDef.friction = 0.05f;
             mGroundBody->CreateFixture(&fixtureDef);
@@ -353,11 +361,11 @@ void AFP::World::buildScene()
     /// Create a layer for entities
     Category::Type category = Category::Scene;
 
-	SceneNode::Ptr layer(new SceneNode(category));
+    SceneNode::Ptr layer(new SceneNode(category));
     mSceneLayers.push_back(layer.get());
 
     /// Attach it to scenegraph
-	mSceneGraph.attachChild(std::move(layer));
+    mSceneGraph.attachChild(std::move(layer));
 
     /// Scene layer is the top layer
     int topLayer = mSceneLayers.size() - 1;
@@ -369,8 +377,8 @@ void AFP::World::buildScene()
     std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
     mSceneGraph.attachChild(std::move(soundNode));
 
-	// Add particle node to the scene
-	std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
+    // Add particle node to the scene
+    std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
     mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
 
     /// Set the player to the world
@@ -384,17 +392,33 @@ void AFP::World::buildScene()
     mSceneLayers[topLayer]->attachChild(std::move(leader));
 
     /// Create a test tile in box2D world
-    std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
+    std::unique_ptr<Tile> testTile(new Tile(Tile::Box16Orb, mTextures));
 
-    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f);
+    testTile->createTile(mWorldBox, 200.f, 400.f);
     testTile->setPosition(testTile->getPosition());
 
     mSceneLayers[topLayer]->attachChild(std::move(testTile));
 
+        /// Create a test tile in box2D world
+    std::unique_ptr<Tile> testTile2(new Tile(Tile::Box16Coin, mTextures));
+
+    testTile2->createTile(mWorldBox, 230.f, 400.f);
+    testTile2->setPosition(testTile2->getPosition());
+
+    mSceneLayers[topLayer]->attachChild(std::move(testTile2));
+
+        /// Create a test tile in box2D world
+    std::unique_ptr<Tile> testTile3(new Tile(Tile::Box32, mTextures));
+
+    testTile3->createTile(mWorldBox, 260.f, 400.f);
+    testTile3->setPosition(testTile3->getPosition());
+
+    mSceneLayers[topLayer]->attachChild(std::move(testTile3));
+
     /// Create a test coin in box2D world
     std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
 
-    testCoin->createCollectable(mWorldBox, mSpawnPosition.x + 64.f, 800.f);
+    testCoin->createCollectable(mWorldBox, 200.f, 300.f);
     testCoin->setPosition(testCoin->getPosition());
 
     mSceneLayers[topLayer]->attachChild(std::move(testCoin));

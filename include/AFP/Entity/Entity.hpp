@@ -95,8 +95,8 @@ namespace AFP
 
         /// Heal entity
         ///
-        /// Increases hitpoints
-        void heal(int points);
+        /// Increases hitpoints, return false if already full
+        bool heal(int points);
 
         /// Destroy
         ///

@@ -42,7 +42,8 @@ namespace AFP
     struct TileData
     {
         int hitpoints;
-        bool destroyable;
+        Collectable::Type collectable;
+        std::string destroyanim;
         std::string texture;
     };
 
