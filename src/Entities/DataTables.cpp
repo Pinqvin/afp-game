@@ -38,8 +38,8 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
 
     data[AFP::Character::Player].animation[AFP::Character::Dying].texture = "AFP::Textures::PlayerDying";
     data[AFP::Character::Player].animation[AFP::Character::Dying].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Player].animation[AFP::Character::Dying].frameCount = 6;
-    data[AFP::Character::Player].animation[AFP::Character::Dying].duration = sf::seconds(0.5);
+    data[AFP::Character::Player].animation[AFP::Character::Dying].frameCount = 11;
+    data[AFP::Character::Player].animation[AFP::Character::Dying].duration = sf::seconds(1);
 
     /// Telepolice data
     data[AFP::Character::Telepolice].hitpoints = 100;
@@ -51,30 +51,65 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     /// Initialize animation data
     data[AFP::Character::Telepolice].animation.resize(AFP::Character::StateCount);
 
-    data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].texture = "AFP::Textures::TelepoliceStopped";
     data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].frameSize = sf::Vector2i(48,48);
     data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].frameCount = 6;
     data[AFP::Character::Telepolice].animation[AFP::Character::Stopped].duration = sf::seconds(1);
 
-    data[AFP::Character::Telepolice].animation[AFP::Character::Running].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Running].texture = "AFP::Textures::TelepoliceRunning";
     data[AFP::Character::Telepolice].animation[AFP::Character::Running].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Telepolice].animation[AFP::Character::Running].frameCount = 1;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Running].frameCount = 8;
     data[AFP::Character::Telepolice].animation[AFP::Character::Running].duration = sf::seconds(1);
 
-    data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].texture = "AFP::Textures::TelepoliceRunning";
     data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].frameSize = sf::Vector2i(48,48);
     data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].frameCount = 1;
     data[AFP::Character::Telepolice].animation[AFP::Character::Jumping].duration = sf::seconds(1);
 
-    data[AFP::Character::Telepolice].animation[AFP::Character::Falling].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Falling].texture = "AFP::Textures::TelepoliceStopped";
     data[AFP::Character::Telepolice].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
     data[AFP::Character::Telepolice].animation[AFP::Character::Falling].frameCount = 1;
     data[AFP::Character::Telepolice].animation[AFP::Character::Falling].duration = sf::seconds(1);
 
-    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].texture = "AFP::Textures::Telepolice";
+    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].texture = "AFP::Textures::TelepoliceDying";
     data[AFP::Character::Telepolice].animation[AFP::Character::Dying].frameSize = sf::Vector2i(48,48);
-    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].frameCount = 1;
+    data[AFP::Character::Telepolice].animation[AFP::Character::Dying].frameCount = 9;
     data[AFP::Character::Telepolice].animation[AFP::Character::Dying].duration = sf::seconds(1);
+
+    /// Droid data
+    data[AFP::Character::Droid].hitpoints = 100;
+    data[AFP::Character::Droid].telecharge = 100;
+    data[AFP::Character::Droid].speed = 10.0f;
+    data[AFP::Character::Droid].jumpStrength = -10.0f;
+    data[AFP::Character::Droid].weapon = Character::Pistol;
+
+    /// Initialize animation data
+    data[AFP::Character::Droid].animation.resize(AFP::Character::StateCount);
+
+    data[AFP::Character::Droid].animation[AFP::Character::Stopped].texture = "AFP::Textures::Droid";
+    data[AFP::Character::Droid].animation[AFP::Character::Stopped].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Droid].animation[AFP::Character::Stopped].frameCount = 4;
+    data[AFP::Character::Droid].animation[AFP::Character::Stopped].duration = sf::seconds(1);
+
+    data[AFP::Character::Droid].animation[AFP::Character::Running].texture = "AFP::Textures::Droid";
+    data[AFP::Character::Droid].animation[AFP::Character::Running].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Droid].animation[AFP::Character::Running].frameCount = 4;
+    data[AFP::Character::Droid].animation[AFP::Character::Running].duration = sf::seconds(1);
+
+    data[AFP::Character::Droid].animation[AFP::Character::Jumping].texture = "AFP::Textures::Droid";
+    data[AFP::Character::Droid].animation[AFP::Character::Jumping].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Droid].animation[AFP::Character::Jumping].frameCount = 4;
+    data[AFP::Character::Droid].animation[AFP::Character::Jumping].duration = sf::seconds(1);
+
+    data[AFP::Character::Droid].animation[AFP::Character::Falling].texture = "AFP::Textures::Droid";
+    data[AFP::Character::Droid].animation[AFP::Character::Falling].frameSize = sf::Vector2i(48,48);
+    data[AFP::Character::Droid].animation[AFP::Character::Falling].frameCount = 4;
+    data[AFP::Character::Droid].animation[AFP::Character::Falling].duration = sf::seconds(1);
+
+    data[AFP::Character::Droid].animation[AFP::Character::Dying].texture = "AFP::Textures::Explosion";
+    data[AFP::Character::Droid].animation[AFP::Character::Dying].frameSize = sf::Vector2i(64,64);
+    data[AFP::Character::Droid].animation[AFP::Character::Dying].frameCount = 9;
+    data[AFP::Character::Droid].animation[AFP::Character::Dying].duration = sf::seconds(1);
 
     return data;
 }

@@ -49,7 +49,11 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
 /// Load all the textures and tilesets required for the world.
 void AFP::World::loadTextures()
 {
-    mTextures.load("AFP::Textures::Telepolice", "Media/Textures/telepolice_stopped.png");
+    mTextures.load("AFP::Textures::TelepoliceStopped", "Media/Textures/telepolice_stopped.png");
+    mTextures.load("AFP::Textures::TelepoliceRunning", "Media/Textures/telepolice_running.png");
+    mTextures.load("AFP::Textures::TelepoliceDying", "Media/Textures/telepolice_dying.png");
+    mTextures.load("AFP::Textures::Droid", "Media/Textures/droid.png");
+    mTextures.load("AFP::Textures::Explosion", "Media/Textures/explosion.png");
     mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");

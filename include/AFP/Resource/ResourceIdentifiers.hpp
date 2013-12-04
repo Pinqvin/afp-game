@@ -22,7 +22,9 @@ namespace AFP
         enum ID
         {
             Player,
-            Telepolice,
+            TelepoliceStopped,
+            TelepoliceRunning,
+            TelepoliceDying,
             Droid,
             TitleScreen,
             GrassTile,

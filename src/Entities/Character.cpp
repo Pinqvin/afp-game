@@ -320,13 +320,8 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
         }
     }
 
-    /// Update state
-    mAnimations[mState].update(dt);
-
-    Entity::updateCurrent(dt, commands);
-
     ///Enemy AI update
-    if(getCategory() == Category::EnemyCharacter){
+    if(getCategory() == Category::EnemyCharacter && mState != Dying){
 
         if(mTarget != nullptr){
 
@@ -337,13 +332,15 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
             {
                 /// You gotta jump
                 jump();
+                mState = Jumping;
             }
 
             if (mTarget->getPosition().x > getWorldPosition().x)
             {
                 if(mTarget->getPosition().x > getWorldPosition().x + 100)
                 {
-                    moveHorizontal(10.f);
+                    moveHorizontal(Table[mType].speed);
+                    mState = Running;
                 }
                 mAnimations[mState].setScale(-1.0f,1.0f);
                 flip(b2_pi);
@@ -351,7 +348,8 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
             {
                 if (mTarget->getPosition().x < getWorldPosition().x - 100)
                 {
-                    moveHorizontal(-10.f);
+                    moveHorizontal(-Table[mType].speed);
+                    mState = Running;
                 }
                     mAnimations[mState].setScale(1.0f,1.0f);
                 flip(0);
@@ -363,6 +361,11 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
             }
         }
     }
+
+    /// Update state
+    mAnimations[mState].update(dt);
+
+    Entity::updateCurrent(dt, commands);
 
 }
 
