@@ -330,6 +330,8 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
 
         if(mTarget != nullptr){
 
+            endSearch();
+
             /// If you gotta jump
             if (mJumpContacts > 0)
             {
@@ -339,13 +341,19 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
 
             if (mTarget->getPosition().x > getWorldPosition().x)
             {
-                moveHorizontal(10.f);
+                if(mTarget->getPosition().x > getWorldPosition().x + 100)
+                {
+                    moveHorizontal(10.f);
+                }
                 mAnimations[mState].setScale(-1.0f,1.0f);
                 flip(b2_pi);
             } else
             {
-                moveHorizontal(-10.f);
-                mAnimations[mState].setScale(1.0f,1.0f);
+                if (mTarget->getPosition().x < getWorldPosition().x - 100)
+                {
+                    moveHorizontal(-10.f);
+                }
+                    mAnimations[mState].setScale(1.0f,1.0f);
                 flip(0);
             }
 
@@ -480,5 +488,19 @@ void AFP::Character::noTarget()
 int AFP::Character::getTeleCharge()
 {
     return mTeleCharge;
+}
+
+/// Decreases hitpoints
+void AFP::Character::damage(int points)
+{
+    assert(points > 0);
+
+    mHitpoints -= points;
+
+    if(getCategory() == Category::EnemyCharacter)
+    {
+        search();
+    }
+
 }
 

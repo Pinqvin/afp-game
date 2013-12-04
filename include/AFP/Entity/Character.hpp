@@ -152,6 +152,11 @@ namespace AFP
         ///
         int getTeleCharge();
 
+        /// Damage entity
+        ///
+        /// Decreases hitpoints
+        virtual void damage(int points);
+
     private:
         /// Draw character sprite
         ///

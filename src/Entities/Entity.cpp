@@ -242,3 +242,11 @@ void AFP::Entity::updateCurrent(sf::Time, CommandQueue&)
 void AFP::Entity::flip(float angle){
     mHead->SetTransform(mHead->GetPosition(), angle);
 }
+
+void AFP::Entity::search(){
+    mHead->SetAngularVelocity(30.0f);
+}
+
+void AFP::Entity::endSearch(){
+    mHead->SetAngularVelocity(0.0f);
+}
