@@ -54,7 +54,7 @@ namespace AFP
             Crosshair,
             Barrel,
             Explosion,
-            MedKit,
+            Medkit,
             CoinIcon,
         };
 

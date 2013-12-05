@@ -70,7 +70,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
     mTextures.load("AFP::Textures::Crosshair", "Media/Textures/crosshair.png");
     mTextures.load("AFP::Textures::Barrel", "Media/Textures/Barrel_32.png");
-    mTextures.load("AFP::Textures::MedKit", "Media/Textures/medkit.png");
+    mTextures.load("AFP::Textures::Medkit", "Media/Textures/medkit.png");
     mTextures.load("AFP::Textures::CoinIcon", "Media/Textures/coin_big_gui.png");
 
 }
