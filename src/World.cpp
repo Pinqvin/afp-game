@@ -12,13 +12,13 @@
 #include <iostream>
 
 /// Constructor
-AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
+AFP::World::World(sf::RenderWindow& window, FontHolder& fonts, SoundPlayer& sounds,
                   std::string mapFile):
 mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
     mSceneGraph(), mSceneLayers(), mMap(mapFile, mTextures), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
-    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds), mGameUI()
+    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds), mGameUI(fonts)
 {
     mWorldBounds.left = 0.f;
     mWorldBounds.top = 0.f;
@@ -35,7 +35,6 @@ mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
     mWindow.setMouseCursorVisible(false);
 
     mGameUI.setPlayer(mPlayerCharacter);
-    mSounds.setListenerPosition(mPlayerCharacter->getPosition());
 
 }
 
@@ -70,6 +69,8 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
     mTextures.load("AFP::Textures::Crosshair", "Media/Textures/crosshair.png");
     mTextures.load("AFP::Textures::Barrel", "Media/Textures/Barrel_32.png");
+    mTextures.load("AFP::Textures::MedKit", "Media/Textures/Medkit.png");
+    mTextures.load("AFP::Textures::CoinIcon", "Media/Textures/coin_big_gui.png");
 
 }
 
@@ -196,7 +197,29 @@ void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
             mSceneLayers[topLayer]->attachChild(std::move(coin));
 
         }
-        else if (object->GetType() == "Barrell")
+        else if (object->GetType() == "Orb")
+        {
+            /// Create a test coin in box2D world
+            std::unique_ptr<Collectable> orb(new Collectable(Collectable::Orb, mTextures));
+
+            orb->createCollectable(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            orb->setPosition(orb->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(orb));
+
+        }
+        else if (object->GetType() == "Medkit")
+        {
+            /// Create a test coin in box2D world
+            std::unique_ptr<Collectable> medkit(new Collectable(Collectable::Medkit, mTextures));
+
+            medkit->createCollectable(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            medkit->setPosition(medkit->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(medkit));
+
+        }
+        else if (object->GetType() == "Barrel")
         {
             std::unique_ptr<Tile> barrel(new Tile(Tile::Barrel, mTextures));
 
@@ -508,7 +531,7 @@ void AFP::World::moveCamera()
 void AFP::World::updateSounds()
 {
     // Set listener's position to player position
-    mSounds.setListenerPosition(mPlayerCharacter->getWorldPosition());
+    mSounds.setListenerPosition(mPlayerCharacter->getPosition());
 
     // Remove unused sounds
     mSounds.removeStoppedSounds();

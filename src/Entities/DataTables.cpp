@@ -185,6 +185,9 @@ std::vector<AFP::CollectableData> AFP::initializeCollectableData()
     data[AFP::Collectable::Coin].texture = "AFP::Textures::Coin";
     data[AFP::Collectable::Coin].effect = SoundEffect::CoinPickup;
 
+    data[AFP::Collectable::Medkit].texture = "AFP::Textures::Medkit";
+    data[AFP::Collectable::Medkit].effect = SoundEffect::OrbPickup;
+
     data[AFP::Collectable::Orb].texture = "AFP::Textures::Orb";
     data[AFP::Collectable::Orb].effect = SoundEffect::OrbPickup;
 

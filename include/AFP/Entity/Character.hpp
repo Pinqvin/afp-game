@@ -179,6 +179,16 @@ namespace AFP
         /// object in the way.
         bool isInLineOfSight(sf::Vector2f from, sf::Vector2f to);
 
+        ///
+        ///
+        /// Add 1 coin
+        void addCoin();
+
+        ///
+        ///
+        /// Get coins
+        int getCoins() const;
+
     private:
         /// Draw character sprite
         ///
@@ -335,6 +345,8 @@ namespace AFP
         ///
         ///
         CharacterState mState;
+
+        int mCoins;
 
     };
 

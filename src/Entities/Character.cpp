@@ -29,7 +29,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
     , mFootContacts(0), mJumpContacts(0), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
-    , mTargetInVision(false), mAnimations(), mState(Stopped)
+    , mTargetInVision(false), mAnimations(), mState(Stopped), mCoins(0)
 {
     /// Initialize animations
     mAnimations.resize(StateCount);
@@ -581,4 +581,14 @@ bool AFP::Character::isInLineOfSight(sf::Vector2f from, sf::Vector2f to)
 
     return true;
 
+}
+
+void AFP::Character::addCoin()
+{
+    mCoins += 1;
+}
+
+int AFP::Character::getCoins() const
+{
+    return mCoins;
 }

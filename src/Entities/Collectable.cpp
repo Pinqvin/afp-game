@@ -27,11 +27,18 @@ AFP::Collectable::Collectable(Type type, const TextureHolder& textures):
         mAnimation.setDuration(sf::seconds(1));
         mAnimation.setRepeating(true);
         break;
+    case AFP::Collectable::Medkit:
+        mAnimation.setFrameSize(sf::Vector2i(16,16));
+        mAnimation.setNumFrames(1);
+        mAnimation.setDuration(sf::seconds(1));
+        mAnimation.setRepeating(true);
+        break;
     case AFP::Collectable::Orb:
         mAnimation.setFrameSize(sf::Vector2i(16,16));
         mAnimation.setNumFrames(7);
         mAnimation.setDuration(sf::seconds(1));
         mAnimation.setRepeating(true);
+        break;
     default:
         break;
     }
@@ -60,6 +67,10 @@ bool AFP::Collectable::apply(Character& player)
     switch (mType)
     {
     case Coin:
+        mPickedUp = true;
+        player.addCoin();
+        break;
+    case Medkit:
         mPickedUp = player.heal(25);
         break;
     case Orb:
