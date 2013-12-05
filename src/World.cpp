@@ -42,7 +42,7 @@ mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
 
     mWorldView.setCenter(mSpawnPosition);
 
-
+    mGameUI.setPlayer(mPlayerCharacter);
 
 }
 
@@ -73,6 +73,8 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::PlayerDying", "Media/Textures/Rag_Dying.png");
     mTextures.load("AFP::Textures::HpBar", "Media/Textures/hp_bar.png");
     mTextures.load("AFP::Textures::TeleBar", "Media/Textures/tele_bar.png");
+    mTextures.load("AFP::Textures::GunIcons", "Media/Textures/gun_icons.png");
+    mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
 
     for (int i = 0; i < mMap.GetNumTilesets(); ++i)
     {
@@ -529,7 +531,8 @@ void AFP::World::update(sf::Time dt)
     // Update sounds
     updateSounds();
 
-    mGameUI.update(translation, mPlayerCharacter->getHitpoints(), mPlayerCharacter->getTeleCharge());
+    // Pass world view translation to Game UI
+    mGameUI.update(translation);
 
 }
 

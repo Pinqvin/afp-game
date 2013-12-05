@@ -9,21 +9,36 @@
 AFP::SettingsState::SettingsState(StateStack& stack, Context context):
     State(stack, context), mBackgroundSprite(context.textures->get("AFP::Textures::TitleScreen")), mGUIContainer(), mBindingButtons(), mBindingLabels()
 {
+    auto titleText = std::make_shared<GUI::Label>("Settings", *context.fonts, 30);
+    titleText->setPosition(450,30);
+
+    auto keybindText = std::make_shared<GUI::Label>("Key bindings:", *context.fonts, 16);
+    keybindText->setPosition(450,70);
+
+    auto mousebindText = std::make_shared<GUI::Label>("Mouse bindings:", *context.fonts, 16);
+    mousebindText->setPosition(450,300);
+
     // Build key binding buttons and labels
-    addButtonLabel(Player::MoveLeft, 100.f, "Move Left", context);
-    addButtonLabel(Player::MoveRight, 160.f, "Move Right", context);
-    addButtonLabel(Player::Jump, 220.f, "Jump", context);
-    addButtonLabel(Player::Fire, 280.f, "Fire", context);
-    addButtonLabel(Player::Teleport, 350.f, "Teleport", context);
+    addButtonLabel(Player::MoveLeft, 300.f, 120.f, "Move Left", context);
+    addButtonLabel(Player::MoveRight, 300.f, 180.f, "Move Right", context);
+    addButtonLabel(Player::Jump, 300.f, 240.f, "Jump", context);
+    addButtonLabel(Player::Fire, 300.f, 350.f, "Fire", context);
+    addButtonLabel(Player::Teleport, 600.f, 350.f, "Teleport", context);
+    addButtonLabel(Player::Weapon1, 600.f, 120.f, "Weapon 1", context);
+    addButtonLabel(Player::Weapon2, 600.f, 180.f, "Weapon 2", context);
+    addButtonLabel(Player::Weapon3, 600.f, 240.f, "Weapon 3", context);
 
     updateLabels();
 
     auto backButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    backButton->setPosition(600.f, 420.f);
+    backButton->setPosition(450.f, 430.f);
     backButton->setText("Back");
     backButton->setCallback(std::bind(&SettingsState::requestStackPop, this));
 
     mGUIContainer.pack(backButton);
+    mGUIContainer.pack(titleText);
+    mGUIContainer.pack(keybindText);
+    mGUIContainer.pack(mousebindText);
 }
 
 void AFP::SettingsState::draw()
@@ -54,6 +69,12 @@ bool AFP::SettingsState::handleEvent(const sf::Event& event)
                 getContext().player->assignKey(static_cast<Player::Action>(action), event.key.code);
                 mBindingButtons[action]->deactivate();
             }
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
+                getContext().player->assignMouseButton(static_cast<Player::Action>(action), event.mouseButton.button);
+                mBindingButtons[action]->deactivate();
+            }
+
             break;
         }
     }
@@ -91,15 +112,15 @@ void AFP::SettingsState::updateLabels()
     }
 }
 
-void AFP::SettingsState::addButtonLabel(Player::Action action, float y, const std::string& text, Context context)
+void AFP::SettingsState::addButtonLabel(Player::Action action, float x, float y, const std::string& text, Context context)
 {
     mBindingButtons[action] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    mBindingButtons[action]->setPosition(500.f, y);
+    mBindingButtons[action]->setPosition(x, y);
     mBindingButtons[action]->setText(text);
     mBindingButtons[action]->setToggle(true);
 
-    mBindingLabels[action] = std::make_shared<GUI::Label>("", *context.fonts);
-    mBindingLabels[action]->setPosition(650.f, y - 10.f);
+    mBindingLabels[action] = std::make_shared<GUI::Label>("", *context.fonts, 16);
+    mBindingLabels[action]->setPosition(x + 110.f, y - 10.f);
 
     mGUIContainer.pack(mBindingButtons[action]);
     mGUIContainer.pack(mBindingLabels[action]);

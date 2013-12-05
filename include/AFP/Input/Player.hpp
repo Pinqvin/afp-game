@@ -32,6 +32,9 @@ namespace AFP
                 Jump,
                 Fire,
                 Teleport,
+                Weapon1,
+                Weapon2,
+                Weapon3,
                 ActionCount
 
             };

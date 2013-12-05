@@ -48,7 +48,7 @@ namespace AFP
         /// Add button label
         ///
         ///
-        void addButtonLabel(Player::Action action, float y, const std::string& text, Context context);
+        void addButtonLabel(Player::Action action, float x, float y, const std::string& text, Context context);
 
     private:
         /// Background sprite

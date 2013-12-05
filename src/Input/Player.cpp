@@ -32,6 +32,22 @@ namespace AFP
 
     };
 
+    struct WeaponChanger
+    {
+        WeaponChanger(Character::WeaponType weapon): weapon(weapon)
+        {
+
+        }
+
+        void operator() (AFP::Character& character, sf::Time) const
+        {
+            character.changeWeapon(weapon);
+
+        }
+
+        Character::WeaponType weapon;
+    };
+
 }
 
 /// Constructor
@@ -44,6 +60,9 @@ AFP::Player::Player(): mKeyBinding(), mMouseBinding(), mActionBinding()
     mKeyBinding[sf::Keyboard::D] = MoveRight;
     mKeyBinding[sf::Keyboard::W] = Jump;
     mKeyBinding[sf::Keyboard::Space] = Jump;
+    mKeyBinding[sf::Keyboard::Num1] = Weapon1;
+    mKeyBinding[sf::Keyboard::Num2] = Weapon2;
+    mKeyBinding[sf::Keyboard::Num3] = Weapon3;
 
     // Set initial mouse button bindings
     mMouseBinding[sf::Mouse::Left] = Fire;
@@ -191,10 +210,17 @@ void AFP::Player::initializeActions()
     mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed));
     mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed));
     mActionBinding[Jump].action = derivedAction<Character>([] (Character& c, sf::Time) { c.jump(); });
-    mActionBinding[Fire].action = derivedAction<Character>([=] (Character& c, sf::Time) {
-        c.fire(mMousePosition); });
-    mActionBinding[Teleport].action = derivedAction<Character>([=] (Character& c, sf::Time) {
-        c.teleport(mMousePosition); });
+    mActionBinding[Fire].action = derivedAction<Character>([=] (Character& c, sf::Time) 
+    {
+        c.fire(mMousePosition); 
+    });
+    mActionBinding[Teleport].action = derivedAction<Character>([=] (Character& c, sf::Time) 
+    {
+        c.teleport(mMousePosition); 
+    });
+    mActionBinding[Weapon1].action = derivedAction<Character>(WeaponChanger(Character::WeaponType::Pistol));
+    mActionBinding[Weapon2].action = derivedAction<Character>(WeaponChanger(Character::WeaponType::Shotgun));
+    mActionBinding[Weapon3].action = derivedAction<Character>(WeaponChanger(Character::WeaponType::Machinegun));
 
 }
 
@@ -246,8 +272,8 @@ void AFP::Player::handleEvent(const sf::Event& event,
         Command command;
         command.category = Category::PlayerCharacter;
         command.action = derivedAction<Character>([=] (Character& c, sf::Time) {
-        c.setMousePosition(mMousePosition); });
-        commands.push(command);
+            c.setMousePosition(mMousePosition); });
+            commands.push(command);
 
     }
 

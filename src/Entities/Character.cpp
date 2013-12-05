@@ -522,3 +522,14 @@ void AFP::Character::damage(int points)
 
 }
 
+/// Change weapon
+void AFP::Character::changeWeapon(AFP::Character::WeaponType weapon)
+{
+    mWeaponType = weapon;
+
+}
+
+AFP::Character::WeaponType AFP::Character::getWeapon() const
+{
+    return mWeaponType;
+}

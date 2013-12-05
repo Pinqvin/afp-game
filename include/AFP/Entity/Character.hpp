@@ -34,8 +34,8 @@ namespace AFP
         enum WeaponType
         {
             Pistol,
-            Machinegun,
             Shotgun,
+            Machinegun,
             WeaponTypeCount
         };
 
@@ -156,6 +156,16 @@ namespace AFP
         ///
         /// Decreases hitpoints
         virtual void damage(int points);
+
+        /// Change weapon
+        ///
+        /// Change currently equipped weapon
+        void changeWeapon(WeaponType weapon);
+
+        ///
+        ///
+        /// Return weapon type
+        WeaponType getWeapon() const;
 
     private:
         /// Draw character sprite
