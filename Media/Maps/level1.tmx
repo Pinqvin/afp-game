@@ -225,11 +225,6 @@
   <object type="Coin" gid="12" x="240" y="224"/>
   <object gid="12" x="272" y="224"/>
   <object type="Coin" gid="12" x="272" y="224"/>
-  <object type="GameEnd" gid="47" x="3136" y="464">
-   <properties>
-    <property name="NextLevel" value="Media/Maps/level2.tmx"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup name="Characters" width="200" height="80">
   <object type="Player" gid="47" x="64" y="464"/>

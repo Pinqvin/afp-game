@@ -16,7 +16,7 @@ AFP::LevelSelectState::LevelSelectState(StateStack& stack, Context context):
     level1Button->setCallback([this, &stack] ()
     {
         requestStackPop();
-        stack.setLevel("Media/Maps/level1.tmx");
+        stack.setLevel("Media/Maps/level3.tmx");
         requestStackPush(States::Game);
 
     });

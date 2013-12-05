@@ -365,6 +365,11 @@
   <object type="Orb" gid="12" x="3424" y="816"/>
   <object type="Orb" gid="12" x="3424" y="800"/>
   <object type="Orb" gid="12" x="896" y="112"/>
+  <object type="GameEnd" gid="47" x="4640" y="144">
+   <properties>
+    <property name="NextLevel" value="Media/Maps/level1.tmx"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Characters" width="300" height="80">
   <object type="Telepolice" gid="47" x="1216" y="320"/>

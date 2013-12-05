@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="300" height="80" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="16_blocks" tilewidth="16" tileheight="16" spacing="1">
+  <image source="Pictures/Tile_16.png" width="119" height="102"/>
+ </tileset>
+ <tileset firstgid="43" name="32_blocks" tilewidth="32" tileheight="32" spacing="1">
+  <tileoffset x="0" y="16"/>
+  <image source="Pictures/Tile_32.png" width="321" height="264"/>
+ </tileset>
+ <imagelayer name="Sky_background" width="300" height="80">
+  <image source="Pictures/Night_sky_background.png"/>
+  <properties>
+   <property name="height" value="1"/>
+   <property name="repeat" value="true"/>
+  </properties>
+ </imagelayer>
+ <imagelayer name="City_backgroundi" width="300" height="80">
+  <image source="Pictures/Night_city_background.png"/>
+  <properties>
+   <property name="height" value="640"/>
+   <property name="repeatVertical" value="true"/>
+  </properties>
+ </imagelayer>
+ <layer name="Ground_farther" width="300" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3UFunDAYBtDcoFfoIarsmi6zTJpd7n+RKmqsTCwYjDHYP7wnRa7UmZRijD+MMQ8PwBU99t4AAAAAAIby8lm+FZYAANyX8tVrYQkAAAAAAAAAAAAAAAAAAAAAAAA1nntvAACcwNw63daNvJaUq6zHDgDt5Ot162evIc9VcjX0V/p+qr87fR9oJ/Wz3ntyDXO5Sv1Df6Xvp1rKV7Xf5xhPn+WfO5/5ccSG0MTzTDnXz3IOpfWt/qGffNxpqX3OjUNFzVdXmf9ZkqsYXzpel8aLl9pv1HHml+WPXEJpfctV0F/pe9XznLQ2n41y3j7L/M+nwlKu+lJ6Lzsve2bxpXnrW8vULt83bylHuJeb3yb+Hjhe7fk4tefScavR8lX0+Z9yU725uUmlx/woY56vD+1yFbGsrWfgeFvPzxDF2rkqSzlrBHLVNTlPA9Db2nvY+ixGN3VM3v5MfeYI5icAS/L5DJyPXEUUJcdmz+NWjgIgkasYXf685Khjrvl6EdDaz94b0Mja56rycsntNc7vmz//Kt3AzGPl9wAiSM91jpqv5tb3kLfgu9q2u7Utpay1NmfJV3B+U2sRjKD2urDGe1aOMsaa//t53eR5S+7iqrZeIx3dduQrOL/R7tsemavmjLJe2do6GX0dW9hLtOer5KsvzlucVe/zzBnNjQmu3bfqBL6LlqOSPE95ZmWb/NxauiY8MC/Cdd/cmiVr772O3mfA0aLmK3mqrVSPo9xrgIgiXfetfd/sUjl6nwFHi5qvaEuu2ker9qXd/Tfqfki5auQ8ldv72HTswjRtJZbbNVDVyThq+57SsYKtRn2Gq+V6MFPf2br+TD7HMVKuKiVfwT60lXg+6qKm7zAPfj+1uar0c622b7Sc1er8c9RYTKQ2lL8rqtX9vnt1ov+AL9pBPGvPYZH6hKj27te3jr+MkhNSn9+6Hz76nleENlW6r7eUNVlNX8NVyFfxlNZVhD7gLI7u36PnhLm+v9ZV92ONlv/3Ft9JIu1D+oh2jMhXsF3v/r227C3PWeyv5hjI89Htz9TvHO04o428ztUzANSLltsBAAAAAAAAAAAA4J5/+jj4ng==
+  </data>
+ </layer>
+ <layer name="Ground" width="300" height="80">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <layer name="Grass" width="300" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3cuS20QUAFCbmQlJzR4oVnwEsEvYJewolvAJkP9fE8GoojR6q9UvnVPlcsax5LZm3H19u3V1uwEAAAAAcFVvNz7/3SmtAABI7/Wn25vgBtCq+6fbw+D2OHjscWHbr89tGsC/xmKzo7fnpO8AAAAAgKEw3xMzVzPc9/PIY+b/IJ774N/dnJJ5I6BEc/NM5ouAHJ5u/8VNfSzVxVGvVm57v30Zcy2t6+Fc/fk274J7qN2adTpjcZS4C0hpbfxE3cJ4i3F/vdz/vXD/MVmL6I3NWbWk+4761cvtcfDznu+qw33t3QewXp9jav2ztvf77Vn7oXxHzl0iLnkmgLIM++Wj2+foz1PEc1fLY22Jm4CyvM/dACC5Pj75JWsr2iNPcVyL+Z8fT9rvzyftl2PEVVCOo3mZq+V1Sqd+4LylvNyU2o9drDhLXFUmcRWUa+q8ufB+Ku90dPsUpsbWGsdLylbaGsSz8lisM7wWRMx1vOIqKNfez+evUVsxr7SxqnXdWPxN7kYQVQnx1fAc04+3+XNNnWc6TjwF1+HzTi2OzmWXkIOtTYxr4/nu9NlvuRsALAprxuyVMo+VWut1g2oRO385jLPm5rP3zG1v/Zvpczp9vmapftjVcjstnnMAXM+ea/f8fotXW7Lbz/cbng9bxMy1Hh33r5LXOWueeUscO1z7tLQG6r7w/0v7j7m2Kmx36/UXad/Vrw8Yo9/fOi6cvb7K+q3/a+mYLI21Lc5hh+957jtOuNYpxfeWbxO8BkAM+itaEzuuu+J87pHvQ0vXGnyeeHzN8dVfpbX191OLLocnb8ca3x3YVn/FEblr7K8Vo4bG2phjz/u/Ygy3h/4KqIX+Kq6wTqJzwq4ldt6HL+mvrq3l855oT8r+6miN5hpqubceT9WSr6JNNfVXxPch+Fm8RcnuuRuwwh8v939mbQWQS4q4Pnbuufaxv4ZzVcJ4q1f7sYccfG7y6Psxx59WlZSvsh4POMuwTmlfq3SqdunTzDZA+abOU/shYRvWxFfd9YBS1JppJa7qj2mq6yj1Y4C+HyhVjPrWYZ1yKNna+Ipl/bHs51j7axs4fgDxWT9HycRXn70Nfl77vsO4am6/c9eRgpRarfNG+8RVdI7U6Tvb2vXzV4mvQlfOPxl7AZhz9XzB1vXrYzmYMK8zdx3vqecsifE7Oevcv7k468zzDdWFoURzf/NA+/rxemnO5qxYK3bNqp8i74/twjgTgHOpVVavWGNmGMeVWnN96VxA+RGAa3iVuwEzxFXUIoyrppRUD6sG5vBoTWt/02ENq7laJk8Tz1+qf5KzRkr32g/Ba/ePPYz839J+tmxzhlLaQV4PuRuwwdo12ilqXOWqn3VWDa/nCK9xJK5NVZuslfG2NGvr6qb8PR993bn3UVO/ybSxuA5qE7NfpUxH40TxTv1quDYTANTKOAsAAAAAAAAAkN4/YaFRiw==
+  </data>
+ </layer>
+ <layer name="Scenery" width="300" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt3dtu00AQAFDThASJB0SRqqoP4C/hH/j/n4GIWhgr8d279uw5kh+auNlRbp7MjtdVBQAAAAAAAOu75g4AACCgrzP/byg3k7sBAAAAHMPWdZzLxo/f9iPhWEAae/1c17kDgAM7vW8lmTsft7cxAID85uRRp6rMHIz1POcOAACgUO151o+Jx35LPB5lWauHwDkr8X2o/tYzzp2/T53bvRfSUFsC2IexuVQ9cP9ejp8p+0sja57Hbr7UzpkAACK65T/yneUe1d2I41vh4+f2KXcAADO1c4RufjC2rrfXc0PX1p3XXLofsdS5AwhMngWxtOcvzSGSgnPtyKn0ehkwTre/a2q/lzVo+u2lfw4AAJjv6X1r5l/VlgHiU9PJ717fuZ4ooqpzB5DAa+4AgOxKnFMspb99DUvyvNv/Pj3Yzg/2k08CY/3KHcBOvfzZvnS2l4TjN+vlTq3VL6ntp5gXWDpG9H5R9ToAgOPqW0uC6bp1rmvrtinP770c+/a7JPU1ShhPzxpwVHXuAJjMeqHrKHGOHABYl7wMAOijnwr+cd4aAHBE3yvnOuZ265XTkwUAlKDOHcAGnnMHAGTR/IZrz5M5DwqmuVcLiTr3/KjucxmxzxzWm4OY6twBJNDtuYh8PlTUYx75Rf7cEIs+OwAAGNbUD/QWAqzPd2u56pH7qeMDAI/WzN/Svd7UNfTVGH6uPFYf89npHGU+NlL9a+g5P8prAlCKOncAwO5Ev/YyAESxxxrLHmNiO6+V15z98Z7cXp07gACsf1GGrea7AUq3Zk/F0GNNHWuLfo+Ux5FU/SrdcfrWLRyKyXF2W1Oe32bf9rVdz3fub+9zqf6/Duzca8F6H/A5dwCwofb36rXq/34lJq9xXLdcyLrdALC9COdoAQAAAAAAAAAAsMxv2ycIng==
+  </data>
+ </layer>
+ <layer name="Small_rocks" width="300" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt2tEKgjAYgNEJoUXv/74mFYyfSUqrbXAODIeIDG/2oaYEAAAAAAAAAAAAAAAAAAAAAAAAAAAAcMzSegEAAIPTUwAAnDVncz0JAPDZ1k+6CQBgPFM2v7yOc+lCAAAAAKCJ+L5uCeemBAC0VNqrexP7AQCAc2o2XrzXyJ3WY/sCbK6PcQvj3nRF0Cd7OQDAU+33NTrLMwAA9tX6j6nUG982yMjf7QAA/uXdTHl77c0BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA31oBwskBEg==
+  </data>
+ </layer>
+ <objectgroup name="Collisions" width="300" height="80">
+  <object x="0" y="704" width="1088" height="560"/>
+  <object x="0" y="640" width="96" height="64"/>
+  <object x="176" y="544" width="128" height="128"/>
+  <object x="96" y="672" width="416" height="32"/>
+  <object x="304" y="640" width="64" height="32"/>
+  <object x="304" y="608" width="32" height="32"/>
+  <object x="480" y="416" width="256" height="96"/>
+  <object x="592" y="384" width="96" height="32"/>
+  <object x="512" y="512" width="192" height="32"/>
+  <object x="768" y="576" width="512" height="128"/>
+  <object x="736" y="672" width="32" height="32"/>
+  <object x="864" y="544" width="32" height="32"/>
+  <object x="896" y="448" width="128" height="128"/>
+  <object x="1280" y="640" width="256" height="384"/>
+  <object x="1280" y="608" width="32" height="32"/>
+  <object x="1088" y="704" width="192" height="256"/>
+  <object x="1248" y="960" width="32" height="32"/>
+  <object x="1088" y="960" width="32" height="32"/>
+  <object x="1088" y="1136" width="160" height="144"/>
+  <object x="1088" y="1104" width="32" height="32"/>
+  <object x="1248" y="1104" width="672" height="176"/>
+  <object x="1664" y="1072" width="64" height="32"/>
+  <object x="1536" y="912" width="144" height="16"/>
+  <object x="1792" y="976" width="96" height="64"/>
+  <object x="1888" y="1024" width="32" height="16"/>
+  <object x="1888" y="768" width="256" height="256"/>
+  <object x="1696" y="832" width="144" height="16"/>
+  <object x="1616" y="640" width="192" height="16"/>
+  <object x="1488" y="256" width="256" height="256"/>
+  <object x="1744" y="256" width="64" height="128"/>
+  <object x="1744" y="384" width="32" height="32"/>
+  <object x="1616" y="224" width="96" height="32"/>
+  <object x="1456" y="288" width="32" height="128"/>
+  <object x="1360" y="320" width="96" height="64"/>
+  <object x="1952" y="512" width="256" height="256"/>
+  <object x="2208" y="592" width="512" height="128"/>
+  <object x="2208" y="544" width="96" height="48"/>
+  <object x="2304" y="576" width="32" height="16"/>
+  <object x="2144" y="768" width="128" height="192"/>
+  <object x="2272" y="928" width="64" height="32"/>
+  <object x="2208" y="720" width="128" height="48"/>
+  <object x="2448" y="832" width="400" height="128"/>
+  <object x="2848" y="800" width="96" height="96"/>
+  <object x="2848" y="896" width="32" height="32"/>
+  <object x="2800" y="592" width="512" height="96"/>
+  <object x="2800" y="688" width="448" height="32"/>
+  <object x="2848" y="720" width="224" height="32"/>
+  <object x="2880" y="752" width="64" height="48"/>
+  <object x="2944" y="752" width="96" height="96"/>
+  <object x="2944" y="848" width="32" height="32"/>
+  <object x="3104" y="960" width="128" height="128"/>
+  <object x="3136" y="816" width="176" height="16"/>
+  <object x="2928" y="464" width="256" height="128"/>
+  <object x="3056" y="336" width="128" height="128"/>
+  <object x="3184" y="432" width="160" height="16"/>
+  <object x="3072" y="96" width="160" height="16"/>
+  <object x="2880" y="192" width="224" height="16"/>
+  <object x="2512" y="192" width="128" height="16"/>
+  <object x="2576" y="336" width="128" height="96"/>
+  <object x="2544" y="336" width="32" height="64"/>
+  <object x="2608" y="304" width="128" height="32"/>
+  <object x="2704" y="336" width="32" height="32"/>
+  <object x="2320" y="304" width="128" height="128"/>
+  <object x="2288" y="336" width="32" height="64"/>
+  <object x="3504" y="0" width="576" height="64"/>
+  <object x="3696" y="64" width="384" height="64"/>
+  <object x="3376" y="128" width="704" height="112"/>
+  <object x="3504" y="240" width="384" height="592"/>
+  <object x="3696" y="832" width="192" height="32"/>
+  <object x="3728" y="864" width="160" height="32"/>
+  <object x="3376" y="768" width="128" height="128"/>
+  <object x="3376" y="640" width="80" height="16"/>
+  <object x="3376" y="528" width="80" height="16"/>
+  <object x="3504" y="832" width="64" height="160"/>
+  <object x="3568" y="960" width="128" height="32"/>
+  <object x="3440" y="896" width="64" height="32"/>
+  <object x="3472" y="928" width="32" height="32"/>
+  <object x="3568" y="832" width="64" height="32"/>
+  <object x="3568" y="864" width="32" height="32"/>
+  <object x="3936" y="960" width="64" height="64"/>
+  <object x="3888" y="240" width="192" height="288"/>
+  <object x="3888" y="528" width="160" height="32"/>
+  <object x="3888" y="560" width="128" height="80"/>
+  <object x="3888" y="640" width="32" height="32"/>
+  <object x="4080" y="400" width="128" height="128"/>
+  <object x="4208" y="400" width="64" height="64"/>
+  <object x="4208" y="464" width="32" height="32"/>
+  <object x="4080" y="368" width="32" height="32"/>
+  <object x="4176" y="288" width="176" height="16"/>
+  <object x="4336" y="464" width="80" height="16"/>
+  <object x="4416" y="336" width="384" height="512"/>
+  <object x="4576" y="304" width="224" height="32"/>
+  <object x="4544" y="848" width="256" height="432"/>
+  <object x="4096" y="1088" width="448" height="192"/>
+  <object x="4160" y="720" width="160" height="256"/>
+  <object x="4320" y="592" width="96" height="256"/>
+  <object x="4288" y="592" width="32" height="128"/>
+  <object x="4224" y="656" width="64" height="64"/>
+  <object x="4064" y="848" width="96" height="96"/>
+  <object x="4096" y="944" width="64" height="32"/>
+  <object x="0" y="1264" width="1088" height="16"/>
+  <object x="2208" y="1088" width="1632" height="192"/>
+  <object x="3840" y="1152" width="256" height="144"/>
+  <object x="4032" y="1120" width="64" height="32"/>
+  <object x="3840" y="1120" width="64" height="32"/>
+  <object x="3568" y="1056" width="64" height="32"/>
+  <object x="1920" y="1120" width="288" height="160"/>
+  <object x="2240" y="1024" width="96" height="64"/>
+  <object x="2208" y="1056" width="32" height="32"/>
+  <object x="3440" y="240" width="64" height="32"/>
+  <object x="3472" y="272" width="32" height="64"/>
+  <object x="1856" y="576" width="96" height="16"/>
+ </objectgroup>
+ <objectgroup name="Spawn" width="300" height="80"/>
+ <objectgroup name="Characters" width="300" height="80">
+  <object type="Player" gid="47" x="224" y="544"/>
+  <object type="Telepolice" gid="47" x="1232" y="576"/>
+  <object type="Telepolice" gid="47" x="2560" y="592"/>
+  <object type="Droid" gid="47" x="2160" y="432"/>
+  <object type="Telepolice" gid="47" x="2064" y="1120"/>
+  <object type="Telepolice" gid="47" x="2960" y="1088"/>
+  <object type="Droid" gid="47" x="2496" y="784"/>
+  <object type="Droid" gid="47" x="2832" y="272"/>
+  <object type="Telepolice" gid="47" x="3008" y="192"/>
+  <object type="Telepolice" gid="47" x="3952" y="1152"/>
+  <object type="Droid" gid="47" x="4240" y="368"/>
+  <object type="Droid" gid="47" x="4144" y="576"/>
+  <object type="Telepolice" gid="47" x="4400" y="1088"/>
+ </objectgroup>
+ <objectgroup name="Objects" width="300" height="80">
+  <object type="Box32" gid="55" x="656" y="704"/>
+  <object type="Box32" gid="55" x="960" y="448"/>
+  <object type="Box32" gid="55" x="1664" y="640"/>
+  <object type="Box32" gid="55" x="1696" y="640"/>
+  <object type="Box32" gid="55" x="1664" y="224"/>
+  <object type="Box32" gid="55" x="1344" y="640"/>
+  <object type="Box32" gid="55" x="1568" y="912"/>
+  <object type="Box32" gid="55" x="1504" y="1104"/>
+  <object type="Box32" gid="55" x="1504" y="1072"/>
+  <object type="Box32" gid="55" x="1472" y="1072"/>
+  <object type="Box32" gid="55" x="1472" y="1104"/>
+  <object type="Box32" gid="55" x="2592" y="1088"/>
+  <object type="Box32" gid="55" x="2624" y="1088"/>
+  <object type="Box32" gid="55" x="2656" y="1088"/>
+  <object type="Box32" gid="55" x="2624" y="1056"/>
+  <object type="Box32" gid="55" x="3232" y="1088"/>
+  <object type="Box32" gid="55" x="3312" y="1088"/>
+  <object type="Box32" gid="55" x="3200" y="592"/>
+  <object type="Box32" gid="55" x="3504" y="96"/>
+  <object type="Box32" gid="55" x="3504" y="128"/>
+  <object type="Box32" gid="55" x="2576" y="192"/>
+  <object type="Box32" gid="55" x="2112" y="512"/>
+  <object type="Box32" gid="55" x="4208" y="288"/>
+  <object type="Box32" gid="55" x="4480" y="1088"/>
+  <object type="Barrel" gid="46" x="3024" y="1088"/>
+  <object type="Barrel" gid="46" x="3056" y="1088"/>
+  <object type="Barrel" gid="46" x="2784" y="832"/>
+  <object type="Barrel" gid="46" x="2272" y="1024"/>
+  <object type="Barrel" gid="46" x="1536" y="1104"/>
+  <object type="Barrel" gid="46" x="3056" y="192"/>
+  <object type="Barrel" gid="46" x="3136" y="96"/>
+  <object type="Barrel" gid="46" x="3104" y="96"/>
+  <object type="Box16" gid="29" x="608" y="704"/>
+  <object type="Box16" gid="29" x="592" y="704"/>
+  <object type="Box16" gid="29" x="640" y="384"/>
+  <object type="Box16" gid="29" x="656" y="384"/>
+  <object type="Box16" gid="29" x="528" y="416"/>
+  <object type="Box16" gid="29" x="544" y="416"/>
+  <object type="Box16" gid="29" x="112" y="672"/>
+  <object type="Box16" gid="29" x="128" y="672"/>
+  <object type="Box16" gid="29" x="1552" y="256"/>
+  <object type="Box16" gid="29" x="1568" y="256"/>
+  <object type="Box16" gid="29" x="1584" y="256"/>
+  <object type="Box16" gid="29" x="1632" y="224"/>
+  <object type="Box16" gid="29" x="1552" y="912"/>
+  <object type="Box16" gid="29" x="1856" y="976"/>
+  <object type="Box16" gid="29" x="1872" y="976"/>
+  <object type="Box16" gid="29" x="1872" y="960"/>
+  <object type="Box16Coin" gid="29" x="1856" y="960"/>
+  <object type="Box16" gid="29" x="1872" y="944"/>
+  <object type="Box16" gid="29" x="1856" y="944"/>
+  <object type="Box16" gid="29" x="1840" y="944"/>
+  <object type="Box16" gid="29" x="1840" y="960"/>
+  <object type="Box16" gid="29" x="1840" y="976"/>
+  <object type="Box16" gid="29" x="2176" y="1120"/>
+  <object type="Box16" gid="29" x="2160" y="1120"/>
+  <object type="Box16" gid="29" x="2336" y="1088"/>
+  <object type="Box16" gid="29" x="2352" y="1088"/>
+  <object type="Box16" gid="29" x="3184" y="816"/>
+  <object type="Box16" gid="29" x="3200" y="816"/>
+  <object type="Box16" gid="29" x="3200" y="800"/>
+  <object type="Box16" gid="29" x="3184" y="800"/>
+  <object type="Box16" gid="29" x="3632" y="960"/>
+  <object type="Box16" gid="29" x="3648" y="960"/>
+  <object type="Box16" gid="29" x="3664" y="960"/>
+  <object type="Box16Coin" gid="29" x="3648" y="944"/>
+  <object type="Box16Coin" gid="29" x="4448" y="928"/>
+  <object type="Box16Coin" gid="29" x="4464" y="928"/>
+  <object type="Box16Coin" gid="29" x="4464" y="912"/>
+  <object type="Box16Coin" gid="29" x="4464" y="896"/>
+  <object type="Box16Coin" gid="29" x="4448" y="896"/>
+  <object type="Box16Coin" gid="29" x="4432" y="896"/>
+  <object type="Box16Coin" gid="29" x="4432" y="928"/>
+  <object type="Box16Coin" gid="29" x="4432" y="912"/>
+  <object type="Box16Coin" gid="29" x="4448" y="912"/>
+  <object type="Box16" gid="29" x="4192" y="720"/>
+  <object type="Box16" gid="29" x="4176" y="720"/>
+  <object type="Box16" gid="29" x="4512" y="336"/>
+  <object type="Box16" gid="29" x="4496" y="336"/>
+  <object type="Box16" gid="29" x="4384" y="592"/>
+  <object type="Box16" gid="29" x="4384" y="576"/>
+  <object type="Box16" gid="29" x="4400" y="576"/>
+  <object type="Box16" gid="29" x="4400" y="592"/>
+  <object type="Box16" gid="29" x="4128" y="400"/>
+  <object type="Box16" gid="29" x="4144" y="400"/>
+  <object type="Box16Coin" gid="29" x="3296" y="432"/>
+  <object type="Box16Coin" gid="29" x="3312" y="432"/>
+  <object type="Box16Coin" gid="29" x="3280" y="432"/>
+  <object type="Box16Coin" gid="29" x="3296" y="416"/>
+  <object type="Box16" gid="29" x="2992" y="464"/>
+  <object type="Box16" gid="29" x="3008" y="464"/>
+  <object type="Box16" gid="29" x="2416" y="592"/>
+  <object type="Box16" gid="29" x="2400" y="592"/>
+  <object type="Box16" gid="29" x="2400" y="576"/>
+  <object type="Box16" gid="29" x="2416" y="576"/>
+  <object type="Box16" gid="29" x="2400" y="304"/>
+  <object type="Box16" gid="29" x="2384" y="304"/>
+  <object type="Box16" gid="29" x="2144" y="512"/>
+  <object type="Orb" gid="12" x="512" y="656"/>
+  <object type="Orb" gid="12" x="544" y="656"/>
+  <object type="Orb" gid="12" x="576" y="656"/>
+  <object type="Orb" gid="12" x="608" y="656"/>
+  <object type="Orb" gid="12" x="640" y="656"/>
+  <object type="Orb" gid="12" x="624" y="352"/>
+  <object type="Orb" gid="12" x="656" y="352"/>
+  <object type="Orb" gid="12" x="512" y="656"/>
+  <object type="Orb" gid="12" x="1680" y="176"/>
+  <object type="Orb" gid="12" x="1664" y="176"/>
+  <object type="Orb" gid="12" x="1648" y="176"/>
+  <object type="Orb" gid="12" x="1744" y="240"/>
+  <object type="Orb" gid="12" x="1760" y="240"/>
+  <object type="Orb" gid="12" x="1776" y="240"/>
+  <object type="Orb" gid="12" x="1536" y="576"/>
+  <object type="Orb" gid="12" x="1568" y="576"/>
+  <object type="Orb" gid="12" x="1584" y="576"/>
+  <object type="Orb" gid="12" x="1552" y="576"/>
+  <object type="Orb" gid="12" x="1600" y="576"/>
+  <object type="Orb" gid="12" x="1904" y="560"/>
+  <object type="Orb" gid="12" x="1888" y="560"/>
+  <object type="Orb" gid="12" x="1744" y="816"/>
+  <object type="Orb" gid="12" x="1760" y="816"/>
+  <object type="Orb" gid="12" x="1776" y="816"/>
+  <object type="Orb" gid="12" x="1792" y="816"/>
+  <object type="Orb" gid="12" x="1696" y="1056"/>
+  <object type="Orb" gid="12" x="1680" y="1056"/>
+  <object type="Orb" gid="12" x="2576" y="320"/>
+  <object type="Orb" gid="12" x="2560" y="320"/>
+  <object type="Orb" gid="12" x="2640" y="288"/>
+  <object type="Orb" gid="12" x="2656" y="288"/>
+  <object type="Orb" gid="12" x="2672" y="288"/>
+  <object type="Orb" gid="12" x="2688" y="288"/>
+  <object type="Orb" gid="12" x="2704" y="288"/>
+  <object type="Orb" gid="12" x="2752" y="560"/>
+  <object type="Orb" gid="12" x="2752" y="592"/>
+  <object type="Orb" gid="12" x="2752" y="624"/>
+  <object type="Orb" gid="12" x="2752" y="656"/>
+  <object type="Orb" gid="12" x="2752" y="688"/>
+  <object type="Orb" gid="12" x="2752" y="720"/>
+  <object type="Orb" gid="12" x="2752" y="752"/>
+  <object type="Orb" gid="12" x="3200" y="944"/>
+  <object type="Orb" gid="12" x="3184" y="944"/>
+  <object type="Orb" gid="12" x="3168" y="944"/>
+  <object type="Orb" gid="12" x="3152" y="944"/>
+  <object type="Orb" gid="12" x="3136" y="944"/>
+  <object type="Orb" gid="12" x="3120" y="944"/>
+  <object type="Orb" gid="12" x="2304" y="912"/>
+  <object type="Orb" gid="12" x="2304" y="896"/>
+  <object type="Orb" gid="12" x="2288" y="896"/>
+  <object type="Orb" gid="12" x="2288" y="912"/>
+  <object type="Orb" gid="12" x="3968" y="944"/>
+  <object type="Orb" gid="12" x="3952" y="944"/>
+  <object type="Orb" gid="12" x="3952" y="928"/>
+  <object type="Orb" gid="12" x="3968" y="928"/>
+  <object type="Orb" gid="12" x="4256" y="640"/>
+  <object type="Orb" gid="12" x="4240" y="640"/>
+  <object type="Orb" gid="12" x="4128" y="832"/>
+  <object type="Orb" gid="12" x="4112" y="832"/>
+  <object type="Orb" gid="12" x="4096" y="832"/>
+  <object type="Orb" gid="12" x="4080" y="832"/>
+  <object type="Orb" gid="12" x="4384" y="448"/>
+  <object type="Orb" gid="12" x="4368" y="448"/>
+  <object type="Orb" gid="12" x="4272" y="272"/>
+  <object type="Orb" gid="12" x="4288" y="272"/>
+  <object type="Orb" gid="12" x="4304" y="272"/>
+  <object type="Coin" gid="12" x="3632" y="112"/>
+  <object type="Coin" gid="12" x="3664" y="112"/>
+  <object type="Coin" gid="12" x="3648" y="112"/>
+  <object type="Coin" gid="12" x="3664" y="96"/>
+  <object type="Coin" gid="12" x="3648" y="96"/>
+  <object type="Coin" gid="12" x="3632" y="96"/>
+  <object type="Coin" gid="12" x="3616" y="96"/>
+  <object type="Coin" gid="12" x="3600" y="96"/>
+  <object type="Coin" gid="12" x="3600" y="112"/>
+  <object type="Coin" gid="12" x="3616" y="112"/>
+  <object type="Coin" gid="12" x="3584" y="112"/>
+  <object type="Coin" gid="12" x="3584" y="96"/>
+  <object type="Coin" gid="12" x="3568" y="96"/>
+  <object type="Coin" gid="12" x="3568" y="112"/>
+  <object type="Coin" gid="12" x="2336" y="288"/>
+  <object type="Coin" gid="12" x="2352" y="288"/>
+  <object type="Coin" gid="12" x="2320" y="288"/>
+  <object type="Coin" gid="12" x="1584" y="224"/>
+  <object type="Coin" gid="12" x="1568" y="224"/>
+  <object type="Coin" gid="12" x="1552" y="224"/>
+  <object type="Coin" gid="12" x="1136" y="1008"/>
+  <object type="Coin" gid="12" x="1136" y="1040"/>
+  <object type="Coin" gid="12" x="1136" y="1072"/>
+  <object type="Coin" gid="12" x="1136" y="1104"/>
+  <object type="Coin" gid="12" x="1168" y="1104"/>
+  <object type="Coin" gid="12" x="1168" y="1072"/>
+  <object type="Coin" gid="12" x="1168" y="1040"/>
+  <object type="Coin" gid="12" x="1168" y="1008"/>
+  <object type="Coin" gid="12" x="1200" y="1008"/>
+  <object type="Coin" gid="12" x="1232" y="1008"/>
+  <object type="Coin" gid="12" x="1232" y="1040"/>
+  <object type="Coin" gid="12" x="1200" y="1040"/>
+  <object type="Coin" gid="12" x="1200" y="1072"/>
+  <object type="Coin" gid="12" x="1200" y="1104"/>
+  <object type="Coin" gid="12" x="1232" y="1104"/>
+  <object type="Coin" gid="12" x="1232" y="1072"/>
+  <object type="Coin" gid="12" x="3392" y="512"/>
+  <object type="Coin" gid="12" x="3424" y="512"/>
+  <object type="Coin" gid="12" x="3392" y="624"/>
+  <object type="Coin" gid="12" x="3424" y="624"/>
+  <object type="GameEnd" gid="47" x="4656" y="304">
+   <properties>
+    <property name="NextLevel" value="Media/Maps/level2.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
