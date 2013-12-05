@@ -100,29 +100,13 @@ void AFP::World::buildScene()
     std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
     mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
 
-    /// Create a test tile in box2D world
-    std::unique_ptr<Tile> testTile(new Tile(Tile::Box16Orb, mTextures));
-
-    testTile->createTile(mWorldBox, 200.f, 400.f);
-    testTile->setPosition(testTile->getPosition());
-
-    mSceneLayers[topLayer]->attachChild(std::move(testTile));
-
-        /// Create a test tile in box2D world
+            /// Create a test tile in box2D world
     std::unique_ptr<Tile> testTile2(new Tile(Tile::Box16Coin, mTextures));
 
     testTile2->createTile(mWorldBox, 230.f, 400.f);
     testTile2->setPosition(testTile2->getPosition());
 
     mSceneLayers[topLayer]->attachChild(std::move(testTile2));
-
-        /// Create a test tile in box2D world
-    std::unique_ptr<Tile> testTile3(new Tile(Tile::Box32, mTextures));
-
-    testTile3->createTile(mWorldBox, 260.f, 400.f);
-    testTile3->setPosition(testTile3->getPosition());
-
-    mSceneLayers[topLayer]->attachChild(std::move(testTile3));
 
     /// Create a test coin in box2D world
     std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
@@ -153,6 +137,64 @@ void AFP::World::addObjectLayers()
         else if (objectGroup->GetName() == "Characters")
         {
             addCharacterObjects(objectGroup);
+
+        }
+        else if (objectGroup->GetName() == "Objects")
+        {
+            addObjects(objectGroup);
+
+        }
+
+    }
+
+}
+
+void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
+{
+    int topLayer = mSceneLayers.size() - 1;
+
+    for (auto it = objectGroup->GetObjects().begin(); it != objectGroup->GetObjects().end(); ++it)
+    {
+        const Tmx::Object* object = *it;
+
+        if (object->GetType() == "Box32")
+        {
+            std::unique_ptr<Tile> box32(new Tile(Tile::Box32, mTextures));
+
+            box32->createTile(mWorldBox, object->GetX() + 16, object->GetY() - 16);
+            box32->setPosition(box32->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(box32));
+
+        }
+        else if (object->GetType() == "Box16")
+        {
+            std::unique_ptr<Tile> box16(new Tile(Tile::Box16, mTextures));
+
+            box16->createTile(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            box16->setPosition(box16->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(box16));
+
+        }
+        else if (object->GetType() == "Box16Orb")
+        {
+            std::unique_ptr<Tile> box16Orb(new Tile(Tile::Box16Orb, mTextures));
+
+            box16Orb->createTile(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            box16Orb->setPosition(box16Orb->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(box16Orb));
+
+        }
+        else if (object->GetType() == "Box16Coin")
+        {
+            std::unique_ptr<Tile> box16Coin(new Tile(Tile::Box16Coin, mTextures));
+
+            box16Coin->createTile(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            box16Coin->setPosition(box16Coin->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(box16Coin));
 
         }
 
