@@ -62,6 +62,17 @@ namespace AFP
             /// Most of our events/input comes from the player
             Player& mPlayer;
 
+            /// @brief The name of the current level.
+            ///
+            /// If the player dies, we set the stack level to be the same level
+            /// again
+            std::string mCurrentLevel;
+
+            /// @brief Pointer to state stack
+            ///
+            /// Used to set level to the current level if the player dies
+            StateStack& mStack;
+
     };
 
 }

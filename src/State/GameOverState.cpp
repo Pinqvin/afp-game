@@ -73,7 +73,7 @@ bool AFP::GameOverState::handleEvent(const sf::Event& event)
     {
         // Clear the stack and reset level
         requestStateClear();
-        requestStackPush(States::Load);
+        requestStackPush(States::Game);
 
     }
 

@@ -11,12 +11,13 @@
 /// Constructor
 AFP::GameState::GameState(StateStack& stack, Context context):
     State(stack, context), mWorld(*context.window, *context.fonts, *context.sound, context.level->filename),
-    mPlayer(*context.player)
+    mPlayer(*context.player), mCurrentLevel(context.level->filename), mStack(stack)
 {
     context.music->setVolume(40.f);
     context.music->play(Music::MainTheme);
 
     stack.setLevel(mWorld.getNextLevel());
+
 }
 
 /// Destructor
@@ -41,6 +42,7 @@ bool AFP::GameState::update(sf::Time dt)
     /// Move to GameOver screen if player is dead
     if (!mWorld.isPlayerAlive())
     {
+        mStack.setLevel(mCurrentLevel);
         requestStackPush(States::GameOver);
     }
 
