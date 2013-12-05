@@ -7,6 +7,9 @@
 #include <AFP/Entity/Entity.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Animation/Animation.hpp>
+#include <AFP/Sound/SoundPlayer.hpp>
+#include <AFP/Command/Command.hpp>
+#include <AFP/Command/CommandQueue.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -56,6 +59,11 @@ namespace AFP
 		virtual void drawCurrent(sf::RenderTarget& target,
 			sf::RenderStates states) const;
 
+        /// Play a sound
+        ///
+        ///
+        void playLocalSound(CommandQueue& commands, SoundEffect::ID effect);
+
         /// Update tile
         ///
         ///
@@ -86,5 +94,11 @@ namespace AFP
         ///
         ///
         bool mCollectableDropped;
+
+        ///
+        ///
+        /// Destroy sound played
+        bool mSoundPlayed;
+
     };
 }

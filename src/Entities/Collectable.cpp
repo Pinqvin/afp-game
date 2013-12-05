@@ -4,6 +4,7 @@
 #include <AFP/Resource/ResourceHolder.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Entity/DataTables.hpp>
+#include <AFP/Sound/SoundNode.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -16,7 +17,7 @@ namespace
 
 /// Constructor
 AFP::Collectable::Collectable(Type type, const TextureHolder& textures):
-    Entity(1), mType(type), mAnimation(textures.get(Table[type].texture))
+    Entity(1), mType(type), mAnimation(textures.get(Table[type].texture)), mPickedUp(false), mSoundPlayed(false)
 {
     switch (mType)
     {
@@ -59,14 +60,21 @@ bool AFP::Collectable::apply(Character& player)
     switch (mType)
     {
     case Coin:
-        return player.heal(25);
+        mPickedUp = player.heal(25);
+        break;
     case Orb:
-        return player.recharge(25);
+        mPickedUp = player.recharge(25);
+        break;
     default:
         break;
     }
 
-    return false;
+    return mPickedUp;
+}
+
+bool AFP::Collectable::isMarkedForRemoval() const
+{
+    return mSoundPlayed;
 }
 
 void AFP::Collectable::drawCurrent(sf::RenderTarget& target,
@@ -76,7 +84,28 @@ void AFP::Collectable::drawCurrent(sf::RenderTarget& target,
 
 }
 
-void AFP::Collectable::updateCurrent(sf::Time dt, CommandQueue&)
+/// Play sound
+void AFP::Collectable::playLocalSound(CommandQueue& commands, SoundEffect::ID effect)
+{
+    sf::Vector2f worldPosition = getPosition();
+
+    Command command;
+    command.category = Category::SoundEffect;
+    command.action = derivedAction<SoundNode>(
+        [effect, worldPosition] (SoundNode& node, sf::Time)
+    {
+        node.playSound(effect, worldPosition);
+    });
+
+    commands.push(command);
+}
+
+void AFP::Collectable::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
     mAnimation.update(dt);
+    if (mPickedUp && !mSoundPlayed)
+    {
+        mSoundPlayed = true;
+        playLocalSound(commands, Table[mType].effect);
+    }
 }

@@ -7,7 +7,7 @@
 namespace
 {
     const float ListenerZ = 300.0f;
-    const float Attenuation = 8.0f;
+    const float Attenuation = 100.0f;
     const float MinDistance2D = 200.0f;
     const float MinDistance3D =
         std::sqrt(MinDistance2D*MinDistance2D + ListenerZ*ListenerZ);
@@ -20,6 +20,11 @@ AFP::SoundPlayer::SoundPlayer(void):
     mSoundBuffers.load(SoundEffect::Pistol, "Media/Sound/pistol.wav");
     mSoundBuffers.load(SoundEffect::Shotgun, "Media/Sound/shotgun.wav");
     mSoundBuffers.load(SoundEffect::Machinegun, "Media/Sound/machinegun.wav");
+    mSoundBuffers.load(SoundEffect::CrateDestroy, "Media/Sound/box_break.wav");
+    mSoundBuffers.load(SoundEffect::CoinPickup, "Media/Sound/coin_pickup.wav");
+    mSoundBuffers.load(SoundEffect::OrbPickup, "Media/Sound/orb_pickup.wav");
+    mSoundBuffers.load(SoundEffect::BarrelExplode, "Media/Sound/barrel_explode.wav");
+    mSoundBuffers.load(SoundEffect::Teleport, "Media/Sound/teleport_sound.wav");
 
     // Listener points towards the screen (default in SFML)
     sf::Listener::setDirection(0.f, 0.f, -1.f);

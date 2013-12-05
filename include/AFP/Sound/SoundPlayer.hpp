@@ -19,7 +19,12 @@ namespace AFP
         {
             Pistol,
             Shotgun,
-            Machinegun
+            Machinegun,
+            CoinPickup,
+            OrbPickup,
+            CrateDestroy,
+            BarrelExplode,
+            Teleport,
         };
     }
 

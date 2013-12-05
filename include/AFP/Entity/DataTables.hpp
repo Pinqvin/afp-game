@@ -44,12 +44,13 @@ namespace AFP
         int hitpoints;
         Collectable::Type collectable;
         std::string destroyanim;
+        SoundEffect::ID destroysound;
         std::string texture;
     };
 
     struct CollectableData
     {
-        // TODO: Add collectible action
+        SoundEffect::ID effect;
         std::string texture;
     };
 
