@@ -6,6 +6,7 @@
 
 #include <AFP/Entity/Entity.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Animation/Animation.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -20,9 +21,10 @@ namespace AFP
         ///
         ///
         enum Type {
-            Grass,
-            Metal,
-            Crate,
+            Box16,
+            Box16Coin,
+            Box16Orb,
+            Box32,
             TypeCount
         };
 
@@ -30,12 +32,6 @@ namespace AFP
         ///
         ///
         Tile(Type type, const TextureHolder& textures);
-
-        /// Draw tile sprite
-		///
-		///
-		virtual void drawCurrent(sf::RenderTarget& target,
-			sf::RenderStates states) const;
 
         /// Get body type
         ///
@@ -46,6 +42,23 @@ namespace AFP
         ///
         /// Create a tile based on tile type.
         void createTile(b2World* world, float posX, float posY);
+
+        /// Is tile destroyed
+        ///
+        /// Tile can be removed when destroy animation has finished
+        virtual bool isMarkedForRemoval() const;
+
+    private:
+        /// Draw tile sprite
+		///
+		///
+		virtual void drawCurrent(sf::RenderTarget& target,
+			sf::RenderStates states) const;
+
+        /// Update tile
+        ///
+        ///
+        virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
     private:
         /// Tile type
@@ -58,5 +71,19 @@ namespace AFP
 		///
 		sf::Sprite mSprite;
 
+        /// Destroy animation
+        ///
+        /// Played when tile is destroyed
+        Animation mDestroyAnimation;
+
+        /// Command executed when tile is destroyed
+        ///
+        /// Creates a new collectable on tile position
+        Command mDropCollectable;
+
+        /// Has tile dropped a collectable
+        ///
+        /// 
+        bool mCollectableDropped;
     };
 }

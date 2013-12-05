@@ -95,8 +95,8 @@ namespace AFP
 
         /// Heal entity
         ///
-        /// Increases hitpoints
-        void heal(int points);
+        /// Increases hitpoints, return false if already full
+        bool heal(int points);
 
         /// Destroy
         ///
@@ -117,12 +117,6 @@ namespace AFP
         ///
         /// flips the entity's head over
         void flip(float angle);
-
-        /// Hitpoints
-        ///
-        /// Hitpoints of the entity. Entity is destroyed when
-        /// hitpoints reach zero.
-        int mHitpoints;
 
         /// Search for enemy
         ///
@@ -156,7 +150,12 @@ namespace AFP
         ///
         ///
         b2RevoluteJoint* mJoint;
-
+     
+        /// Hitpoints
+        ///
+        /// Hitpoints of the entity. Entity is destroyed when
+        /// hitpoints reach zero.
+        int mHitpoints;
 
     };
 

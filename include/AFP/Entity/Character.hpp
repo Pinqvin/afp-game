@@ -86,7 +86,7 @@ namespace AFP
         /// will happen
         void fire(sf::Vector2f target);
 
-        ///
+        /// Play a sound
         ///
         ///
         void playLocalSound(CommandQueue& commands, SoundEffect::ID effect);
@@ -129,8 +129,8 @@ namespace AFP
 
         /// Recharge teleport
         ///
-        ///
-        void recharge(int points);
+        /// Return false if already full
+        bool recharge(int points);
 
         /// Set new target
         ///
@@ -303,26 +303,6 @@ namespace AFP
         ///
         /// Returns true if mTarget is in the vision sensor
         bool mTargetInVision;
-
-        /// Stopped animation
-        ///
-        /// Animation to be used when the character is stopped
-        Animation mStopped;
-
-        /// Running animation
-        ///
-        /// Animation to be used when the character is moving
-        Animation mRunning;
-
-        /// Jumping animation
-        ///
-        /// Animation to be used when the character is jumping
-        Animation mJumping;
-
-        /// Falling animation
-        ///
-        /// Animation to be used when the character is falling
-        Animation mFalling;
 
         /// Character animations
         ///

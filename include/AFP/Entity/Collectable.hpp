@@ -7,6 +7,7 @@
 #include <AFP/Entity/Entity.hpp>
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Animation/Animation.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -31,12 +32,6 @@ namespace AFP
         ///
         Collectable(Type type, const TextureHolder& textures);
 
-        /// Draw collectable sprite
-		///
-		///
-		virtual void drawCurrent(sf::RenderTarget& target,
-			sf::RenderStates states) const;
-
         /// Get category
         ///
         /// Return Collectable
@@ -50,7 +45,19 @@ namespace AFP
         /// Apply collectable
         ///
         /// Applies collectable to player
-        void apply(Character& player);
+        bool apply(Character& player);
+
+    private:
+        /// Draw collectable sprite
+		///
+		///
+		virtual void drawCurrent(sf::RenderTarget& target,
+			sf::RenderStates states) const;
+
+        /// Update collectable
+        ///
+        ///
+        virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
     private:
         /// Collectable type
@@ -61,7 +68,7 @@ namespace AFP
         /// Collectable sprite
 		///
 		///
-		sf::Sprite mSprite;
+		Animation mAnimation;
 
     };
 }

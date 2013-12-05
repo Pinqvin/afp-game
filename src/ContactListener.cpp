@@ -30,8 +30,11 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
         auto& player = static_cast<Character&>(*collisionPair.first);
         auto& collectable = static_cast<Collectable&>(*collisionPair.second);
 
-        collectable.apply(player);
-        collectable.destroy();
+        if (collectable.apply(player))
+        {
+            collectable.destroy();
+        }
+
     }
     // Projectile collides with tile
     else if (matchesCategories(collisionPair, Category::Projectile, Category::Tile))
@@ -70,7 +73,7 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
 /// End contact
 void AFP::ContactListener::EndContact(b2Contact* contact)
 {
-        SceneNode::Pair collisionPair;
+    SceneNode::Pair collisionPair;
     if (!createPair(contact, collisionPair))
     {
         return;

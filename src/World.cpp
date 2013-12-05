@@ -38,10 +38,22 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
 /// Load all the textures and tilesets required for the world.
 void AFP::World::loadTextures()
 {
-    mTextures.load("AFP::Textures::Telepolice", "Media/Textures/telepolice_stopped.png");
-    mTextures.load("AFP::Textures::GrassTile", "Media/Textures/Grass.png");
+    mTextures.load("AFP::Textures::TelepoliceStopped", "Media/Textures/telepolice_stopped.png");
+    mTextures.load("AFP::Textures::TelepoliceRunning", "Media/Textures/telepolice_running.png");
+    mTextures.load("AFP::Textures::TelepoliceDying", "Media/Textures/telepolice_dying.png");
+    mTextures.load("AFP::Textures::Droid", "Media/Textures/droid.png");
+    mTextures.load("AFP::Textures::Explosion", "Media/Textures/explosion.png");
+    mTextures.load("AFP::Textures::Box16", "Media/Textures/Box_16.png");
+    mTextures.load("AFP::Textures::Box16Destroy", "Media/Textures/Box_16_explode.png");
+    mTextures.load("AFP::Textures::Box16Coin", "Media/Textures/Box_16_coin.png");
+    mTextures.load("AFP::Textures::Box16CoinDestroy", "Media/Textures/Box_16_coin_explode.png");
+    mTextures.load("AFP::Textures::Box16Orb", "Media/Textures/Box_16_orb.png");
+    mTextures.load("AFP::Textures::Box16OrbDestroy", "Media/Textures/Box_16_orb_explode.png");
+    mTextures.load("AFP::Textures::Box32", "Media/Textures/Box_32.png");
+    mTextures.load("AFP::Textures::Box32Destroy", "Media/Textures/Box_32_explode.png");
     mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
+    mTextures.load("AFP::Textures::Orb", "Media/Textures/orb.png");
     mTextures.load("AFP::Textures::Particle", "Media/Textures/Particle.png");
     mTextures.load("AFP::Textures::PlayerStopped", "Media/Textures/Rag_Stopped.png");
     mTextures.load("AFP::Textures::PlayerRunning", "Media/Textures/Rag_Running.png");
@@ -63,11 +75,11 @@ void AFP::World::buildScene()
     /// Create a layer for entities
     Category::Type category = Category::Scene;
 
-	SceneNode::Ptr layer(new SceneNode(category));
+    SceneNode::Ptr layer(new SceneNode(category));
     mSceneLayers.push_back(layer.get());
 
     /// Attach it to scenegraph
-	mSceneGraph.attachChild(std::move(layer));
+    mSceneGraph.attachChild(std::move(layer));
 
     /// Scene layer is the top layer
     int topLayer = mSceneLayers.size() - 1;
@@ -79,8 +91,8 @@ void AFP::World::buildScene()
     std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
     mSceneGraph.attachChild(std::move(soundNode));
 
-	// Add particle node to the scene
-	std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
+    // Add particle node to the scene
+    std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
     mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
 
     /// Set the player to the world
@@ -94,17 +106,33 @@ void AFP::World::buildScene()
     mSceneLayers[topLayer]->attachChild(std::move(leader));
 
     /// Create a test tile in box2D world
-    std::unique_ptr<Tile> testTile(new Tile(Tile::Grass, mTextures));
+    std::unique_ptr<Tile> testTile(new Tile(Tile::Box16Orb, mTextures));
 
-    testTile->createTile(mWorldBox, mSpawnPosition.x - 32.f, 500.f);
+    testTile->createTile(mWorldBox, 200.f, 400.f);
     testTile->setPosition(testTile->getPosition());
 
     mSceneLayers[topLayer]->attachChild(std::move(testTile));
 
+        /// Create a test tile in box2D world
+    std::unique_ptr<Tile> testTile2(new Tile(Tile::Box16Coin, mTextures));
+
+    testTile2->createTile(mWorldBox, 230.f, 400.f);
+    testTile2->setPosition(testTile2->getPosition());
+
+    mSceneLayers[topLayer]->attachChild(std::move(testTile2));
+
+        /// Create a test tile in box2D world
+    std::unique_ptr<Tile> testTile3(new Tile(Tile::Box32, mTextures));
+
+    testTile3->createTile(mWorldBox, 260.f, 400.f);
+    testTile3->setPosition(testTile3->getPosition());
+
+    mSceneLayers[topLayer]->attachChild(std::move(testTile3));
+
     /// Create a test coin in box2D world
     std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
 
-    testCoin->createCollectable(mWorldBox, mSpawnPosition.x + 64.f, 800.f);
+    testCoin->createCollectable(mWorldBox, 200.f, 300.f);
     testCoin->setPosition(testCoin->getPosition());
 
     mSceneLayers[topLayer]->attachChild(std::move(testCoin));
