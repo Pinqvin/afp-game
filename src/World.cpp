@@ -195,6 +195,16 @@ void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
             mSceneLayers[topLayer]->attachChild(std::move(coin));
 
         }
+        else if (object->GetType() == "Orb")
+        {
+            std::unique_ptr<Collectable> orb(new Collectable(Collectable::Orb, mTextures));
+
+            orb->createCollectable(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            orb->setPosition(orb->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(orb));
+
+        }
         else if (object->GetType() == "Barrell")
         {
             std::unique_ptr<Tile> barrel(new Tile(Tile::Barrel, mTextures));
