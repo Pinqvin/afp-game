@@ -5,6 +5,7 @@
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Utility.hpp>
 #include <AFP/Entity/DataTables.hpp>
+#include <AFP/Sound/SoundNode.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -18,7 +19,8 @@ namespace
 /// Constructor
 AFP::Tile::Tile(Type type, const TextureHolder& textures):
     Entity(Table[type].hitpoints), mType(type), mSprite(textures.get(Table[type].texture)),
-    mDestroyAnimation(textures.get(Table[type].destroyanim)), mDropCollectable(), mCollectableDropped(false)
+    mDestroyAnimation(textures.get(Table[type].destroyanim)), mDropCollectable(), mCollectableDropped(false),
+    mSoundPlayed(false)
 {
 
     switch (mType)
@@ -40,7 +42,7 @@ AFP::Tile::Tile(Type type, const TextureHolder& textures):
     default:
         break;
     }
-   
+
     mDestroyAnimation.setDuration(sf::seconds(0.5));
     mDestroyAnimation.setRepeating(false);
 
@@ -116,12 +118,35 @@ void AFP::Tile::drawCurrent(sf::RenderTarget& target,
 
 }
 
+/// Play sound
+void AFP::Tile::playLocalSound(CommandQueue& commands, SoundEffect::ID effect)
+{
+    sf::Vector2f worldPosition = getPosition();
+
+    Command command;
+    command.category = Category::SoundEffect;
+    command.action = derivedAction<SoundNode>(
+        [effect, worldPosition] (SoundNode& node, sf::Time)
+    {
+        node.playSound(effect, worldPosition);
+    });
+
+    commands.push(command);
+}
+
 /// Draw tile
 void AFP::Tile::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
     if (isDestroyed())
     {
         mDestroyAnimation.update(dt);
+
+        if (!mSoundPlayed)
+        {
+            mSoundPlayed = true;
+            playLocalSound(commands, Table[mType].destroysound);
+        }
+
         if (!mCollectableDropped)
         {
             commands.push(mDropCollectable);

@@ -146,26 +146,31 @@ std::vector<AFP::TileData> AFP::initializeTileData()
     data[AFP::Tile::Box16].hitpoints = 4;
     data[AFP::Tile::Box16].collectable = AFP::Collectable::TypeCount;
     data[AFP::Tile::Box16].destroyanim = "AFP::Textures::Box16Destroy";
+    data[AFP::Tile::Box16].destroysound = SoundEffect::CrateDestroy;
     data[AFP::Tile::Box16].texture = "AFP::Textures::Box16";
 
     data[AFP::Tile::Box16Coin].hitpoints = 4;
     data[AFP::Tile::Box16Coin].collectable = AFP::Collectable::Coin;
     data[AFP::Tile::Box16Coin].destroyanim = "AFP::Textures::Box16CoinDestroy";
+    data[AFP::Tile::Box16Coin].destroysound = SoundEffect::CrateDestroy;
     data[AFP::Tile::Box16Coin].texture = "AFP::Textures::Box16Coin";
 
     data[AFP::Tile::Box16Orb].hitpoints = 4;
     data[AFP::Tile::Box16Orb].collectable = AFP::Collectable::Orb;
     data[AFP::Tile::Box16Orb].destroyanim = "AFP::Textures::Box16OrbDestroy";
+    data[AFP::Tile::Box16Orb].destroysound = SoundEffect::CrateDestroy;
     data[AFP::Tile::Box16Orb].texture = "AFP::Textures::Box16Orb";
 
     data[AFP::Tile::Box32].hitpoints = 10;
     data[AFP::Tile::Box32].collectable = AFP::Collectable::TypeCount;
     data[AFP::Tile::Box32].destroyanim = "AFP::Textures::Box32Destroy";
+    data[AFP::Tile::Box32].destroysound = SoundEffect::CrateDestroy;
     data[AFP::Tile::Box32].texture = "AFP::Textures::Box32";
 
     data[AFP::Tile::Barrel].hitpoints = 15;
     data[AFP::Tile::Barrel].collectable = AFP::Collectable::TypeCount;
     data[AFP::Tile::Barrel].destroyanim = "AFP::Textures::Explosion";
+    data[AFP::Tile::Barrel].destroysound = SoundEffect::BarrelExplode;
     data[AFP::Tile::Barrel].texture = "AFP::Textures::Barrel";
 
     return data;
@@ -178,8 +183,10 @@ std::vector<AFP::CollectableData> AFP::initializeCollectableData()
     std::vector<AFP::CollectableData> data(AFP::Collectable::TypeCount);
 
     data[AFP::Collectable::Coin].texture = "AFP::Textures::Coin";
+    data[AFP::Collectable::Coin].effect = SoundEffect::CoinPickup;
 
     data[AFP::Collectable::Orb].texture = "AFP::Textures::Orb";
+    data[AFP::Collectable::Orb].effect = SoundEffect::OrbPickup;
 
     return data;
 }

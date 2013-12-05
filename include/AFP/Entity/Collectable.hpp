@@ -8,6 +8,8 @@
 #include <AFP/Entity/Character.hpp>
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Animation/Animation.hpp>
+#include <AFP/Command/Command.hpp>
+#include <AFP/Command/CommandQueue.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -47,12 +49,22 @@ namespace AFP
         /// Applies collectable to player
         bool apply(Character& player);
 
+        ///
+        ///
+        /// Collectables are removed after sound has played
+        virtual bool isMarkedForRemoval() const;
+
     private:
         /// Draw collectable sprite
 		///
 		///
 		virtual void drawCurrent(sf::RenderTarget& target,
 			sf::RenderStates states) const;
+
+        /// Play a sound
+        ///
+        ///
+        void playLocalSound(CommandQueue& commands, SoundEffect::ID effect);
 
         /// Update collectable
         ///
@@ -69,6 +81,16 @@ namespace AFP
 		///
 		///
 		Animation mAnimation;
+
+        ///
+        ///
+        /// Has been picked up
+        bool mPickedUp;
+
+        ///
+        ///
+        /// Pickup sound played
+        bool mSoundPlayed;
 
     };
 }
