@@ -21,7 +21,7 @@ AFP::GameUI::GameUI(FontHolder& fonts):
 
 }
 
-AFP::GameUI::GameUI(const TextureHolder& textures, FontHolder& fonts):
+AFP::GameUI::GameUI(const TextureHolder& textures, FontHolder&):
     mHpBarSprite(textures.get("AFP::Textures::HpBar")), mTeleBarSprite(textures.get("AFP::Textures::TeleBar")),
     mGunIcons(textures.get("AFP::Textures::GunIcons")), mGunChooseIcon(textures.get("AFP::Textures::Arrow")),
     mPlayer()
@@ -69,12 +69,12 @@ void AFP::GameUI::update(sf::Vector2f trans)
     if (mPlayer->isInLineOfSight(mPlayer->getPosition(), sf::Vector2f(trans.x + mPlayer->getMousePosition().x, trans.y + mPlayer->getMousePosition().y)))
     {
         textureRectCrosshair = sf::IntRect(0, 0, 16, 16);
-    } 
+    }
     else
     {
         textureRectCrosshair = sf::IntRect(16, 0, 16, 16);
     }
-    
+
 
     /// Set texture rectangle to correct place
     mHpBarSprite.setTextureRect(textureRectHp);
