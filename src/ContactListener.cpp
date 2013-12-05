@@ -67,6 +67,14 @@ void AFP::ContactListener::BeginContact(b2Contact* contact)
         sensor.beginContact(player);
 
     }
+    // Sensor collides with tile
+    else if (matchesCategories(collisionPair, Category::Sensor, Category::Tile))
+    {
+        auto& sensor = static_cast<Sensor&>(*collisionPair.first);
+
+        sensor.beginContact();
+
+    }
 
 }
 
@@ -85,6 +93,15 @@ void AFP::ContactListener::EndContact(b2Contact* contact)
         auto& sensor = static_cast<Sensor&>(*collisionPair.first);
 
         sensor.endContact();
+    }
+
+   // Sensor ends contact with tile
+    else if (matchesCategories(collisionPair, Category::Sensor, Category::Tile))
+    {
+        auto& sensor = static_cast<Sensor&>(*collisionPair.first);
+
+        sensor.endContact();
+
     }
 
     // Sensor ends contact with player

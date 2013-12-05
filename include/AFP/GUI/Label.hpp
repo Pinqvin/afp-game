@@ -22,7 +22,7 @@ namespace AFP
             /// Constructor
             ///
             ///
-            Label(const std::string& text, const FontHolder& fonts);
+            Label(const std::string& text, const FontHolder& fonts, int size);
             
             /// Is selectable
             ///

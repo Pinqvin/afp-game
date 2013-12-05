@@ -65,6 +65,8 @@ bool AFP::Collectable::apply(Character& player)
     default:
         break;
     }
+
+    return false;
 }
 
 void AFP::Collectable::drawCurrent(sf::RenderTarget& target,

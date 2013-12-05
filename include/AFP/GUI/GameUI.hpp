@@ -7,6 +7,7 @@
 #include <SFML/System/Time.hpp>
 
 #include <AFP/Resource/ResourceIdentifiers.hpp>
+#include <AFP/Entity/Character.hpp>
 
 namespace AFP
 {
@@ -30,10 +31,15 @@ namespace AFP
         ///
         void setTextures(const TextureHolder& textures);
 
+        /// Set player pointer
+        ///
+        ///
+        void setPlayer(Character* player);
+
         /// Update
         ///
         /// Updates values
-        void update(sf::Vector2f trans, int hp, int tele);
+        void update(sf::Vector2f trans);
 
     private:
         /// Draw
@@ -51,6 +57,21 @@ namespace AFP
         ///
         ///
         sf::Sprite mTeleBarSprite;
+
+        /// Gun icons sprite
+        ///
+        ///
+        sf::Sprite mGunIcons;
+
+        /// Gun chooser sprite
+        ///
+        ///
+        sf::Sprite mGunChooseIcon;
+
+        /// Pointer to player character
+        ///
+        ///
+        Character* mPlayer;
 
     };
 }

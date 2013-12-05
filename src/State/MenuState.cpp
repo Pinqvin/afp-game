@@ -11,10 +11,10 @@
 AFP::MenuState::MenuState(StateStack& stack, Context context):
     State(stack, context), mBackgroundSprite(context.textures->get("AFP::Textures::TitleScreen")), mGUIContainer()
 {
-    auto titleText = std::make_shared<GUI::Label>("TELEPORT HERO ACTION SHOOTER GAME", *context.fonts);
+    auto titleText = std::make_shared<GUI::Label>("TELEPORT HERO ACTION SHOOTER GAME", *context.fonts, 20);
     titleText->setPosition(600,100);
 
-    auto copyrightText = std::make_shared<GUI::Label>("COPYRIGHT 2013 ANAL FISSURE PRODUCTIONS PRODUCTIONS (C)", *context.fonts);
+    auto copyrightText = std::make_shared<GUI::Label>("COPYRIGHT 2013 ANAL FISSURE PRODUCTIONS PRODUCTIONS (C)", *context.fonts, 16);
     copyrightText->setPosition(600,450);
 
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);

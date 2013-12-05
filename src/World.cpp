@@ -33,6 +33,8 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
 
     mWorldView.setCenter(mSpawnPosition);
 
+    mGameUI.setPlayer(mPlayerCharacter);
+
 }
 
 /// Load all the textures and tilesets required for the world.
@@ -62,6 +64,8 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::PlayerDying", "Media/Textures/Rag_Dying.png");
     mTextures.load("AFP::Textures::HpBar", "Media/Textures/hp_bar.png");
     mTextures.load("AFP::Textures::TeleBar", "Media/Textures/tele_bar.png");
+    mTextures.load("AFP::Textures::GunIcons", "Media/Textures/gun_icons.png");
+    mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
 
 }
 
@@ -249,7 +253,8 @@ void AFP::World::update(sf::Time dt)
     // Update sounds
     updateSounds();
 
-    mGameUI.update(translation, mPlayerCharacter->getHitpoints(), mPlayerCharacter->getTeleCharge());
+    // Pass world view translation to Game UI
+    mGameUI.update(translation);
 
 }
 

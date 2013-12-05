@@ -49,6 +49,8 @@ namespace AFP
             PlayerDying,
             HpBar,
             TeleBar,
+            GunIcons,
+            Arrow,
         };
 
     }

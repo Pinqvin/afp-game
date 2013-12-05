@@ -6,8 +6,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 // Constructor
-AFP::GUI::Label::Label(const std::string& text, const FontHolder& fonts):
-    mText(text, fonts.get("AFP::Fonts::Debug"), 16)
+AFP::GUI::Label::Label(const std::string& text, const FontHolder& fonts, int size):
+    mText(text, fonts.get("AFP::Fonts::Debug"), size)
 {
     centerOrigin(mText);
 }
