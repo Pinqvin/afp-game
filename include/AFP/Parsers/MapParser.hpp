@@ -1,8 +1,6 @@
 /// @brief Map parser utilises TMXParser to parse Tiled (.tmx) based maps
 ///
-/// MapParser itself handles the drawing off the map. It can also parse
-/// object layers and image layers for the World, but it doesn't handle the
-/// parsed objects or images itself.
+/// MapParser itself handles the drawing off the map.
 
 #pragma once
 

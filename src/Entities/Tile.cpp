@@ -17,8 +17,8 @@ namespace
 
 /// Constructor
 AFP::Tile::Tile(Type type, const TextureHolder& textures):
-    Entity(Table[type].hitpoints), mType(type), mSprite(textures.get(Table[type].texture))
-    ,mDestroyAnimation(textures.get(Table[type].destroyanim)), mDropCollectable(), mCollectableDropped(false)
+    Entity(Table[type].hitpoints), mType(type), mSprite(textures.get(Table[type].texture)),
+    mDestroyAnimation(textures.get(Table[type].destroyanim)), mDropCollectable(), mCollectableDropped(false)
 {
 
     switch (mType)

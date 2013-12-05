@@ -108,6 +108,11 @@ namespace AFP
             /// @param objectGroup The character object group
             void addCharacterObjects(const Tmx::ObjectGroup* objectGroup);
 
+            /// @brief Adds the object entities to the scene graph
+            ///
+            /// @param objectGroup The object entity object group
+            void addObjects(const Tmx::ObjectGroup* objectGroup);
+
             /// Reference to the render window
             ///
             /// Used to draw all the scene nodes

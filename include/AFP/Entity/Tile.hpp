@@ -83,7 +83,7 @@ namespace AFP
 
         /// Has tile dropped a collectable
         ///
-        /// 
+        ///
         bool mCollectableDropped;
     };
 }

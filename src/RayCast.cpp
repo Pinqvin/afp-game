@@ -6,7 +6,7 @@ AFP::RayCast::RayCast(): mHit(false)
 {
 }
 
-float32 AFP::RayCast::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
+float32 AFP::RayCast::ReportFixture(b2Fixture* fixture, const b2Vec2&, const b2Vec2&, float32 fraction)
 {
 
     void* bodyUserData = fixture->GetBody()->GetUserData();
@@ -29,3 +29,4 @@ bool AFP::RayCast::hasHit() const
 {
     return mHit;
 }
+
