@@ -3,6 +3,7 @@
 #include <AFP/State/GameState.hpp>
 #include <AFP/Input/Player.hpp>
 #include <AFP/Sound/MusicPlayer.hpp>
+#include <AFP/Parsers/MapParser.hpp>
 
 #include <iostream>
 

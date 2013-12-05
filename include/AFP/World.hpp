@@ -15,6 +15,7 @@
 #include <AFP/ContactListener.hpp>
 #include <AFP/Sound/SoundPlayer.hpp>
 #include <AFP/GUI/GameUI.hpp>
+#include <AFP/Parsers/MapParser.hpp>
 
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -78,33 +79,6 @@ namespace AFP
             /// TextureHolder.
             void buildScene();
 
-            /// @brief Parses and adds the image layers to the scenegraph
-            ///
-            /// Background layers are represented as image layers in the tiled
-            /// editor. They can be either repeated on the whole worldbox
-            /// (property repeat = true) or repeated vertically at a certain
-            /// height (property repeatVertical = true and height = height in
-            /// pixels from the bottom).
-            void addBackgroundLayers();
-
-            /// @brief Parses and adds the tile layers to the scenegraph
-            ///
-            /// The maps can have multiple tile layers with varying tilesets.
-            /// The individual tiles themselves don't have hitboxes, ground
-            /// areas are defined by an object layer
-            void addTileLayers();
-
-            /// @brief Parses and adds the object layers to the Box2D world
-            ///
-            /// Object layers can be used for collision layers, triggers, spawn
-            /// points etc.
-            void addObjectLayers();
-
-            /// @brief Parse and add all the collision objects in the group
-            ///
-            /// @param objectGroup Holds all the collision objects
-            void addCollisionObjects(const Tmx::ObjectGroup* objectGroup);
-
             /// Create world with gravity
             ///
             /// Build the Box2D world.
@@ -141,21 +115,15 @@ namespace AFP
             ///
             SceneNode mSceneGraph;
 
-            /// Sprite graph
-            ///
-            /// Sprite graph holds tiles and background
-            /// No update function is called for spritegraph
-            /// only draw
-            SceneNode mSpriteGraph;
-
             /// Differentiate scene nodes by their layer
             ///
             ///
             std::vector<SceneNode*> mSceneLayers;
 
-            /// @brief Map file holds all the physical boundaries of the map,
-            /// all the objects, tile layers and their positions
-            Tmx::Map mMap;
+            /// @brief The parsed map file. Used to draw the tile layers
+            ///
+            /// Also used to parse object and image layers in to the scenegraph
+            MapParser mMap;
 
             /// Defines the world bounds
             ///
