@@ -39,6 +39,9 @@ namespace AFP
         /// Handles contacts
         void endContact(SceneNode::Pair& collisionPair);
 
+        /// Create pair
+        ///
+        /// Creates a pair from collisionPair if possible
         bool createPair(b2Contact* contact, SceneNode::Pair& collisionPair);
 
         /// Check if categories match

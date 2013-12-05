@@ -13,6 +13,7 @@ AFP::Entity::Entity(int hitpoints):
 void AFP::Entity::setVelocity(b2Vec2 velocity)
 {
     mBody->SetLinearVelocity(velocity);
+
 }
 
 /// Set position in world
