@@ -100,23 +100,7 @@ void AFP::World::buildScene()
     std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
     mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
 
-            /// Create a test tile in box2D world
-    std::unique_ptr<Tile> testTile2(new Tile(Tile::Box16Coin, mTextures));
-
-    testTile2->createTile(mWorldBox, 230.f, 400.f);
-    testTile2->setPosition(testTile2->getPosition());
-
-    mSceneLayers[topLayer]->attachChild(std::move(testTile2));
-
-    /// Create a test coin in box2D world
-    std::unique_ptr<Collectable> testCoin(new Collectable(Collectable::Coin, mTextures));
-
-    testCoin->createCollectable(mWorldBox, 200.f, 300.f);
-    testCoin->setPosition(testCoin->getPosition());
-
-    mSceneLayers[topLayer]->attachChild(std::move(testCoin));
-
-    /// Set textures to Game UI
+        /// Set textures to Game UI
     mGameUI.setTextures(mTextures);
 
 }
@@ -195,6 +179,17 @@ void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
             box16Coin->setPosition(box16Coin->getPosition());
 
             mSceneLayers[topLayer]->attachChild(std::move(box16Coin));
+
+        }
+        else if (object->GetType() == "Coin")
+        {
+            /// Create a test coin in box2D world
+            std::unique_ptr<Collectable> coin(new Collectable(Collectable::Coin, mTextures));
+
+            coin->createCollectable(mWorldBox, object->GetX() + 8, object->GetY() - 8);
+            coin->setPosition(coin->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(coin));
 
         }
 

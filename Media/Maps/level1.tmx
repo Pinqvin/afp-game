@@ -192,6 +192,39 @@
   <object type="Barrell" gid="46" x="1504" y="336"/>
   <object type="Barrell" gid="46" x="1232" y="256"/>
   <object type="Box16Coin" gid="29" x="128" y="496"/>
+  <object type="Coin" gid="12" x="144" y="432"/>
+  <object type="Coin" gid="12" x="176" y="432"/>
+  <object type="Coin" gid="12" x="208" y="432"/>
+  <object type="Coin" gid="12" x="160" y="400"/>
+  <object type="Coin" gid="12" x="192" y="400"/>
+  <object type="Coin" gid="12" x="176" y="368"/>
+  <object gid="12" x="112" y="192"/>
+  <object gid="12" x="112" y="208"/>
+  <object type="Coin" gid="12" x="112" y="224"/>
+  <object type="Coin" gid="12" x="144" y="224"/>
+  <object type="Coin" gid="12" x="128" y="224"/>
+  <object type="Coin" gid="12" x="176" y="224"/>
+  <object type="Coin" gid="12" x="176" y="208"/>
+  <object type="Coin" gid="12" x="176" y="192"/>
+  <object type="Coin" gid="12" x="192" y="192"/>
+  <object type="Coin" gid="12" x="208" y="192"/>
+  <object gid="12" x="208" y="208"/>
+  <object type="Coin" gid="12" x="208" y="224"/>
+  <object type="Coin" gid="12" x="192" y="224"/>
+  <object type="Coin" gid="12" x="240" y="192"/>
+  <object type="Coin" gid="12" x="240" y="208"/>
+  <object gid="12" x="240" y="224"/>
+  <object type="Coin" gid="12" x="256" y="224"/>
+  <object gid="12" x="272" y="224"/>
+  <object gid="12" x="112" y="192"/>
+  <object gid="12" x="112" y="192"/>
+  <object type="Coin" gid="12" x="112" y="192"/>
+  <object type="Coin" gid="12" x="112" y="208"/>
+  <object gid="12" x="208" y="208"/>
+  <object type="Coin" gid="12" x="208" y="208"/>
+  <object type="Coin" gid="12" x="240" y="224"/>
+  <object gid="12" x="272" y="224"/>
+  <object type="Coin" gid="12" x="272" y="224"/>
  </objectgroup>
  <objectgroup name="Characters" width="200" height="80">
   <object type="Player" gid="47" x="64" y="464"/>
