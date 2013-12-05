@@ -77,6 +77,11 @@ namespace AFP
             /// Return next level
             std::string getNextLevel();
 
+            /// @brief Sets the debug mode to on or off
+            ///
+            /// Debug mode is set in the game state when F12 is pressed
+            void setDebug();
+
         private:
             /// Loads all the textures required for the world
             ///

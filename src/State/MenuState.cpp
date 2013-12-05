@@ -14,7 +14,7 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     auto titleText = std::make_shared<GUI::Label>("TELEPORT HERO ACTION SHOOTER GAME", *context.fonts, 20);
     titleText->setPosition(600,100);
 
-    auto copyrightText = std::make_shared<GUI::Label>("COPYRIGHT 2013 ANAL FISSURE PRODUCTIONS PRODUCTIONS (C)", *context.fonts, 16);
+    auto copyrightText = std::make_shared<GUI::Label>("COPYRIGHT 2013 AFP PRODUCTIONS (C)", *context.fonts, 16);
     copyrightText->setPosition(600,450);
 
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
@@ -26,8 +26,6 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
         requestStackPush(States::LevelSelect);
     });
 
-    // Settings not yet implemented so this part is left out
-    
     auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     settingsButton->setPosition(600, 270);
     settingsButton->setText("Settings");
@@ -35,7 +33,7 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     {
         requestStackPush(States::Settings);
     });
-    
+
 
     auto exitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     exitButton->setPosition(600, 340);

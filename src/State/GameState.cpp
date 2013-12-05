@@ -69,6 +69,11 @@ bool AFP::GameState::handleEvent(const sf::Event& event)
         requestStackPush(States::Pause);
 
     }
+    else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F12)
+    {
+        mWorld.setDebug();
+
+    }
 
     return true;
 

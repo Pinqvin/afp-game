@@ -1,6 +1,7 @@
 /// Contact Listener
 ///
-/// Listens and handles collisions.
+/// Listens to, and handles collisions.
+
 #pragma once
 
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
@@ -48,9 +49,10 @@ namespace AFP
         ///
         /// If categories match, return true. If categories are in wrong order
         /// swap them and return true.
-        bool matchesCategories(SceneNode::Pair& colliders, 
+        bool matchesCategories(SceneNode::Pair& colliders,
             Category::Type type1, Category::Type type2);
 
     };
 
 }
+
