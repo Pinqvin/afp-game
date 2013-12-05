@@ -11,7 +11,7 @@
 
 namespace AFP
 {
-    class GameUI: public sf::Drawable, 
+    class GameUI: public sf::Drawable,
         public sf::Transformable
     {
     public:

@@ -11,14 +11,14 @@
 #include <iostream>
 
 AFP::GameUI::GameUI():
-    mPlayer(), mHpBarSprite(), mTeleBarSprite(), mGunIcons(), mGunChooseIcon()
+    mHpBarSprite(), mTeleBarSprite(), mGunIcons(), mGunChooseIcon(), mPlayer()
 {
 }
 
 AFP::GameUI::GameUI(const TextureHolder& textures):
-    mPlayer(),
     mHpBarSprite(textures.get("AFP::Textures::HpBar")), mTeleBarSprite(textures.get("AFP::Textures::TeleBar")),
-    mGunIcons(textures.get("AFP::Textures::GunIcons")), mGunChooseIcon(textures.get("AFP::Textures::Arrow"))
+    mGunIcons(textures.get("AFP::Textures::GunIcons")), mGunChooseIcon(textures.get("AFP::Textures::Arrow")),
+    mPlayer()
 {
     mHpBarSprite.setPosition(100.f, 100.f);
     mTeleBarSprite.setPosition(200.f, 200.f);
