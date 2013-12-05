@@ -54,6 +54,8 @@ AFP::MenuState::MenuState(StateStack& stack, Context context):
     context.music->setVolume(60.f);
     context.music->play(Music::MenuTheme);
 
+    context.window->setMouseCursorVisible(true);
+
 }
 
 /// Destructor
