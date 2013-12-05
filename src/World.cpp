@@ -132,14 +132,6 @@ void AFP::World::buildScene()
 
     mSceneLayers[topLayer]->attachChild(std::move(testCoin));
 
-    /// Create a test enemy
-    std::unique_ptr<Character> enemy(new Character(Character::Telepolice, mTextures));
-
-    enemy->createCharacter(mWorldBox, 500.0f, 200.0f);
-    enemy->setPosition(enemy->getPosition());
-
-    mSceneLayers[topLayer]->attachChild(std::move(enemy));
-
     /// Set textures to Game UI
     mGameUI.setTextures(mTextures);
 
@@ -183,16 +175,33 @@ void AFP::World::addCharacterObjects(const Tmx::ObjectGroup* objectGroup)
             spawnPosition.x = object->GetX();
             spawnPosition.y = object->GetY();
 
-            std::cout << spawnPosition.x << " " << spawnPosition.y << std::endl;
-
             /// Set the player to the world
             std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
+
+            if (mPlayerCharacter != nullptr)
+            {
+                throw std::runtime_error ("AFP::World::addCharacterObjects - "
+                        "Multiple player spawn points defined!");
+
+            }
+
             mPlayerCharacter = leader.get();
 
             mPlayerCharacter->createCharacter(mWorldBox, spawnPosition.x, spawnPosition.y);
             mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
 
             mSceneLayers[topLayer]->attachChild(std::move(leader));
+
+        }
+        else if (object->GetType() == "Telepolice")
+        {
+            /// Create a test enemy
+            std::unique_ptr<Character> enemy(new Character(Character::Telepolice, mTextures));
+
+            enemy->createCharacter(mWorldBox, object->GetX(), object->GetY());
+            enemy->setPosition(enemy->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(enemy));
 
         }
 
