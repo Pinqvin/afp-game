@@ -29,10 +29,22 @@ AFP::LevelSelectState::LevelSelectState(StateStack& stack, Context context):
         requestStackPop();
         stack.setLevel("Media/Maps/level2.tmx");
         requestStackPush(States::Game);
+
+    });
+
+    auto level3Button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    level3Button->setPosition(600, 400);
+    level3Button->setText("Level 3");
+    level3Button->setCallback([this, &stack] ()
+    {
+        requestStackPop();
+        stack.setLevel("Media/Maps/level3.tmx");
+        requestStackPush(States::Game);
     });
 
     mGUIContainer.pack(level1Button);
     mGUIContainer.pack(level2Button);
+    mGUIContainer.pack(level3Button);
 }
 
 
