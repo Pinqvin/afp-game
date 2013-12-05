@@ -63,3 +63,4 @@ void AFP::GameUI::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(mGunIcons, states);
     target.draw(mGunChooseIcon, states);
 }
+

@@ -53,15 +53,21 @@ AFP::MapParser::~MapParser()
 
 }
 
-float AFP::MapParser::getWorldWidth()
+float AFP::MapParser::getWorldWidth() const
 {
     return static_cast <float> (mMap.GetWidth() * mMap.GetTileWidth());
 
 }
 
-float AFP::MapParser::getWorldHeight()
+float AFP::MapParser::getWorldHeight() const
 {
     return static_cast <float> (mMap.GetHeight() * mMap.GetTileHeight());
+
+}
+
+const Tmx::Map* AFP::MapParser::getMap() const
+{
+    return &mMap;
 
 }
 
@@ -240,117 +246,6 @@ void AFP::MapParser::addBackgroundLayers(std::vector <SceneNode*>& sceneLayers,
                     mMap.GetHeight() * mMap.GetTileHeight() - height -
                     texture.getSize().y);
             sceneLayers.back()->attachChild(std::move(backgroundSprite));
-
-        }
-
-    }
-
-}
-
-void AFP::MapParser::addCollisionObjects(const Tmx::ObjectGroup* objectGroup,
-        b2Body* groundBody)
-{
-    for (int i = 0; i < objectGroup->GetNumObjects(); ++i)
-    {
-        const Tmx::Object* collisionObject = objectGroup->GetObject(i);
-
-        /// Cast the object to all the possible types and check for the non
-        /// null pointer
-        const Tmx::Ellipse* ellipseCollision = collisionObject->GetEllipse();
-        const Tmx::Polygon* polygonCollision = collisionObject->GetPolygon();
-        const Tmx::Polyline* polylineCollision = collisionObject->GetPolyline();
-
-        b2FixtureDef fixtureDef;
-
-        if (ellipseCollision != NULL) {
-            /// TODO: Polygon approximation for ellipses? Not sure if necessary
-            b2CircleShape circle;
-            circle.m_radius = (ellipseCollision->GetRadiusX() +
-                        ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
-            circle.m_p = b2Vec2(ellipseCollision->GetCenterX() / PTM_RATIO,
-                        ellipseCollision->GetCenterY() / PTM_RATIO);
-            fixtureDef.shape = &circle;
-            fixtureDef.friction = 0.35f;
-            groundBody->CreateFixture(&fixtureDef);
-
-        }
-        else if (polygonCollision != NULL)
-        {
-            /// Maximum vertex count supported by Box2D is 8 (by default). If
-            /// larger or concave polygon shapes are used, the program will
-            /// crash
-            b2PolygonShape polygonShape;
-            int polyCount = polygonCollision->GetNumPoints();
-            b2Vec2* vertices = new b2Vec2[polyCount];
-
-            for (int k = 0; k < polyCount; ++k)
-            {
-                const Tmx::Point point = polygonCollision->GetPoint(k);
-
-                vertices[k].x = (collisionObject->GetX() + point.x) / PTM_RATIO;
-                vertices[k].y = (collisionObject->GetY() + point.y) / PTM_RATIO;
-
-            }
-
-            polygonShape.Set(vertices, polyCount);
-            delete vertices;
-            fixtureDef.shape = &polygonShape;
-            fixtureDef.friction = 0.2f;
-            groundBody->CreateFixture(&fixtureDef);
-
-        }
-        else if (polylineCollision != NULL)
-        {
-            b2EdgeShape line;
-            int pointCount = polylineCollision->GetNumPoints();
-            int x = collisionObject->GetX();
-            int y = collisionObject->GetY();
-
-            for (int i = 0; i < pointCount - 1; ++i)
-            {
-                Tmx::Point currentPoint = polylineCollision->GetPoint(i);
-                Tmx::Point nextPoint = polylineCollision->GetPoint(i + 1);
-
-                line.Set(b2Vec2((currentPoint.x + x) / PTM_RATIO, (currentPoint.y + y) / PTM_RATIO),
-                        b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
-                fixtureDef.shape = &line;
-                fixtureDef.friction = 0.2f;
-                groundBody->CreateFixture(&fixtureDef);
-
-            }
-
-        }
-        else
-        {
-            /// If it was none of the above, it's a box eg. the default object
-            /// type/shape
-            b2PolygonShape polygonShape;
-            float width = collisionObject->GetWidth() / PTM_RATIO;
-            float height = collisionObject->GetHeight() / PTM_RATIO;
-            float x = collisionObject->GetX() / PTM_RATIO;
-            float y = collisionObject->GetY() / PTM_RATIO;
-
-            polygonShape.SetAsBox(width / 2.f,
-                    height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
-            fixtureDef.shape = &polygonShape;
-            fixtureDef.friction = 0.05f;
-            groundBody->CreateFixture(&fixtureDef);
-
-        }
-
-    }
-
-}
-
-void AFP::MapParser::addObjectLayers(b2Body* groundBody)
-{
-    for (int i = 0; i < mMap.GetNumObjectGroups(); ++i)
-    {
-        const Tmx::ObjectGroup* objectGroup = mMap.GetObjectGroup(i);
-
-        if (objectGroup->GetName() == "Collisions")
-        {
-            addCollisionObjects(objectGroup, groundBody);
 
         }
 
