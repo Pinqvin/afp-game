@@ -1,4 +1,4 @@
-/// World class describes the game world and the players view in to it
+/// World class describes the game world and the player's view in to it
 ///
 ///
 
@@ -93,6 +93,20 @@ namespace AFP
             ///
             /// Update listener positon and remove stopped sounds
             void updateSounds();
+
+            /// @brief Parses the Tmx file for different object layers
+            /// and adds the objects to the scenegraph
+            void addObjectLayers();
+
+            /// @brief Adds collision objects to the Box2D ground body
+            ///
+            /// @param objectGroup The collision object group
+            void addCollisionObjects(const Tmx::ObjectGroup* objectGroup);
+
+            /// @brief Adds the character entities to the scene graph
+            ///
+            /// @param objectGroup The character object group
+            void addCharacterObjects(const Tmx::ObjectGroup* objectGroup);
 
             /// Reference to the render window
             ///

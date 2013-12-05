@@ -74,7 +74,6 @@ void AFP::World::loadTextures()
 void AFP::World::buildScene()
 {
     mMap.addBackgroundLayers(mSceneLayers, mSceneGraph, mWorldBounds);
-    mMap.addObjectLayers(mGroundBody);
 
     /// Create a layer for entities
     Category::Type category = Category::Scene;
@@ -82,7 +81,7 @@ void AFP::World::buildScene()
     SceneNode::Ptr layer(new SceneNode(category));
     mSceneLayers.push_back(layer.get());
 
-    /// Attach it to scenegraph
+    /// Attach it to the scene
     mSceneGraph.attachChild(std::move(layer));
 
     /// Scene layer is the top layer
@@ -91,6 +90,8 @@ void AFP::World::buildScene()
     // Point user data to foreground
     mGroundBody->SetUserData(mSceneLayers[topLayer]);
 
+    addObjectLayers();
+
     // Add sound effect node
     std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
     mSceneGraph.attachChild(std::move(soundNode));
@@ -98,16 +99,6 @@ void AFP::World::buildScene()
     // Add particle node to the scene
     std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
     mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
-
-    /// Set the player to the world
-    std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
-    mPlayerCharacter = leader.get();
-
-    mPlayerCharacter->createCharacter(mWorldBox, mSpawnPosition.x, mSpawnPosition.y);
-    mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
-    mCameraPosition = mPlayerCharacter->getPosition();
-
-    mSceneLayers[topLayer]->attachChild(std::move(leader));
 
     /// Create a test tile in box2D world
     std::unique_ptr<Tile> testTile(new Tile(Tile::Box16Orb, mTextures));
@@ -151,6 +142,155 @@ void AFP::World::buildScene()
 
     /// Set textures to Game UI
     mGameUI.setTextures(mTextures);
+
+}
+
+void AFP::World::addObjectLayers()
+{
+    const Tmx::Map* map = mMap.getMap();
+
+    for (int i = 0; i < map->GetNumObjectGroups(); ++i)
+    {
+        const Tmx::ObjectGroup* objectGroup = map->GetObjectGroup(i);
+
+        if (objectGroup->GetName() == "Collisions")
+        {
+            addCollisionObjects(objectGroup);
+
+        }
+        else if (objectGroup->GetName() == "Characters")
+        {
+            addCharacterObjects(objectGroup);
+
+        }
+
+    }
+
+}
+
+void AFP::World::addCharacterObjects(const Tmx::ObjectGroup* objectGroup)
+{
+    int topLayer = mSceneLayers.size() - 1;
+
+    for (auto it = objectGroup->GetObjects().begin(); it != objectGroup->GetObjects().end(); ++it)
+    {
+        const Tmx::Object* object = *it;
+
+        if (object->GetType() == "Player")
+        {
+            sf::Vector2f spawnPosition;
+
+            spawnPosition.x = object->GetX();
+            spawnPosition.y = object->GetY();
+
+            std::cout << spawnPosition.x << " " << spawnPosition.y << std::endl;
+
+            /// Set the player to the world
+            std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
+            mPlayerCharacter = leader.get();
+
+            mPlayerCharacter->createCharacter(mWorldBox, spawnPosition.x, spawnPosition.y);
+            mPlayerCharacter->setPosition(mPlayerCharacter->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(leader));
+
+        }
+
+    }
+
+}
+
+void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
+{
+    for (int i = 0; i < objectGroup->GetNumObjects(); ++i)
+    {
+        const Tmx::Object* collisionObject = objectGroup->GetObject(i);
+
+        /// Cast the object to all the possible types and check for the non
+        /// null pointer
+        const Tmx::Ellipse* ellipseCollision = collisionObject->GetEllipse();
+        const Tmx::Polygon* polygonCollision = collisionObject->GetPolygon();
+        const Tmx::Polyline* polylineCollision = collisionObject->GetPolyline();
+
+        b2FixtureDef fixtureDef;
+
+        if (ellipseCollision != NULL) {
+            /// TODO: Polygon approximation for ellipses? Not sure if necessary
+            b2CircleShape circle;
+            circle.m_radius = (ellipseCollision->GetRadiusX() +
+                        ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
+            circle.m_p = b2Vec2(ellipseCollision->GetCenterX() / PTM_RATIO,
+                        ellipseCollision->GetCenterY() / PTM_RATIO);
+            fixtureDef.shape = &circle;
+            fixtureDef.friction = 0.35f;
+            mGroundBody->CreateFixture(&fixtureDef);
+
+        }
+        else if (polygonCollision != NULL)
+        {
+            /// Maximum vertex count supported by Box2D is 8 (by default). If
+            /// larger or concave polygon shapes are used, the program will
+            /// crash
+            b2PolygonShape polygonShape;
+            int polyCount = polygonCollision->GetNumPoints();
+            b2Vec2* vertices = new b2Vec2[polyCount];
+
+            for (int k = 0; k < polyCount; ++k)
+            {
+                const Tmx::Point point = polygonCollision->GetPoint(k);
+
+                vertices[k].x = (collisionObject->GetX() + point.x) / PTM_RATIO;
+                vertices[k].y = (collisionObject->GetY() + point.y) / PTM_RATIO;
+
+            }
+
+            polygonShape.Set(vertices, polyCount);
+            delete vertices;
+            fixtureDef.shape = &polygonShape;
+            fixtureDef.friction = 0.2f;
+            mGroundBody->CreateFixture(&fixtureDef);
+
+        }
+        else if (polylineCollision != NULL)
+        {
+            b2EdgeShape line;
+            int pointCount = polylineCollision->GetNumPoints();
+            int x = collisionObject->GetX();
+            int y = collisionObject->GetY();
+
+            for (int i = 0; i < pointCount - 1; ++i)
+            {
+                Tmx::Point currentPoint = polylineCollision->GetPoint(i);
+                Tmx::Point nextPoint = polylineCollision->GetPoint(i + 1);
+
+                line.Set(b2Vec2((currentPoint.x + x) / PTM_RATIO, (currentPoint.y + y) / PTM_RATIO),
+                        b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
+                fixtureDef.shape = &line;
+                fixtureDef.friction = 0.2f;
+                mGroundBody->CreateFixture(&fixtureDef);
+
+            }
+
+        }
+        else
+        {
+            /// If it was none of the above, it's a box eg. the default object
+            /// type/shape
+            b2PolygonShape polygonShape;
+            float width = collisionObject->GetWidth() / PTM_RATIO;
+            float height = collisionObject->GetHeight() / PTM_RATIO;
+            float x = collisionObject->GetX() / PTM_RATIO;
+            float y = collisionObject->GetY() / PTM_RATIO;
+
+            polygonShape.SetAsBox(width / 2.f,
+                    height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
+            fixtureDef.shape = &polygonShape;
+            fixtureDef.friction = 0.05f;
+            mGroundBody->CreateFixture(&fixtureDef);
+
+        }
+
+    }
 
 }
 

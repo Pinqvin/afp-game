@@ -8,6 +8,7 @@
 
 #include <AFP/Resource/ResourceIdentifiers.hpp>
 #include <AFP/Scene/SceneNode.hpp>
+#include <AFP/Entity/Character.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -61,14 +62,14 @@ namespace AFP
             /// The world width is calculated by map width times the tile width
             ///
             /// @return World width in pixels
-            float getWorldWidth();
+            float getWorldWidth() const;
 
             /// @brief Returns the world height
             ///
             /// The world height is calculated by map height times the tile height
             ///
             /// @return World height in pixels
-            float getWorldHeight();
+            float getWorldHeight() const;
 
             /// @brief Parses the background layers and adds them in to the
             /// scenegraph
@@ -79,14 +80,10 @@ namespace AFP
             void addBackgroundLayers(std::vector <SceneNode*>& sceneLayers,
                     SceneNode& sceneGraph, const sf::FloatRect worldBounds);
 
-            /// @brief Parses the object layers and adds them in to the
-            /// scenegraph
+            /// @brief Returns a pointer to the TMX map
             ///
-            /// Called after MapParser initialization in the World constructor
-            ///
-            /// @param groundBody The Box2D body where the collision objects are
-            /// added to
-            void addObjectLayers(b2Body* groundBody);
+            /// @return Pointer to the map object / map file being parsed
+            const Tmx::Map* getMap() const;
 
         private:
             /// @brief Parses all the tile layers and adds them to the layers
@@ -100,15 +97,6 @@ namespace AFP
             /// @param target Target to draw in to
             /// @param states Defines the states used to draw in to target
             virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-            /// @brief Adds the collision objects in the object layer to the
-            /// scenegraph and Box2D physics world
-            ///
-            /// Called after MapParser initialization in the World constructor
-            ///
-            /// @param objectGroup The object group that needs to be parsed
-            /// @param groundBody The Box2D body that the objects are added to
-            void addCollisionObjects(const Tmx::ObjectGroup* objectGroup, b2Body* groundBody);
 
             /// @brief Used to parse all the map data from the tmx map file
             Tmx::Map mMap;
