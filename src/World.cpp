@@ -55,7 +55,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::Box16OrbDestroy", "Media/Textures/Box_16_orb_explode.png");
     mTextures.load("AFP::Textures::Box32", "Media/Textures/Box_32.png");
     mTextures.load("AFP::Textures::Box32Destroy", "Media/Textures/Box_32_explode.png");
-    mTextures.load("AFP::Textures::Bullet", "Media/Textures/bullet.png");
+    mTextures.load("AFP::Textures::Bullet", "Media/Textures/Bullet.png");
     mTextures.load("AFP::Textures::Coin", "Media/Textures/Coin.png");
     mTextures.load("AFP::Textures::Orb", "Media/Textures/orb.png");
     mTextures.load("AFP::Textures::Particle", "Media/Textures/Particle.png");
@@ -522,5 +522,11 @@ void AFP::World::updateSounds()
 
     // Remove unused sounds
     mSounds.removeStoppedSounds();
+}
+
+void AFP::World::setDebug()
+{
+    mDebugMode = !mDebugMode;
+
 }
 

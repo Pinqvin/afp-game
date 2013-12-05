@@ -129,7 +129,7 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
     mBody = world->CreateBody(&bodyDef);
 
     /// Set this entity in the body's user data
-    mBody->SetUserData(this); 
+    mBody->SetUserData(this);
 
     dynamicBox.SetAsBox(sizeX / 2.f, sizeY / 2.f);
 
