@@ -51,6 +51,7 @@ namespace AFP
             TeleBar,
             GunIcons,
             Arrow,
+            Crosshair,
         };
 
     }

@@ -32,6 +32,7 @@ AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
     buildScene();
 
     mWorldView.setCenter(mSpawnPosition);
+    mWindow.setMouseCursorVisible(false);
 
     mGameUI.setPlayer(mPlayerCharacter);
 
@@ -66,6 +67,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::TeleBar", "Media/Textures/tele_bar.png");
     mTextures.load("AFP::Textures::GunIcons", "Media/Textures/gun_icons.png");
     mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
+    mTextures.load("AFP::Textures::Crosshair", "Media/Textures/crosshair.png");
 
 }
 

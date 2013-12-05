@@ -73,5 +73,10 @@ namespace AFP
         ///
         Character* mPlayer;
 
+        /// Draw a crosshair
+        ///
+        /// Draws crosshair under mouse cursor
+        sf::Sprite mCrosshair;
+
     };
 }

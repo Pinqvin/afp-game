@@ -297,7 +297,7 @@ void AFP::Character::drawCurrent(sf::RenderTarget& target,
 {
     /// Draw this state
     target.draw(mAnimations[mState], states);
-
+    
 }
 
 /// Update character
@@ -544,6 +544,11 @@ void AFP::Character::changeWeapon(AFP::Character::WeaponType weapon)
 AFP::Character::WeaponType AFP::Character::getWeapon() const
 {
     return mWeaponType;
+}
+
+sf::Vector2f AFP::Character::getMousePosition() const
+{
+    return mMousePosition;
 }
 
 bool AFP::Character::isInLineOfSight(sf::Vector2f from, sf::Vector2f to)
