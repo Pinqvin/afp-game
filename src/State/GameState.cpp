@@ -9,7 +9,7 @@
 
 /// Constructor
 AFP::GameState::GameState(StateStack& stack, Context context):
-    State(stack, context), mWorld(*context.window, *context.sound, context.level->filename),
+    State(stack, context), mWorld(*context.window, *context.fonts, *context.sound, context.level->filename),
     mPlayer(*context.player)
 {
     context.music->setVolume(40.f);

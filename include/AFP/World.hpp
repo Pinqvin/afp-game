@@ -42,7 +42,7 @@ namespace AFP
             /// @param window Window we render the world to
             /// @param sounds Sounds loaded in Game state are passed to the world
             /// @param mapFile Path to the map file we parse for the world
-            explicit World(sf::RenderWindow& window, SoundPlayer& sounds,
+            explicit World(sf::RenderWindow& window, FontHolder& fonts, SoundPlayer& sounds,
                     std::string mapFile);
 
             /// Update the SceneGraph

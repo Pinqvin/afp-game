@@ -25,6 +25,7 @@ namespace AFP
         ///
         enum Type {
             Coin,
+            Medkit,
             Orb,
             TypeCount
         };

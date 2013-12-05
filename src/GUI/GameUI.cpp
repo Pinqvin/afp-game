@@ -8,14 +8,20 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include <iostream>
+#include <sstream>
 
-AFP::GameUI::GameUI():
-    mHpBarSprite(), mTeleBarSprite(), mGunIcons(), mGunChooseIcon(), mPlayer(), mCrosshair()
+AFP::GameUI::GameUI(FontHolder& fonts):
+    mHpBarSprite(), mTeleBarSprite(), mGunIcons(), mGunChooseIcon(), mPlayer(), mCrosshair(), mCoinText()
 {
+    sf::Font& font = fonts.get("AFP::Fonts::Debug");
+
+    mCoinText.setFont(font);
+    mCoinText.setCharacterSize(30);
+    centerOrigin(mCoinText);
+
 }
 
-AFP::GameUI::GameUI(const TextureHolder& textures):
+AFP::GameUI::GameUI(const TextureHolder& textures, FontHolder& fonts):
     mHpBarSprite(textures.get("AFP::Textures::HpBar")), mTeleBarSprite(textures.get("AFP::Textures::TeleBar")),
     mGunIcons(textures.get("AFP::Textures::GunIcons")), mGunChooseIcon(textures.get("AFP::Textures::Arrow")),
     mPlayer()
@@ -32,6 +38,7 @@ void AFP::GameUI::setTextures(const TextureHolder& textures)
     mGunIcons.setTexture(textures.get("AFP::Textures::GunIcons"));
     mGunChooseIcon.setTexture(textures.get("AFP::Textures::Arrow"));
     mCrosshair.setTexture(textures.get("AFP::Textures::Crosshair"));
+    mCoinIcon.setTexture(textures.get("AFP::Textures::CoinIcon"));
 
     mCrosshair.setOrigin(16.f / 2.f, 16.f / 2.f);
 }
@@ -48,6 +55,10 @@ void AFP::GameUI::update(sf::Vector2f trans)
     mGunIcons.setPosition(trans.x + 10.f, trans.y + 10.f);
     mGunChooseIcon.setPosition(trans.x, trans.y + 14.f + (20.f * mPlayer->getWeapon()));
     mCrosshair.setPosition(trans.x + mPlayer->getMousePosition().x, trans.y + mPlayer->getMousePosition().y);
+    mCoinIcon.setPosition(trans.x + 400.f, trans.y + 430.f);
+
+    mCoinText.setString(convertInt(mPlayer->getCoins()));
+    mCoinText.setPosition(trans.x + 440.f, trans.y + 425.f);
 
     /// Calculate correct sprite for the amount of hp/teleport charge
     sf::IntRect textureRectHp = sf::IntRect(123 * static_cast<int>(floor(mPlayer->getHitpoints() * 0.18f)), 0, 123, 44);
@@ -79,5 +90,13 @@ void AFP::GameUI::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(mGunIcons, states);
     target.draw(mGunChooseIcon, states);
     target.draw(mCrosshair, states);
+    target.draw(mCoinIcon, states);
+    target.draw(mCoinText, states);
 }
 
+std::string AFP::GameUI::convertInt(int number)
+{
+   std::stringstream ss;
+   ss << number;
+   return ss.str();
+}
