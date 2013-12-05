@@ -5,6 +5,10 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 
+#include <AFP/Scene/SceneNode.hpp>
+
+#include <Box2D/Collision/b2Collision.h>
+
 #include <string>
 #include <sstream>
 
@@ -53,4 +57,3 @@ namespace AFP
     const float GRAVITY = 90.8f;
 
 }
-

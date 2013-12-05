@@ -8,9 +8,12 @@
 #include <AFP/Sound/SoundNode.hpp>
 #include <AFP/Entity/Sensor.hpp>
 #include <AFP/Particles/EmitterNode.hpp>
+#include <AFP/RayCast.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+
+#include <iostream>
 
 /// Character data table
 namespace
@@ -212,17 +215,21 @@ void AFP::Character::teleport(sf::Vector2f target)
         return;
     }
 
-    mIsTeleporting = true;
-
     // Apply mouse translation
     target += mMouseTranslation;
+
+    if(isInLineOfSight(getPosition(), target))
+    {
+        mIsTeleporting = true;
+
+    }
 
     mTeleportTarget.x = target.x;
     mTeleportTarget.y = target.y;
 
 }
 
-/// Set mouse translation
+/// Set mouse translationddd
 void AFP::Character::setMouseTranslation(sf::Vector2f translation)
 {
     mMouseTranslation = translation;
@@ -366,7 +373,7 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
                     moveHorizontal(-Table[mType].speed);
                     mState = Running;
                 }
-                    mAnimations[mState].setScale(1.0f,1.0f);
+                mAnimations[mState].setScale(1.0f,1.0f);
                 flip(0);
             }
 
@@ -477,8 +484,13 @@ void AFP::Character::createProjectile(SceneNode& node, Projectile::Type type,
 void AFP::Character::teleportCharacter(SceneNode&,
                                        const TextureHolder&)
 {
-    /// Move the player body to target position
     setBodyPosition(mTeleportTarget);
+
+    // Set velocity in Y-axis to zero
+    b2Vec2 velocity = getVelocity();
+    velocity.y = 0;
+    setVelocity(velocity);
+
 }
 
 // Returns true if character is friendly
@@ -532,4 +544,30 @@ void AFP::Character::changeWeapon(AFP::Character::WeaponType weapon)
 AFP::Character::WeaponType AFP::Character::getWeapon() const
 {
     return mWeaponType;
+}
+
+bool AFP::Character::isInLineOfSight(sf::Vector2f from, sf::Vector2f to)
+{
+    /// Move the player body to target position
+    RayCast raycastCallback;
+
+    b2Vec2 p1,p2;
+
+    // Convert to Box2D lengths
+    p1.x = from.x / PTM_RATIO;
+    p1.y = from.y / PTM_RATIO;
+    p2.x = to.x / PTM_RATIO;
+    p2.y = to.y / PTM_RATIO;
+
+    // Do a raycast between character and target
+    getWorld()->RayCast(&raycastCallback, p1, p2);
+
+    // Check if something was in the way
+    if ( raycastCallback.hasHit() )
+    {
+        return false;
+    }
+
+    return true;
+
 }

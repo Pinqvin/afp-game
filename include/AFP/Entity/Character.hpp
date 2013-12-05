@@ -207,6 +207,13 @@ namespace AFP
         /// Returns true if character is friendly
         bool isFriendly() const;
 
+        /// Ray cast
+        ///
+        /// Do a ray cast between points from and to
+        /// Returns false if there is a Category::Scene
+        /// object in the way.
+        bool isInLineOfSight(sf::Vector2f from, sf::Vector2f to);
+
     private:
         /// Character type
         ///

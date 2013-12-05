@@ -187,7 +187,7 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
     data[AFP::Character::Machinegun].firerate = 50;
     data[AFP::Character::Machinegun].recoil = 1.2f;
     data[AFP::Character::Machinegun].bullets = AFP::Projectile::Bullet;
-    data[AFP::Character::Machinegun].sound = AFP::SoundEffect::Pistol;
+    data[AFP::Character::Machinegun].sound = AFP::SoundEffect::Machinegun;
 
     data[AFP::Character::Shotgun].firerate = 1000;
     data[AFP::Character::Shotgun].recoil = 1.0f;

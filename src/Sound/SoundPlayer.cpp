@@ -19,6 +19,7 @@ AFP::SoundPlayer::SoundPlayer(void):
 {
     mSoundBuffers.load(SoundEffect::Pistol, "Media/Sound/pistol.wav");
     mSoundBuffers.load(SoundEffect::Shotgun, "Media/Sound/shotgun.wav");
+    mSoundBuffers.load(SoundEffect::Machinegun, "Media/Sound/machinegun.wav");
 
     // Listener points towards the screen (default in SFML)
     sf::Listener::setDirection(0.f, 0.f, -1.f);
