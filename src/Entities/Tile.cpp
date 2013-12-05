@@ -27,15 +27,20 @@ AFP::Tile::Tile(Type type, const TextureHolder& textures):
     case AFP::Tile::Box16Coin:
     case AFP::Tile::Box16Orb:
         mDestroyAnimation.setFrameSize(sf::Vector2i(48, 48));
+        mDestroyAnimation.setNumFrames(5);
         break;
     case AFP::Tile::Box32:
         mDestroyAnimation.setFrameSize(sf::Vector2i(80, 80));
+        mDestroyAnimation.setNumFrames(5);
+        break;
+    case::AFP::Tile::Barrel:
+        mDestroyAnimation.setFrameSize(sf::Vector2i(64,64));
+        mDestroyAnimation.setNumFrames(9);
         break;
     default:
         break;
     }
-
-    mDestroyAnimation.setNumFrames(5);
+   
     mDestroyAnimation.setDuration(sf::seconds(0.5));
     mDestroyAnimation.setRepeating(false);
 
@@ -83,6 +88,8 @@ void AFP::Tile::createTile(b2World* world, float posX, float posY)
     case AFP::Tile::Box32:
         createBody(world, posX, posY, 2.0f, 2.0f, 1.3f, 0.5f);
         break;
+    case AFP::Tile::Barrel:
+        createBody(world, posX, posY, 1.4f, 2.0f, 1.3f, 0.5f);
     default:
         break;
     }

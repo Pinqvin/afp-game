@@ -11,7 +11,7 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Player].telecharge = 100;
     data[AFP::Character::Player].speed = 10.0f;
     data[AFP::Character::Player].jumpStrength = -40.0f;
-    data[AFP::Character::Player].weapon = Character::Shotgun;
+    data[AFP::Character::Player].weapon = Character::Pistol;
 
     /// Initialize animation data
     data[AFP::Character::Player].animation.resize(AFP::Character::StateCount);
@@ -44,7 +44,7 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     /// Telepolice data
     data[AFP::Character::Telepolice].hitpoints = 100;
     data[AFP::Character::Telepolice].telecharge = 100;
-    data[AFP::Character::Telepolice].speed = 10.0f;
+    data[AFP::Character::Telepolice].speed = 5.0f;
     data[AFP::Character::Telepolice].jumpStrength = -10.0f;
     data[AFP::Character::Telepolice].weapon = Character::Pistol;
 
@@ -77,11 +77,11 @@ std::vector<AFP::CharacterData> AFP::initializeCharacterData()
     data[AFP::Character::Telepolice].animation[AFP::Character::Dying].duration = sf::seconds(1);
 
     /// Droid data
-    data[AFP::Character::Droid].hitpoints = 100;
+    data[AFP::Character::Droid].hitpoints = 200;
     data[AFP::Character::Droid].telecharge = 100;
     data[AFP::Character::Droid].speed = 10.0f;
     data[AFP::Character::Droid].jumpStrength = -10.0f;
-    data[AFP::Character::Droid].weapon = Character::Pistol;
+    data[AFP::Character::Droid].weapon = Character::Shotgun;
 
     /// Initialize animation data
     data[AFP::Character::Droid].animation.resize(AFP::Character::StateCount);
@@ -119,12 +119,17 @@ std::vector<AFP::ProjectileData> AFP::initializeProjectileData()
 {
     std::vector<AFP::ProjectileData> data(AFP::Projectile::TypeCount);
 
-    data[AFP::Projectile::Bullet].damage = 10;
-    data[AFP::Projectile::Bullet].speed = 40.0f;
+    data[AFP::Projectile::Bullet].damage = 15;
+    data[AFP::Projectile::Bullet].speed = 60.0f;
     data[AFP::Projectile::Bullet].spread = 60.0f;
     data[AFP::Projectile::Bullet].texture = "AFP::Textures::Bullet";
 
-    data[AFP::Projectile::Shot].damage = 5;
+    data[AFP::Projectile::MBullet].damage = 5;
+    data[AFP::Projectile::MBullet].speed = 60.0f;
+    data[AFP::Projectile::MBullet].spread = 60.0f;
+    data[AFP::Projectile::MBullet].texture = "AFP::Textures::Bullet";
+
+    data[AFP::Projectile::Shot].damage = 4;
     data[AFP::Projectile::Shot].speed = 40.0f;
     data[AFP::Projectile::Shot].spread = 10.0f;
     data[AFP::Projectile::Shot].texture = "AFP::Textures::Bullet";
@@ -138,25 +143,30 @@ std::vector<AFP::TileData> AFP::initializeTileData()
 {
     std::vector<AFP::TileData> data(AFP::Tile::TypeCount);
 
-    data[AFP::Tile::Box16].hitpoints = 10;
+    data[AFP::Tile::Box16].hitpoints = 4;
     data[AFP::Tile::Box16].collectable = AFP::Collectable::TypeCount;
     data[AFP::Tile::Box16].destroyanim = "AFP::Textures::Box16Destroy";
     data[AFP::Tile::Box16].texture = "AFP::Textures::Box16";
 
-    data[AFP::Tile::Box16Coin].hitpoints = 15;
+    data[AFP::Tile::Box16Coin].hitpoints = 4;
     data[AFP::Tile::Box16Coin].collectable = AFP::Collectable::Coin;
     data[AFP::Tile::Box16Coin].destroyanim = "AFP::Textures::Box16CoinDestroy";
     data[AFP::Tile::Box16Coin].texture = "AFP::Textures::Box16Coin";
 
-    data[AFP::Tile::Box16Orb].hitpoints = 15;
+    data[AFP::Tile::Box16Orb].hitpoints = 4;
     data[AFP::Tile::Box16Orb].collectable = AFP::Collectable::Orb;
     data[AFP::Tile::Box16Orb].destroyanim = "AFP::Textures::Box16OrbDestroy";
     data[AFP::Tile::Box16Orb].texture = "AFP::Textures::Box16Orb";
 
-    data[AFP::Tile::Box32].hitpoints = 30;
+    data[AFP::Tile::Box32].hitpoints = 10;
     data[AFP::Tile::Box32].collectable = AFP::Collectable::TypeCount;
     data[AFP::Tile::Box32].destroyanim = "AFP::Textures::Box32Destroy";
     data[AFP::Tile::Box32].texture = "AFP::Textures::Box32";
+
+    data[AFP::Tile::Barrel].hitpoints = 15;
+    data[AFP::Tile::Barrel].collectable = AFP::Collectable::TypeCount;
+    data[AFP::Tile::Barrel].destroyanim = "AFP::Textures::Explosion";
+    data[AFP::Tile::Barrel].texture = "AFP::Textures::Barrel";
 
     return data;
 
@@ -179,14 +189,14 @@ std::vector<AFP::WeaponData> AFP::initializeWeaponData()
 {
     std::vector<AFP::WeaponData> data(AFP::Character::WeaponTypeCount);
 
-    data[AFP::Character::Pistol].firerate = 300;
+    data[AFP::Character::Pistol].firerate = 500;
     data[AFP::Character::Pistol].recoil = 0.0f;
     data[AFP::Character::Pistol].bullets = AFP::Projectile::Bullet;
     data[AFP::Character::Pistol].sound = AFP::SoundEffect::Pistol;
 
     data[AFP::Character::Machinegun].firerate = 50;
     data[AFP::Character::Machinegun].recoil = 1.2f;
-    data[AFP::Character::Machinegun].bullets = AFP::Projectile::Bullet;
+    data[AFP::Character::Machinegun].bullets = AFP::Projectile::MBullet;
     data[AFP::Character::Machinegun].sound = AFP::SoundEffect::Machinegun;
 
     data[AFP::Character::Shotgun].firerate = 1000;

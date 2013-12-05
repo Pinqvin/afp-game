@@ -52,6 +52,8 @@ namespace AFP
             GunIcons,
             Arrow,
             Crosshair,
+            Barrel,
+            Explosion,
         };
 
     }

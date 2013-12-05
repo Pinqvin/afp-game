@@ -188,6 +188,11 @@ void AFP::Entity::damage(int points)
 
     mHitpoints -= points;
 
+    if (mHitpoints < 0)
+    {
+        mHitpoints = 0;
+    }
+
 }
 
 /// Increases hitpoints

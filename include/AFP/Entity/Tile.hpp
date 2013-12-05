@@ -25,6 +25,7 @@ namespace AFP
             Box16Coin,
             Box16Orb,
             Box32,
+            Barrel,
             TypeCount
         };
 

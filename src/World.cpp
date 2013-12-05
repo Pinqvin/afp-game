@@ -13,8 +13,8 @@
 
 /// Constructor
 AFP::World::World(sf::RenderWindow& window, SoundPlayer& sounds,
-        std::string mapFile):
-    mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
+                  std::string mapFile):
+mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
     mSceneGraph(), mSceneLayers(), mMap(mapFile, mTextures), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
@@ -68,6 +68,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::GunIcons", "Media/Textures/gun_icons.png");
     mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
     mTextures.load("AFP::Textures::Crosshair", "Media/Textures/crosshair.png");
+    mTextures.load("AFP::Textures::Barrel", "Media/Textures/Barrel_32.png");
 
 }
 
@@ -102,7 +103,7 @@ void AFP::World::buildScene()
     std::unique_ptr<ParticleNode> bloodNode(new ParticleNode(Particle::Blood, mTextures));
     mSceneLayers[topLayer]->attachChild(std::move(bloodNode));
 
-        /// Set textures to Game UI
+    /// Set textures to Game UI
     mGameUI.setTextures(mTextures);
 
 }
@@ -194,6 +195,16 @@ void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
             mSceneLayers[topLayer]->attachChild(std::move(coin));
 
         }
+        else if (object->GetType() == "Barrell")
+        {
+            std::unique_ptr<Tile> barrel(new Tile(Tile::Barrel, mTextures));
+
+            barrel->createTile(mWorldBox, object->GetX() + 16, object->GetY() - 16);
+            barrel->setPosition(barrel->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(barrel));
+
+        }
 
     }
 
@@ -220,7 +231,7 @@ void AFP::World::addCharacterObjects(const Tmx::ObjectGroup* objectGroup)
             if (mPlayerCharacter != nullptr)
             {
                 throw std::runtime_error ("AFP::World::addCharacterObjects - "
-                        "Multiple player spawn points defined!");
+                    "Multiple player spawn points defined!");
 
             }
 
@@ -234,13 +245,22 @@ void AFP::World::addCharacterObjects(const Tmx::ObjectGroup* objectGroup)
         }
         else if (object->GetType() == "Telepolice")
         {
-            /// Create a test enemy
             std::unique_ptr<Character> enemy(new Character(Character::Telepolice, mTextures));
 
             enemy->createCharacter(mWorldBox, object->GetX(), object->GetY());
             enemy->setPosition(enemy->getPosition());
 
             mSceneLayers[topLayer]->attachChild(std::move(enemy));
+
+        }
+        else if (object->GetType() == "Droid")
+        {
+            std::unique_ptr<Character> droid(new Character(Character::Droid, mTextures));
+
+            droid->createCharacter(mWorldBox, object->GetX(), object->GetY());
+            droid->setPosition(droid->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(droid));
 
         }
 
@@ -266,9 +286,9 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             /// TODO: Polygon approximation for ellipses? Not sure if necessary
             b2CircleShape circle;
             circle.m_radius = (ellipseCollision->GetRadiusX() +
-                        ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
+                ellipseCollision->GetRadiusY()) / 2.f / PTM_RATIO;
             circle.m_p = b2Vec2(ellipseCollision->GetCenterX() / PTM_RATIO,
-                        ellipseCollision->GetCenterY() / PTM_RATIO);
+                ellipseCollision->GetCenterY() / PTM_RATIO);
             fixtureDef.shape = &circle;
             fixtureDef.friction = 0.35f;
             mGroundBody->CreateFixture(&fixtureDef);
@@ -312,7 +332,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
                 Tmx::Point nextPoint = polylineCollision->GetPoint(i + 1);
 
                 line.Set(b2Vec2((currentPoint.x + x) / PTM_RATIO, (currentPoint.y + y) / PTM_RATIO),
-                        b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
+                    b2Vec2((nextPoint.x + x) / PTM_RATIO, (nextPoint.y + y) / PTM_RATIO));
                 fixtureDef.shape = &line;
                 fixtureDef.friction = 0.2f;
                 mGroundBody->CreateFixture(&fixtureDef);
@@ -331,7 +351,7 @@ void AFP::World::addCollisionObjects(const Tmx::ObjectGroup* objectGroup)
             float y = collisionObject->GetY() / PTM_RATIO;
 
             polygonShape.SetAsBox(width / 2.f,
-                    height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
+                height / 2.f, b2Vec2(x + width / 2.f, y + height / 2.f), 0.f);
             fixtureDef.shape = &polygonShape;
             fixtureDef.friction = 0.05f;
             mGroundBody->CreateFixture(&fixtureDef);

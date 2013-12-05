@@ -22,7 +22,7 @@ namespace AFP
         {
             Bullet,
             Shot,
-            Laser,
+            MBullet,
             TypeCount
         };
 

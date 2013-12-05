@@ -232,5 +232,6 @@
   <object type="Telepolice" gid="47" x="528" y="272"/>
   <object type="Telepolice" gid="47" x="736" y="368"/>
   <object type="Telepolice" gid="47" x="960" y="320"/>
+  <object type="Droid" gid="47" x="1584" y="272"/>
  </objectgroup>
 </map>

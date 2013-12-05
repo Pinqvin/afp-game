@@ -297,7 +297,7 @@ void AFP::Character::drawCurrent(sf::RenderTarget& target,
 {
     /// Draw this state
     target.draw(mAnimations[mState], states);
-    
+
 }
 
 /// Update character
@@ -414,6 +414,12 @@ void AFP::Character::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
         mTeleportCountdown += sf::milliseconds(500);
         mIsTeleporting = false;
         mTeleCharge -= 10;
+
+        if (mTeleCharge < 0)
+        {
+            mTeleCharge = 0;
+        }
+
 
     }
     else if (mTeleportCountdown > sf::Time::Zero)

@@ -33,7 +33,7 @@ void AFP::GameUI::setTextures(const TextureHolder& textures)
     mGunChooseIcon.setTexture(textures.get("AFP::Textures::Arrow"));
     mCrosshair.setTexture(textures.get("AFP::Textures::Crosshair"));
 
-    mCrosshair.setOrigin(19.f / 2.f, 19.f / 2.f);
+    mCrosshair.setOrigin(16.f / 2.f, 16.f / 2.f);
 }
 
 void AFP::GameUI::setPlayer(Character* player)
@@ -57,11 +57,11 @@ void AFP::GameUI::update(sf::Vector2f trans)
 
     if (mPlayer->isInLineOfSight(mPlayer->getPosition(), sf::Vector2f(trans.x + mPlayer->getMousePosition().x, trans.y + mPlayer->getMousePosition().y)))
     {
-        textureRectCrosshair = sf::IntRect(19, 0, 19, 19);
+        textureRectCrosshair = sf::IntRect(0, 0, 16, 16);
     } 
     else
     {
-        textureRectCrosshair = sf::IntRect(0, 0, 19, 19);
+        textureRectCrosshair = sf::IntRect(16, 0, 16, 16);
     }
     
 
