@@ -191,6 +191,9 @@ std::vector<AFP::CollectableData> AFP::initializeCollectableData()
     data[AFP::Collectable::Orb].texture = "AFP::Textures::Orb";
     data[AFP::Collectable::Orb].effect = SoundEffect::OrbPickup;
 
+    data[AFP::Collectable::GameEnd].texture = "AFP::Textures::Particle";
+    data[AFP::Collectable::GameEnd].effect = SoundEffect::CrateDestroy;
+
     return data;
 }
 

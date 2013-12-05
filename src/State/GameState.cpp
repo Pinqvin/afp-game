@@ -4,6 +4,7 @@
 #include <AFP/Input/Player.hpp>
 #include <AFP/Sound/MusicPlayer.hpp>
 #include <AFP/Parsers/MapParser.hpp>
+#include <AFP/State/StateStack.hpp>
 
 #include <iostream>
 
@@ -14,6 +15,8 @@ AFP::GameState::GameState(StateStack& stack, Context context):
 {
     context.music->setVolume(40.f);
     context.music->play(Music::MainTheme);
+
+    stack.setLevel(mWorld.getNextLevel());
 }
 
 /// Destructor
@@ -39,6 +42,12 @@ bool AFP::GameState::update(sf::Time dt)
     if (!mWorld.isPlayerAlive())
     {
         requestStackPush(States::GameOver);
+    }
+
+    if (mWorld.hasPlayerReachedTheEnd())
+    {
+        requestStackPop();
+        requestStackPush(States::Game);
     }
 
     CommandQueue& commands = mWorld.getCommandQueue();

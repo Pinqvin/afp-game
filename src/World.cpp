@@ -18,7 +18,8 @@ mWindow(window), mWorldView(window.getDefaultView()), mTextures(),
     mSceneGraph(), mSceneLayers(), mMap(mapFile, mTextures), mWorldBounds(),
     mSpawnPosition(), mPlayerCharacter(nullptr), mCommandQueue(),
     mWorldBox(), mGroundBody(), mBoxDebugDraw(window, mWorldBounds),
-    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds), mGameUI(fonts)
+    mDebugMode(false), mCameraPosition(), mContactListener(), mSounds(sounds), mGameUI(fonts),
+    mNextLevel("Media/Maps/level2.tmx")
 {
     mWorldBounds.left = 0.f;
     mWorldBounds.top = 0.f;
@@ -69,7 +70,7 @@ void AFP::World::loadTextures()
     mTextures.load("AFP::Textures::Arrow", "Media/Textures/arrow.png");
     mTextures.load("AFP::Textures::Crosshair", "Media/Textures/crosshair.png");
     mTextures.load("AFP::Textures::Barrel", "Media/Textures/Barrel_32.png");
-    mTextures.load("AFP::Textures::MedKit", "Media/Textures/Medkit.png");
+    mTextures.load("AFP::Textures::MedKit", "Media/Textures/medkit.png");
     mTextures.load("AFP::Textures::CoinIcon", "Media/Textures/coin_big_gui.png");
 
 }
@@ -226,6 +227,18 @@ void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
             barrel->setPosition(barrel->getPosition());
 
             mSceneLayers[topLayer]->attachChild(std::move(barrel));
+
+        }
+        else if (object->GetType() == "GameEnd")
+        {
+            std::unique_ptr<Collectable> endsensor(new Collectable(Collectable::GameEnd, mTextures));
+
+            endsensor->createCollectable(mWorldBox, object->GetX() + 16, object->GetY() - 16);
+            endsensor->setPosition(endsensor->getPosition());
+
+            mSceneLayers[topLayer]->attachChild(std::move(endsensor));
+
+            mNextLevel = object->GetProperties().GetLiteralProperty("NextLevel");
 
         }
 
@@ -500,6 +513,16 @@ AFP::CommandQueue& AFP::World::getCommandQueue()
 bool AFP::World::isPlayerAlive()
 {
     return !mPlayerCharacter->isMarkedForRemoval();
+}
+
+bool AFP::World::hasPlayerReachedTheEnd()
+{
+    return mPlayerCharacter->hasWon();
+}
+
+std::string AFP::World::getNextLevel()
+{
+    return mNextLevel;
 }
 
 void AFP::World::moveCamera()

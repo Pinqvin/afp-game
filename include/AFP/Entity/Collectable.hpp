@@ -27,6 +27,7 @@ namespace AFP
             Coin,
             Medkit,
             Orb,
+            GameEnd,
             TypeCount
         };
 

@@ -48,6 +48,9 @@ namespace AFP
         /// Draws all parts of the UI
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+        ///
+        ///
+        /// Converts string to int
         std::string convertInt(int number);
 
     private:

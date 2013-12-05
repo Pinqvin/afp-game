@@ -39,6 +39,7 @@ AFP::Collectable::Collectable(Type type, const TextureHolder& textures):
         mAnimation.setDuration(sf::seconds(1));
         mAnimation.setRepeating(true);
         break;
+    case AFP::Collectable::GameEnd:
     default:
         break;
     }
@@ -75,6 +76,9 @@ bool AFP::Collectable::apply(Character& player)
         break;
     case Orb:
         mPickedUp = player.recharge(25);
+        break;
+    case GameEnd:
+        player.win();
         break;
     default:
         break;

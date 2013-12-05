@@ -29,7 +29,7 @@ AFP::Character::Character(Type type, const TextureHolder& textures):
     , mFireCommand(), mTeleportCommand(), mIsFiring(false), mIsTeleporting(false)
     , mTeleportTarget(), mFireTarget(), mMouseTranslation(), mFireCountdown(sf::Time::Zero), mTeleportCountdown(sf::Time::Zero)
     , mFootContacts(0), mJumpContacts(0), mTeleCharge(Table[type].telecharge), mRecoil(WeaponTable[mWeaponType].recoil), mTarget(nullptr)
-    , mTargetInVision(false), mAnimations(), mState(Stopped), mCoins(0)
+    , mTargetInVision(false), mAnimations(), mState(Stopped), mCoins(0), mHasWon(false)
 {
     /// Initialize animations
     mAnimations.resize(StateCount);
@@ -593,3 +593,12 @@ int AFP::Character::getCoins() const
     return mCoins;
 }
 
+bool AFP::Character::hasWon()
+{
+    return mHasWon;
+}
+
+void AFP::Character::win()
+{
+    mHasWon = true;
+}

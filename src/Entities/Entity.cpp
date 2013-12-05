@@ -121,6 +121,11 @@ void AFP::Entity::createBody(b2World* world, float posX, float posY,
         fixtureDef.isSensor = true;
     }
 
+    if (getCategory() & Category::GameEnd)
+    {
+        fixtureDef.isSensor = true;
+    }
+
     /// Convert to meters
     posX /= AFP::PTM_RATIO;
     posY /= AFP::PTM_RATIO;

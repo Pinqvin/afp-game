@@ -25,6 +25,7 @@ namespace AFP
             SoundEffect = 1 << 7,
             Sensor = 1 << 8,
             ParticleSystem = 1 << 9,
+            GameEnd = 1 << 10,
 
             Character = PlayerCharacter | AlliedCharacter | EnemyCharacter,
 

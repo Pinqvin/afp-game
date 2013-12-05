@@ -67,6 +67,16 @@ namespace AFP
             /// is marked for removal.
             bool isPlayerAlive();
 
+            ///
+            ///
+            /// Check level win condition
+            bool hasPlayerReachedTheEnd();
+
+            ///
+            ///
+            /// Return next level
+            std::string getNextLevel();
+
         private:
             /// Loads all the textures required for the world
             ///
@@ -202,6 +212,11 @@ namespace AFP
             /// Used for displaying various types of information
             /// on the screen.
             GameUI mGameUI;
+
+            /// Next level
+            ///
+            ///
+            std::string mNextLevel;
 
     };
 

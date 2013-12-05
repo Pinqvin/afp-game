@@ -189,6 +189,16 @@ namespace AFP
         /// Get coins
         int getCoins() const;
 
+        ///
+        ///
+        /// Winning condition
+        bool hasWon();
+
+        ///
+        ///
+        /// Set win flag true
+        void win();
+
     private:
         /// Draw character sprite
         ///
@@ -346,7 +356,15 @@ namespace AFP
         ///
         CharacterState mState;
 
+        ///
+        ///
+        /// Amount of coins
         int mCoins;
+
+        ///
+        ///
+        /// Winning condition
+        bool mHasWon;
 
     };
 

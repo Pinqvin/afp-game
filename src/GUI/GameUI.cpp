@@ -21,10 +21,10 @@ AFP::GameUI::GameUI(FontHolder& fonts):
 
 }
 
-AFP::GameUI::GameUI(const TextureHolder& textures, FontHolder& fonts):
+AFP::GameUI::GameUI(const TextureHolder& textures, FontHolder&):
     mHpBarSprite(textures.get("AFP::Textures::HpBar")), mTeleBarSprite(textures.get("AFP::Textures::TeleBar")),
     mGunIcons(textures.get("AFP::Textures::GunIcons")), mGunChooseIcon(textures.get("AFP::Textures::Arrow")),
-    mPlayer()
+    mPlayer(), mCoinText()
 {
     mHpBarSprite.setPosition(100.f, 100.f);
     mTeleBarSprite.setPosition(200.f, 200.f);
