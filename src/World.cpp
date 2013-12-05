@@ -199,7 +199,6 @@ void AFP::World::addObjects(const Tmx::ObjectGroup* objectGroup)
         }
         else if (object->GetType() == "Orb")
         {
-            /// Create a test coin in box2D world
             std::unique_ptr<Collectable> orb(new Collectable(Collectable::Orb, mTextures));
 
             orb->createCollectable(mWorldBox, object->GetX() + 8, object->GetY() - 8);

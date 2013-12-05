@@ -314,8 +314,8 @@ void AFP::Character::updateCurrent(sf::Time dt, CommandQueue& commands)
     if (isDestroyed())
     {
         mState = Dying;
-    } 
-    else 
+    }
+    else
     {
         if ((getVelocity().x > 0.5f || getVelocity().x < -0.5f) && getVelocity().y == 0.f)
         {
@@ -592,3 +592,4 @@ int AFP::Character::getCoins() const
 {
     return mCoins;
 }
+
